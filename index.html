@@ -160,10 +160,10 @@
   </footer>
   <script>
     if ("serviceWorker" in navigator) {
-      console.log("Service Worker soportado");
+      console.log("Service Worker soportado...");
       window.addEventListener("load", () => {
         navigator.serviceWorker
-          .register("assets/js/service-worker.js")
+          .register("service-worker.js")
           .then((registration) => {
             console.log("Service Worker registrado con éxito:", registration);
           })
