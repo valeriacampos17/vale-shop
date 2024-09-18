@@ -19,16 +19,16 @@
 
 /* Estilos de cada producto */
 .product-item {
+    display: flex;
+    flex-direction: column;
     background-color: white;
-    text-align: center;
 }
 
 .product-item img {
-    max-width: 100%;
+    width: 100%;
 }
 
 .product-item h3 {
-    text-align: left;
     font-size: 1.125rem;
     margin: 0 !important;
 }
@@ -66,11 +66,12 @@
 
 .price-cart {
     display: flex;
-    flex-wrap: wrap;
 }
 
 .product-list-info {
-    background: -webkit-linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);/* Chrome 10-25, Safari 5.1-6 */                          background: linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */                                             
+    padding-left: 4px;
+    background: -webkit-linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
+    background: linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
 }
 
 .tags-container {
