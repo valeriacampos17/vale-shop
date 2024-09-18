@@ -163,7 +163,7 @@
       console.log("Service Worker soportado");
       window.addEventListener("load", () => {
         navigator.serviceWorker
-          .register("/shein-shop/assets/js/service-worker.js")
+          .register("assets/js/service-worker.js")
           .then((registration) => {
             console.log("Service Worker registrado con éxito:", registration);
           })
