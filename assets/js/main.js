@@ -11,6 +11,7 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
     }
 });
 
+// nav-item active
 document.addEventListener("DOMContentLoaded", function () {
     const navItems = document.querySelectorAll('.nav-item');
     const currentPage = window.location.pathname.split('/').pop();

@@ -13,9 +13,9 @@
 <body>
   <header>
     <h1>Vale-Shop</h1>
-    <button id="like-button" aria-label="Me gusta">
+    <a href="like.html" id="like-button" aria-label="Me gusta">
       <i class="fa-solid fa-heart"></i>
-    </button>
+    </a>
     <button id="theme-toggle" aria-label="Cambiar modo">
       <i class="fa-solid fa-sun"></i>
     </button>
@@ -152,13 +152,12 @@
         <i class="fa-solid fa-cart-shopping"></i>
         <span>Pedidos</span>
       </a>
-      <a href="settings.html" class="nav-item">
-        <i class="fa-solid fa-cog"></i>
-        <span>Ajustes</span>
+      <a href="like.html" class="nav-item">
+        <i class="fa-solid fa-heart"></i>
+        <span>Me gusta</span>
       </a>
     </nav>
   </footer>
-  <script src="service-worker.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       console.log("Service Worker soportado");
