@@ -2,12 +2,18 @@ const CACHE_NAME = 'vale-shop-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
+    '/products.html',
+    '/orders.html',
+    '/like.html',
     '/assets/css/main.css',
+    '/assets/css/info.css',
+    '/assets/css/modal.css',
+    '/assets/css/orders.css',
+    '/assets/css/products.css',
     '/assets/js/main.js',
-    '/assets/image/1718592874b9c9c0c994cf60c986ca33039442ed67_thumbnail_336x.webp',
+    '/assets/js/modal.js',
     '/assets/icons/icon-192x192.png',
     '/assets/icons/icon-512x512.png',
-    // Agrega aquí cualquier otro recurso que necesite ser cacheado
 ];
 
 self.addEventListener('install', event => {
@@ -21,9 +27,9 @@ self.addEventListener('fetch', event => {
     caches.match(event.request)
         .then(response => {
             if (response) {
-                return response; // Devuelve el recurso del cache si está disponible
+                return response;
             }
-            return fetch(event.request); // De lo contrario, realiza una solicitud de red
+            return fetch(event.request);
         })
 });
 
