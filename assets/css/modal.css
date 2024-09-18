@@ -1,0 +1,42 @@
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Queda fijo en la pantalla */
+    z-index: 1000; /* Por encima de otros elementos */
+    bottom: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Agrega scroll si es necesario */
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto; /* Centrado verticalmente */
+}
+
+.modal-content span {
+    width: 40px;
+    height: 40px;
+}
+
+.close {
+    color: #aaa;
+    position: absolute; /* Cambiado a absoluto para posicionarlo en relación a .modal-content */
+    top: 10px; /* Ajusta la distancia desde la parte superior */
+    right: 10px; /* Ajusta la distancia desde el lado derecho */
+    font-size: 40px;
+    font-weight: bold;
+    z-index: 1001; /* Asegura que esté por encima del contenido */
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content> .product {
+    box-shadow:none;
+    position: relative;
+}
