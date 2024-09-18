@@ -1,0 +1,13 @@
+{
+    "products": [
+      {
+        "id": 1,
+        "name": "Producto 1",
+        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "price": 19.99,
+        "category_id": 1,
+        "cart_link": "#"
+      }
+    ]
+  }
+  

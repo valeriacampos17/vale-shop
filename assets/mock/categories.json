@@ -1,0 +1,16 @@
+{
+    "categories": [
+      {
+        "id": 1,
+        "name": "Ropa de Mujer"
+      },
+      {
+        "id": 2,
+        "name": "Ropa de Hombre"
+      },
+      {
+        "id": 3,
+        "name": "Accesorios"
+      }
+    ]
+  }
