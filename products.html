@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/products.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Vale-Shop</h1>
+        <button id="like-button" aria-label="Me gusta">
+            <i class="fa-solid fa-heart"></i>
+        </button>
+        <button id="theme-toggle" aria-label="Cambiar modo">
+            <i class="fa-solid fa-sun"></i> <!-- Icono por defecto para modo claro -->
+        </button>
+    </header>
+
+    <main>
+        <section class="product-list">
+            <h2>Lista de Productos</h2>
+            <div class="tags-container">
+                <div class="tag">
+                    <span class="text">Ropa de Mujer</span>
+                    <span class="icon">x</span>
+                </div>
+                <div class="tag">
+                    <span class="text">Ropa de Hombre</span>
+                    <span class="icon">x</span>
+                </div>
+                <div class="tag">
+                    <span class="text">Accesorios</span>
+                    <span class="icon">x</span>
+                </div>
+            </div>
+            </div>
+            <div class="product-grid">
+                <!-- Producto 1 -->
+                <div class="product-item">
+                    <img src="assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp"
+                        alt="Producto 1">
+                    <div class="product-list-info">
+                        <h3>Producto 1</h3>
+                        <div class="price-cart">
+                            <p>$19.99</p>
+                            <div class="cart">
+                                <a href="#">
+                                    <i class="fa-solid fa-shopping-cart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Producto 2 -->
+                <div class="product-item">
+                    <img src="assets/image/1713149029a86e6ef07b6d6aa23b25059287f4f46e_thumbnail_336x.webp"
+                        alt="Producto 2">
+                    <div class="product-list-info">
+                        <h3>Producto 1</h3>
+                        <div class="price-cart">
+                            <p>$19.99</p>
+                            <div class="cart">
+                                <a href="#">
+                                    <i class="fa-solid fa-shopping-cart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="assets/image/1718592874b9c9c0c994cf60c986ca33039442ed67_thumbnail_336x.webp"
+                        alt="Producto 2">
+                    <div class="product-list-info">
+                        <h3>Producto 1</h3>
+                        <div class="price-cart">
+                            <p>$19.99</p>
+                            <div class="cart">
+                                <a href="#">
+                                    <i class="fa-solid fa-shopping-cart"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="products.html" class="nav-item">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pedidos</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fa-solid fa-cog"></i>
+                <span>Ajustes</span>
+            </a>
+        </nav>
+    </footer>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

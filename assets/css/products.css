@@ -1,0 +1,98 @@
+/* Estilos de la lista de productos */
+.product-list {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.product-list h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding-bottom: 40px;
+}
+
+/* Estilos de cada producto */
+.product-item {
+    background-color: white;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+}
+
+.product-item h3 {
+    text-align: left;
+    font-size: 1.125rem;
+    margin: 0 !important;
+}
+
+.product-item p {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.add-to-cart {
+    background-color: #ff69b4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.add-to-cart i {
+    margin-right: 5px;
+}
+
+.add-to-cart:hover {
+    background-color: #ff4f77;
+}
+
+.cart {
+    flex: 0 0 20% !important;
+}
+
+.price-cart {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-list-info {
+    background: -webkit-linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);/* Chrome 10-25, Safari 5.1-6 */                          background: linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */                                             
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+    margin-bottom: 10px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 6px 4px;
+    background-color: #ffffff;
+    border: 2px solid #333333;
+    border-radius: 5000px;
+    font-size: 14px;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.icon {
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer; /* Cambia el cursor para indicar que es interactivo */
+}
