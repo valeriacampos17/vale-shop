@@ -29,11 +29,13 @@ Vale-Shop es una Progressive Web App (PWA) diseñada para mostrar una variedad d
 - **`assets/`**: Contiene todos los archivos CSS, JavaScript e imágenes.
 - **`service-worker.js`**: Archivo que permite la funcionalidad offline de la PWA.
 
+Aquí tienes la sección de uso ajustada:
+
 ## Uso
 
 1. Abre la aplicación en un navegador compatible (Chrome, Firefox, etc.).
-2. Explora los productos destacados en el carrusel.
-3. Haz clic en las categorías para ver más productos.
+2. Cuando el navegador detecte que es una PWA, sugerirá su instalación.
+3. Si no aparece la sugerencia, puedes instalarla manualmente yendo a **Configuración** > **Agregar a la página principal** > **Instalar**.
 
 ## Contribuciones
 
