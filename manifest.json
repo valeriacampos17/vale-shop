@@ -2,7 +2,7 @@
     "name": "Vale-Shop",
     "short_name": "Vale-Shop",
     "description": "Un ecommerce moderno con productos y categorías.",
-    "start_url": "/",
+    "start_url": "/vale-shop/",
     "display": "standalone",
     "background_color": "#f5f5f5",
     "theme_color": "#ff69b4",
