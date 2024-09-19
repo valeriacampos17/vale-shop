@@ -1,22 +1,38 @@
 {
-    "name": "Vale-Shop",
-    "short_name": "Vale-Shop",
-    "description": "Un ecommerce moderno con productos y categorías.",
-    "start_url": "/vale-shop/",
-    "display": "standalone",
-    "background_color": "#f5f5f5",
-    "theme_color": "#ff69b4",
-    "icons": [
-      {
-        "src": "assets/icons/icon-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "assets/icons/icon-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
-  
+  "name": "Vale-Shop",
+  "short_name": "Vale-Shop",
+  "description": "Un ecommerce moderno con productos y categorías.",
+  "start_url": "/vale-shop/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#ff69b4",
+  "apple-mobile-web-app-capable": "yes",
+  "apple-mobile-web-app-status-bar-style": "default",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-167x167.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }
+  ]
+}
