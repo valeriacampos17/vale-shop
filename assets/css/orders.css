@@ -79,7 +79,8 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
-    padding: 10px;
+    padding: 4px;
+    box-sizing: border-box;
     border: 1px solid #ccc;
     background-color: #fff;
     box-sizing: border-box;
