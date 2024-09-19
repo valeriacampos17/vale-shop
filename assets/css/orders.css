@@ -80,8 +80,11 @@
     justify-content: space-between;
     flex: 1;
     padding: 10px;
-    box-sizing: border-box;
     border: 1px solid #ccc;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 1px 6px 6px -3px rgba(66, 65, 66, 0.68);
+    border-radius: 8px;
 }
 
 .item-like img {
@@ -93,4 +96,5 @@
     color: black;
     margin-top: auto;
     align-self: flex-end;
+    z-index: 0 !important;
 }
