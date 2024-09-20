@@ -29,19 +29,18 @@
         <section class="product-list">
             <h2>Lista de Productos</h2>
             <div class="tags-container">
-                <div class="tag">
+                <div id="tag-mujer" class="tag">
                     <span class="text">Ropa de Mujer</span>
                     <span class="icon">x</span>
                 </div>
-                <div class="tag">
+                <div id="tag-hombre" class="tag">
                     <span class="text">Ropa de Hombre</span>
                     <span class="icon">x</span>
                 </div>
-                <div class="tag">
+                <div id="tag-accesorio" class="tag">
                     <span class="text">Accesorios</span>
                     <span class="icon">x</span>
                 </div>
-            </div>
             </div>
             <div class="product-grid">
                 <!-- Producto 1 -->
@@ -147,6 +146,43 @@
     </footer>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/modal.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams.get('category');
+
+        if (categoryId) {
+            selectCategory(categoryId)
+        }
+
+        function selectCategory(categoryId) {
+            const tagMujer = document.getElementById('tag-mujer');
+            const tagHombre = document.getElementById('tag-hombre');
+            const tagAccesorio = document.getElementById('tag-accesorio');
+
+            // Ocultar todos los tags al inicio
+            tagMujer.style.display = 'none';
+            tagHombre.style.display = 'none';
+            tagAccesorio.style.display = 'none';
+
+            // Mostrar los tags correspondientes según la categoría
+            switch (categoryId) {
+                case '1':
+                    tagMujer.style.display = 'block';
+                    break;
+                case '2':
+                    tagHombre.style.display = 'block';
+                    break;
+                case '3':
+                    tagAccesorio.style.display = 'block';
+                    break;
+                default:
+                    tagMujer.style.display = 'block';
+                    tagHombre.style.display = 'block';
+                    tagAccesorio.style.display = 'block';
+                    break;
+            }
+        }
+    </script>
 </body>
 
 </html>
