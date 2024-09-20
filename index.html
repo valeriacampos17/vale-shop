@@ -7,7 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Vale-Shop</title>
-  <meta name="description" content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
+  <meta name="description"
+    content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="assets/icons/icon-180x180.png">
   <link rel="stylesheet" href="assets/css/main.css" />
@@ -177,6 +178,43 @@
       });
     } else {
       console.log("Service Worker no soportado");
+    }
+
+    fetch('assets/mock/products.json')
+      .then(response => response.json())
+      .then(data => {
+        const filteredProducts = data.products.slice(0, 3);
+        renderProducts(filteredProducts);
+      })
+      .catch(error => console.error('Error al cargar productos:', error));
+
+    // Función para generar el HTML de los productos
+    function renderProducts(products) {
+      const productContainer = document.querySelector('.product-container');
+      let htmlContent = '';
+
+      products.forEach(product => {
+        htmlContent += `
+          <div class="product">
+            <div class="img-product">
+              <img src="${product.image}" alt="${product.name}" />
+            </div>
+            <div class="info-container">
+              <div class="info">
+                <h2>${product.name}</h2>
+                <p>$${product.price}</p>
+              </div>
+              <div class="cart">
+                <a href="${product.cart_link}">
+                  <i class="fa-solid fa-shopping-cart"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      productContainer.innerHTML = htmlContent;
     }
 
     let slideIndex = 0;

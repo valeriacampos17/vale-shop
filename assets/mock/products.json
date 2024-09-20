@@ -3,8 +3,32 @@
       {
         "id": 1,
         "name": "Producto 1",
-        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "image": "assets/image/1713149029a86e6ef07b6d6aa23b25059287f4f46e_thumbnail_336x.webp",
         "price": 19.99,
+        "category_id": 1,
+        "cart_link": "#"
+      },
+      {
+        "id": 2,
+        "name": "Producto 2",
+        "image": "assets/image/1718592874b9c9c0c994cf60c986ca33039442ed67_thumbnail_336x.webp",
+        "price": 9.99,
+        "category_id": 1,
+        "cart_link": "#"
+      },
+      {
+        "id": 3,
+        "name": "Producto 3",
+        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "price": 6.99,
+        "category_id": 1,
+        "cart_link": "#"
+      },
+      {
+        "id": 4,
+        "name": "Producto 4",
+        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "price": 7.99,
         "category_id": 1,
         "cart_link": "#"
       }
