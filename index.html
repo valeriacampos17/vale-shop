@@ -163,6 +163,9 @@
       </a>
     </nav>
   </footer>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/modal.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       console.log("Service Worker soportado...");
@@ -180,14 +183,7 @@
       console.log("Service Worker no soportado");
     }
 
-    fetch('assets/mock/products.json')
-      .then(response => response.json())
-      .then(data => {
-        sessionStorage.setItem('productsJson', JSON.stringify(data.products));
-        const filteredProducts = data.products.slice(0, 3);
-        renderProducts(filteredProducts);
-      })
-      .catch(error => console.error('Error al cargar productos:', error));
+    getAllProduct()
 
     // Función para generar el HTML de los productos
     function renderProducts(products) {
@@ -247,8 +243,6 @@
       slides.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
     });
   </script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/modal.js"></script>
 </body>
 
 </html>

@@ -7,7 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Lista de Productos</title>
-    <meta name="description" content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
+    <meta name="description"
+        content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
     <link rel="apple-touch-icon" href="assets/icons/icon-180x180.png">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/products.css">
@@ -18,7 +19,7 @@
     <header>
         <h1>Vale-Shop</h1>
         <a href="like.html" id="like-button" aria-label="Me gusta">
-          <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-heart"></i>
         </a>
         <button id="theme-toggle" aria-label="Cambiar modo">
             <i class="fa-solid fa-sun"></i> <!-- Icono por defecto para modo claro -->
@@ -52,10 +53,8 @@
                         <h3>Producto 1</h3>
                         <div class="price-cart">
                             <p>$19.99</p>
-                            <div class="cart">
-                                <a href="#">
-                                    <i class="fa-solid fa-shopping-cart"></i>
-                                </a>
+                            <div class="cart" onclick="showModal(1)">
+                                <i class="fa-solid fa-shopping-cart"></i>
                             </div>
                         </div>
                     </div>
@@ -68,10 +67,8 @@
                         <h3>Producto 1</h3>
                         <div class="price-cart">
                             <p>$19.99</p>
-                            <div class="cart">
-                                <a href="#">
-                                    <i class="fa-solid fa-shopping-cart"></i>
-                                </a>
+                            <div class="cart" onclick="showModal(2)">
+                                <i class="fa-solid fa-shopping-cart"></i>
                             </div>
                         </div>
                     </div>
@@ -83,10 +80,8 @@
                         <h3>Producto 1</h3>
                         <div class="price-cart">
                             <p>$19.99</p>
-                            <div class="cart">
-                                <a href="#">
-                                    <i class="fa-solid fa-shopping-cart"></i>
-                                </a>
+                            <div class="cart" onclick="showModal(3)">
+                                <i class="fa-solid fa-shopping-cart"></i>
                             </div>
                         </div>
                     </div>
@@ -146,7 +141,12 @@
         </nav>
     </footer>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/products.js"></script>
     <script src="assets/js/modal.js"></script>
+    <script>
+        const products = getProductByCategoryId(1);
+        console.log(products);
+    </script>
 </body>
 
 </html>

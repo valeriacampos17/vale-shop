@@ -23,7 +23,7 @@
         "name": "Producto 3",
         "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
         "price": 6.99,
-        "category_id": 1,
+        "category_id": 2,
         "cart_link": "#",
         "size":  "M"
       },
@@ -32,7 +32,7 @@
         "name": "Producto 4",
         "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
         "price": 7.99,
-        "category_id": 1,
+        "category_id": 3,
         "cart_link": "#",
         "size":  "S"
       }
