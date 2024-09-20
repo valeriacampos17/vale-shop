@@ -185,33 +185,6 @@
 
     getAllProduct()
 
-    // Función para generar el HTML de los productos
-    function renderProducts(products) {
-      const productContainer = document.querySelector('.product-container');
-      let htmlContent = '';
-
-      products.forEach(product => {
-        htmlContent += `
-          <div class="product">
-            <div class="img-product">
-              <img src="${product.image}" alt="${product.name}" />
-            </div>
-            <div class="info-container">
-              <div class="info">
-                <h2>${product.name}</h2>
-                <p>$${product.price}</p>
-              </div>
-              <div class="cart" onclick="showModal(${product.id})">
-                <i class="fa-solid fa-shopping-cart"></i>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      productContainer.innerHTML = htmlContent;
-    }
-
     let slideIndex = 0;
 
     function moveSlide(step) {
