@@ -183,6 +183,7 @@
     fetch('assets/mock/products.json')
       .then(response => response.json())
       .then(data => {
+        sessionStorage.setItem('productsJson', JSON.stringify(data.products));
         const filteredProducts = data.products.slice(0, 3);
         renderProducts(filteredProducts);
       })
@@ -204,10 +205,8 @@
                 <h2>${product.name}</h2>
                 <p>$${product.price}</p>
               </div>
-              <div class="cart">
-                <a href="${product.cart_link}">
-                  <i class="fa-solid fa-shopping-cart"></i>
-                </a>
+              <div class="cart" onclick="showModal(${product.id})">
+                <i class="fa-solid fa-shopping-cart"></i>
               </div>
             </div>
           </div>

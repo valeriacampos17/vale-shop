@@ -6,7 +6,8 @@
         "image": "assets/image/1713149029a86e6ef07b6d6aa23b25059287f4f46e_thumbnail_336x.webp",
         "price": 19.99,
         "category_id": 1,
-        "cart_link": "#"
+        "cart_link": "#",
+        "size":  "S"
       },
       {
         "id": 2,
@@ -14,7 +15,8 @@
         "image": "assets/image/1718592874b9c9c0c994cf60c986ca33039442ed67_thumbnail_336x.webp",
         "price": 9.99,
         "category_id": 1,
-        "cart_link": "#"
+        "cart_link": "#",
+        "size":  "L"
       },
       {
         "id": 3,
@@ -22,7 +24,8 @@
         "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
         "price": 6.99,
         "category_id": 1,
-        "cart_link": "#"
+        "cart_link": "#",
+        "size":  "M"
       },
       {
         "id": 4,
@@ -30,7 +33,8 @@
         "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
         "price": 7.99,
         "category_id": 1,
-        "cart_link": "#"
+        "cart_link": "#",
+        "size":  "S"
       }
     ]
   }
