@@ -130,7 +130,8 @@ main {
 }
 
 .info h2,
-p {
+.info h3,
+.info p {
     margin: 0;
 }
 

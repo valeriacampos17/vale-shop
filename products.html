@@ -169,6 +169,18 @@
                     break;
             }
         }
+
+        const icons = document.querySelectorAll('.icon');
+        
+        icons.forEach(icon => {
+            icon.addEventListener('click', function () {
+                const parentTag = this.parentElement;
+                parentTag.style.display = 'none';
+                products = JSON.parse(sessionStorage.getItem('productsJson'));
+                renderproductsGrid(products);
+            });
+        });
+
     </script>
 </body>
 

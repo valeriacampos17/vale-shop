@@ -36,7 +36,9 @@
     cursor: pointer;
 }
 
-.modal-content> .product {
-    box-shadow:none;
-    position: relative;
+.fix-product {
+    box-shadow:none !important;
+    position: absolute !important;
+    bottom: 60px !important; 
+    width: inherit !important; /* Compatibilidad con navegadores que soportan fill-available */
 }

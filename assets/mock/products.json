@@ -20,8 +20,8 @@
       },
       {
         "id": 3,
-        "name": "Producto 3",
-        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "name": "Homme Camiseta",
+        "image": "//img.ltwebstatic.com/images3_pi/2024/02/26/28/1708940109fe3a8d175e4301ecfff3ca9bcb5a20ce_thumbnail_336x.webp",
         "price": 6.99,
         "category_id": 2,
         "cart_link": "#",
@@ -29,12 +29,48 @@
       },
       {
         "id": 4,
-        "name": "Producto 4",
-        "image": "assets/image/168612486737ecc26534d60ce1a0a19cbed7bcbf50_thumbnail_336x.webp",
+        "name": "Homme Camiseta",
+        "image": "//img.ltwebstatic.com/images3_pi/2024/01/18/7a/170556576121b74bc23374e22e108479df53be51c2_thumbnail_336x.webp",
         "price": 7.99,
-        "category_id": 3,
+        "category_id": 2,
         "cart_link": "#",
         "size":  "S"
+      },
+      {
+        "id": 5,
+        "name": "Homme Camiseta",
+        "image": "//img.ltwebstatic.com/images3_pi/2024/08/06/a7/1722921577eac503f0e76d796da4b9c601eef46976_thumbnail_336x.webp",
+        "price": 7.99,
+        "category_id": 2,
+        "cart_link": "#",
+        "size":  "S"
+      },
+      {
+        "id": 6,
+        "name": "Jeans holgados",
+        "image": "//img.ltwebstatic.com/images3_spmp/2024/09/01/de/1725191337ad05b56302b6b056b9ed4c5158f28789_thumbnail_336x.webp",
+        "price": 25.00,
+        "category_id": 2,
+        "cart_link": "#",
+        "size":  "1XL"
+      },
+      {
+        "id": 7,
+        "name": "Jeans holgados",
+        "image": "//img.ltwebstatic.com/images3_spmp/2023/10/07/27/1696663356cb9b184bdcfbaa015d9e442a826fc659_square_thumbnail_336x.webp",
+        "price": 25.00,
+        "category_id": 3,
+        "cart_link": "#",
+        "size":  null
+      },
+      {
+        "id": 8,
+        "name": "Jeans holgados",
+        "image": "https://img.ltwebstatic.com/images3_spmp/2024/08/06/c6/1722932207efbaeada766864cd14b51e4267db33ea_square_thumbnail_336x.webp",
+        "price": 25.00,
+        "category_id": 3,
+        "cart_link": "#",
+        "size":  null
       }
     ]
   }

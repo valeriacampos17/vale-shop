@@ -1,12 +1,14 @@
 function getAllProduct() {
-    fetch('assets/mock/products.json')
-        .then(response => response.json())
-        .then(data => {
-            sessionStorage.setItem('productsJson', JSON.stringify(data.products));
-            const filteredProducts = data.products.slice(0, 3);
-            renderProducts(filteredProducts);
-        })
-        .catch(error => console.error('Error al cargar productos:', error));
+    setTimeout(() => {
+        fetch('assets/mock/products.json')
+            .then(response => response.json())
+            .then(data => {
+                sessionStorage.setItem('productsJson', JSON.stringify(data.products));
+                const filteredProducts = data.products.slice(0, 3);
+                renderProducts(filteredProducts);
+            })
+            .catch(error => console.error('Error al cargar productos:', error));
+    }, 1500);
 }
 
 function getProductById(productId) {
@@ -31,7 +33,7 @@ function getProductById(productId) {
 
 function getProductByCategoryId(categoryId) {
     const products = JSON.parse(sessionStorage.getItem('productsJson'));
-    
+
     if (products) {
         const filteredProducts = products.filter(product => product.category_id == categoryId);
         console.log(filteredProducts)
@@ -70,6 +72,40 @@ function renderProducts(products) {
         </div>
       `;
     });
+
+    productContainer.innerHTML = htmlContent;
+}
+
+function renderProductsModal(productId) {
+    const productContainer = document.querySelector('#product-modal');
+    let htmlContent = '';
+    const product = getProductById(productId)
+
+    htmlContent = `
+        <div class="product fix-product">
+          <div class="img-product">
+            <img
+              src="${product.image}"
+              alt="${product.name}" />
+          </div>
+          <span class="close" onclick="closeModal()">&times;</span>
+          <div class="info-container">
+            <div class="info">
+              <h2>${product.name}</h2>
+              <p>$${product.price}</p>
+              <h3>Talla ${product.size}</h3>
+            </div>
+            <div class="like">
+              <a href="#" id="like-product">
+                <i class="fa-solid fa-heart"></i>
+              </a>
+            </div>
+            <div class="cart" onclick="addToCart(${product.id})">
+              <i class="fa-solid fa-shopping-cart"></i>
+            </div>
+          </div>
+        </div>
+      `;
 
     productContainer.innerHTML = htmlContent;
 }
