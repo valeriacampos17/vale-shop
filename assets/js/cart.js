@@ -1,52 +1,59 @@
 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+let likes = JSON.parse(sessionStorage.getItem('likes')) || [];
 
 function saveCart() {
     sessionStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function addToCart(product) {
-    console.log(product)
-    // Verificar si el producto ya está en el carrito
-    const existingProduct = cart.find(item => item.id === product.id);
-
-    if (existingProduct) {
-        // Si ya está en el carrito, incrementar la cantidad
-        existingProduct.quantity += 1;
-    } else {
-        // Si no está en el carrito, agregarlo
-        cart.push({ ...product, quantity: 1 });
+function addToCart(productId) {
+    const existingProduct = cart.find(item => item.id === productId);
+    if (!existingProduct) {
+        const product = getProductById(productId)
+        cart.push(product);
+        saveCart();
+        const productIndex = likes.findIndex(item => item.id === productId);
+        if (productIndex !== -1) {
+            likes.splice(productIndex, 1);
+            saveLikes();
+            renderProductsLikes();
+        }
+        renderProductsOrders();
     }
-
-    // Guardar el carrito actualizado en sessionStorage
-    saveCart();
-
-    // Actualizar la vista del carrito
-    updateCartView();
+    closeModal();
 }
 
 function removeFromCart(productId) {
-    // Buscar el producto en el carrito por su id
     const productIndex = cart.findIndex(item => item.id === productId);
-
+    
+    console.log((productIndex !== -1))
     if (productIndex !== -1) {
-        const product = cart[productIndex];
-
-        if (product.quantity > 1) {
-            // Si la cantidad es mayor que 1, disminuir la cantidad
-            product.quantity -= 1;
-        } else {
-            // Si la cantidad es 1, quitar el producto del carrito
-            cart.splice(productIndex, 1);
-        }
+        cart.splice(productIndex, 1);
     }
-
-    // Guardar el carrito actualizado en sessionStorage
     saveCart();
-
-    // Actualizar la vista del carrito
-    updateCartView();
+    renderProductsOrders();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    updateCartView();  // Actualizar la vista del carrito al cargar la página
-});
+function saveLikes() {
+    sessionStorage.setItem('likes', JSON.stringify(likes));
+}
+
+function addTolikes(productId) {
+    const existingProduct = likes.find(item => item.id === productId);
+
+    if (!existingProduct) {
+        const product = getProductById(productId)
+        likes.push(product);
+    }
+    saveLikes();
+    closeModal();
+}
+
+function removeFromLikes(productId) {
+    const productIndex = likes.findIndex(item => item.id === productId);
+    if (productIndex !== -1) {
+        likes.splice(productIndex, 1);
+    }
+    saveLikes();
+    renderProductsLikes();
+}
+
