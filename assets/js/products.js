@@ -55,21 +55,21 @@ function renderProducts(products) {
 
   products.forEach(product => {
     htmlContent += `
-        <div class="product">
-          <div class="img-product">
-            <img src="${product.image}" alt="${product.name}" />
+      <div class="product">
+        <div class="img-product">
+          <img src="${product.image}" alt="${product.name}" />
+        </div>
+        <div class="info-container">
+          <div class="info">
+            <h2>${product.name}</h2>
+            <p>$${product.price}</p>
           </div>
-          <div class="info-container">
-            <div class="info">
-              <h2>${product.name}</h2>
-              <p>$${product.price}</p>
-            </div>
-            <div class="cart" onclick="showModal(${product.id})">
-              <i class="fa-solid fa-shopping-cart"></i>
-            </div>
+          <div class="cart" onclick="showModal(${product.id})">
+            <i class="fa-solid fa-shopping-cart"></i>
           </div>
         </div>
-      `;
+      </div>
+    `;
   });
 
   productContainer.innerHTML = htmlContent;
@@ -81,28 +81,28 @@ function renderProductsModal(productId) {
   const product = getProductById(productId)
 
   htmlContent = `
-        <div class="product fix-product">
-          <div class="img-product">
-            <img
-              src="${product.image}"
-              alt="${product.name}" />
-          </div>
-          <span class="close" onclick="closeModal()">&times;</span>
-          <div class="info-container">
-            <div class="info">
-              <h2>${product.name}</h2>
-              <p>$${product.price}</p>
-              <h3>Talla ${product.size}</h3>
-            </div>
-            <div class="like" onclick="addTolikes(${product.id})">
-              <i class="fa-solid fa-heart"></i>
-            </div>
-            <div class="cart" onclick="addToCart(${product.id})">
-              <i class="fa-solid fa-shopping-cart"></i>
-            </div>
-          </div>
+    <div class="product fix-product">
+      <div class="img-product">
+        <img
+          src="${product.image}"
+          alt="${product.name}" />
+      </div>
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="info-container">
+        <div class="info">
+          <h2>${product.name}</h2>
+          <p>$${product.price}</p>
+          <h3>Talla ${product.size}</h3>
         </div>
-      `;
+        <div class="like" onclick="addTolikes(${product.id})">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <div class="cart" onclick="addToCart(${product.id})">
+          <i class="fa-solid fa-shopping-cart"></i>
+        </div>
+      </div>
+    </div>
+  `;
 
   productContainer.innerHTML = htmlContent;
 }
@@ -114,19 +114,19 @@ function renderproductsGrid(products) {
 
   products.forEach(product => {
     htmlContent += `
-            <div class="product-item">
-                <img src="${product.image}" alt="${product.name}">
-                <div class="product-list-info">
-                    <h3>${product.name}</h3>
-                    <div class="price-cart">
-                        <p>$${product.price}</p>
-                        <div class="cart" onclick="showModal(${product.id})">
-                            <i class="fa-solid fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+      <div class="product-item">
+          <img src="${product.image}" alt="${product.name}">
+          <div class="product-list-info">
+              <h3>${product.name}</h3>
+              <div class="price-cart">
+                  <p>$${product.price}</p>
+                  <div class="cart" onclick="showModal(${product.id})">
+                      <i class="fa-solid fa-shopping-cart"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+    `;
   });
 
   productContainer.innerHTML = htmlContent;
@@ -135,7 +135,8 @@ function renderproductsGrid(products) {
 function renderProductsOrders() {
   const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
   const itemList = document.querySelector('.item-list');
-  if (itemList) itemList.innerHTML = '';
+  if (!itemList) return;
+  itemList.innerHTML = '';
   cart.forEach(product => {
     const itemHTML = `
       <div class="item">
@@ -149,7 +150,7 @@ function renderProductsOrders() {
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
-    `; 
+    `;
     itemList.innerHTML += itemHTML;
   });
 }
@@ -157,7 +158,8 @@ function renderProductsOrders() {
 function renderProductsLikes() {
   const likes = JSON.parse(sessionStorage.getItem('likes')) || [];
   const itemList = document.querySelector('.item-list-flex');
-  if (itemList) itemList.innerHTML = '';
+  if (!itemList) return;
+  itemList.innerHTML = '';
   likes.forEach(product => {
     const itemHTML = `
       <div class="item-like">
@@ -166,7 +168,7 @@ function renderProductsLikes() {
           <i class="fa-solid fa-shopping-cart"></i>
         </button>
       </div>
-    `; 
+    `;
     itemList.innerHTML += itemHTML;
   });
 }
