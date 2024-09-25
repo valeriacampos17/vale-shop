@@ -14,11 +14,6 @@
     margin: 15% auto; /* Centrado verticalmente */
 }
 
-.modal-content span {
-    width: 40px;
-    height: 40px;
-}
-
 .close {
     color: #aaa;
     position: absolute; /* Cambiado a absoluto para posicionarlo en relación a .modal-content */

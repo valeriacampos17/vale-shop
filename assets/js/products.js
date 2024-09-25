@@ -64,7 +64,7 @@ function renderProducts(products) {
             <h2>${product.name}</h2>
             <p>$${product.price}</p>
           </div>
-          <div class="cart" onclick="showModal(${product.id})">
+          <div class="cart" onclick="showProductModal(${product.id})">
             <i class="fa-solid fa-shopping-cart"></i>
           </div>
         </div>
@@ -87,7 +87,7 @@ function renderProductsModal(productId) {
           src="${product.image}"
           alt="${product.name}" />
       </div>
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="close" onclick="closeProductModal()">&times;</span>
       <div class="info-container">
         <div class="info">
           <h2>${product.name}</h2>
@@ -120,7 +120,7 @@ function renderproductsGrid(products) {
               <h3>${product.name}</h3>
               <div class="price-cart">
                   <p>$${product.price}</p>
-                  <div class="cart" onclick="showModal(${product.id})">
+                  <div class="cart" onclick="showProductModal(${product.id})">
                       <i class="fa-solid fa-shopping-cart"></i>
                   </div>
               </div>

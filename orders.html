@@ -12,6 +12,7 @@
   <link rel="apple-touch-icon" href="assets/icons/icon-180x180.png">
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/orders.css" />
+  <link rel="stylesheet" href="assets/css/modal.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
@@ -35,12 +36,39 @@
       <button id="buy-button" class="fix-button-buy">Comprar</button>
     </section>
 
-
     <section class="product-list">
       <h1>Me Gusta</h1>
       <div class="item-list-flex">
       </div>
     </section>
+
+    <div id="orders-modal" class="modal fix-modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeOrdersModal()">&times;</span>
+        <h2>Ingrese sus Datos</h2>
+        <form id="user-info-form">
+          <!-- Nombre -->
+          <label for="name">Nombre:</label>
+          <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+
+          <!-- Teléfono -->
+          <label for="phone">Teléfono:</label>
+          <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" required>
+
+          <!-- Sexo -->
+          <label for="gender">Sexo:</label>
+          <select id="gender" name="gender" required>
+            <option value="">Selecciona</option>
+            <option value="male">Masculino</option>
+            <option value="female">Femenino</option>
+            <option value="other">Otro</option>
+          </select>
+
+          <!-- Botón de Enviar -->
+          <button id="btn-submit" class="fix-button-buy">Enviar</button>
+        </form>
+      </div>
+    </div>
   </main>
 
   <footer>

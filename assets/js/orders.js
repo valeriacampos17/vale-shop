@@ -78,51 +78,20 @@ function updateBuyButton() {
     buyButton.textContent = `COMPRAR $${total}`;
 }
 
+var buyButton = document.getElementById("buy-button");
 
+if (buyButton) {
+    buyButton.addEventListener('click', showOrdersModal);
+}
 
+var btnSubmit = document.getElementById("btn-submit");
 
-// Función para detectar si es un dispositivo móvil
-function isMobile() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    // Comprobar si el dispositivo es un móvil
-    return /android|iphone|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
-  }
+if (btnSubmit) {
+    buyButton.addEventListener('click', sendEmail);
+}
 
-  // Función para detectar si es una tablet
-  function isTablet() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    // Comprobar si el dispositivo es una tablet
-    return /tablet|ipad|playbook|silk/i.test(userAgent);
-  }
+function sendEmail() {
 
-  // Función para manejar la acción de compra
-  function handleBuy() {
-    if (isMobile()) {
-      // Si es un móvil, podemos pedir el número manualmente o continuar sin pedir
-      const phone = prompt("Por favor ingresa tu número de teléfono:");
-      if (phone) {
-        alert(`Gracias por tu compra. Tu número: ${phone}`);
-      } else {
-        alert("Compra cancelada. No se proporcionó número de teléfono.");
-      }
-    } else if (isTablet()) {
-      // Si es una tablet, mostrar el input de número de teléfono
-      document.getElementById('phone-input').style.display = 'block';
-    } else {
-      alert("Compra realizada desde un dispositivo no móvil.");
-    }
-  }
-
-  // Manejador del botón comprar
-  document.getElementById('buy-button').addEventListener('click', handleBuy);
-
-  // Manejador para enviar el número de teléfono
-  document.getElementById('submit-phone').addEventListener('click', function() {
-    const phone = document.getElementById('phone').value;
-    if (phone) {
-      alert(`Gracias por tu compra. Tu número: ${phone}`);
-      document.getElementById('phone-input').style.display = 'none'; // Ocultar el input después de ingresar el número
-    } else {
-      alert("Por favor, introduce un número de teléfono válido.");
-    }
-  });
+    
+    
+}
