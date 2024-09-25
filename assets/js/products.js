@@ -153,6 +153,7 @@ function renderProductsOrders() {
     `;
     itemList.innerHTML += itemHTML;
   });
+  updateBuyButton();
 }
 
 function renderProductsLikes() {

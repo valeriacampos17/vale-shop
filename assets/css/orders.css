@@ -68,7 +68,8 @@
 }
 
 .item-list-flex {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 8px;
@@ -79,7 +80,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
-    padding: 10px;
+    padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     background-color: #fff;
@@ -98,4 +99,16 @@
     margin-top: auto;
     align-self: flex-end;
     z-index: 0 !important;
+}
+
+.fix-button-buy {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 8px;
+    background: -webkit-linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
+    background: linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
+    transition: background 0.3s ease;
 }
