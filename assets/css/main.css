@@ -173,6 +173,11 @@ main {
     font-size: 24px;
 }
 
+.like:active i,
+.cart:active i {
+    color: red;
+}
+
 
 /* Estilos de los botones del carrusel */
 .carousel-button {
