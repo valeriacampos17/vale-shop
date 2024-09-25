@@ -6,21 +6,26 @@ function saveCart() {
 }
 
 function addToCart(productId) {
+    const product = getProductById(productId);
     const existingProduct = cart.find(item => item.id === productId);
+    const existingLikesIndex = likes.findIndex(item => item.id === productId);
 
-    if (!existingProduct) {
-        const product = getProductById(productId)
+    if (!existingProduct && product) {
         cart.push(product);
         saveCart();
-        const productIndex = likes.findIndex(item => item.id === productId);
-        if (productIndex !== -1) {
-            likes.splice(productIndex, 1);
-            saveLikes();
-            renderProductsLikes();
-        }
+    }
+
+    if (existingLikesIndex !== -1) {
+        likes.splice(existingLikesIndex, 1);
+        saveLikes();
+        renderProductsLikes();
+    }
+
+    if (!existingProduct || existingLikesIndex !== -1) {
         renderProductsOrders();
     }
-    closeModal();
+
+    closeProductModal();
 }
 
 function removeFromCart(productId) {
@@ -38,15 +43,24 @@ function saveLikes() {
     sessionStorage.setItem('likes', JSON.stringify(likes));
 }
 
-function addTolikes(productId) {
-    const existingProduct = likes.find(item => item.id === productId);
-
-    if (!existingProduct) {
-        const product = getProductById(productId)
-        likes.push(product);
+function addTolikes (productId) {
+    const existingLikes = likes.some(item => item.id === productId);
+    const existingProduct = cart.some(item => item.id === productId);
+    
+    if (existingProduct) {
+        closeProductModal();
+        return;
     }
-    saveLikes();
-    closeModal();
+    
+    if (!existingLikes) {
+        const product = getProductById(productId);
+        if (product) {
+            likes.push(product);
+            saveLikes();
+        }
+    }
+    
+    closeProductModal();
 }
 
 function removeFromLikes(productId) {
@@ -92,6 +106,6 @@ if (btnSubmit) {
 
 function sendEmail() {
 
-    
-    
+
+
 }

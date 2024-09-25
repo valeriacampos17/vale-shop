@@ -6,14 +6,13 @@ function showProductModal(id) {
     productModal.style.display = "block";
 }
 function closeProductModal() {
-    productModal.style.display = "none";
+    if (productModal) productModal.style.display = "none";
 }
 
 function showOrdersModal() {
-    console.log('showOrdersModal >>> ')
     ordersModal.style.display = 'block';
 }
 
 function closeOrdersModal() {
-    ordersModal.style.display = 'none';
+    if (ordersModal) ordersModal.style.display = 'none';
 }
