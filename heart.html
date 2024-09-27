@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Hearts</title>
+    <style>
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        #heart-button {
+            position: relative;
+            z-index: 10;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.2s;
+        }
+
+        #heart-button:hover {
+            transform: scale(1.1);
+        }
+
+        .heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(0deg);
+            opacity: 0.8;
+            animation: float 5s linear infinite;
+            pointer-events: none;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 10px;
+        }
+
+        /* Animación de los corazones flotando hacia arriba */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                /* Sin rotación inicial */
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-300px) rotate(0deg) scale(1.5);
+                /* Mantener la misma orientación durante la animación */
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button id="heart-button">❤️</button>
+    <div class="heart-container"></div>
+</body>
+<script>
+
+    function createHeart(event) {
+        const heartContainer = document.querySelector('.heart-container');
+
+        // Generar 5 corazones con cada clic
+        for (let i = 0; i < 5; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+
+            // Posicionar el corazón en una posición aleatoria cercana al botón
+            const button = event.target;
+            const buttonRect = button.getBoundingClientRect();
+            const offsetX = Math.random() * 100 - 50; // Desplazamiento en el eje X
+            const offsetY = Math.random() * 20 - 10; // Desplazamiento en el eje Y
+
+            heart.style.left = `${buttonRect.left + buttonRect.width / 2 + offsetX}px`;
+            heart.style.top = `${buttonRect.top + offsetY}px`;
+
+            // Ajustar duración de la animación aleatoriamente entre 3 y 5 segundos
+            heart.style.animationDuration = `${Math.random() * 2 + 3}s`;
+
+            heartContainer.appendChild(heart);
+
+            // Remover el corazón del DOM después de 5 segundos
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    }
+
+    // Escuchar clic en el botón
+    document.getElementById('heart-button').addEventListener('click', (event) => {
+        createHeart(event);
+    });
+    
+</script>
+
+</html>

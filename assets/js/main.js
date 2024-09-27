@@ -5,9 +5,11 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
     if (document.body.classList.contains('dark-theme')) {
         icon.classList.remove('fa-sun');
         icon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'dark');
     } else {
         icon.classList.remove('fa-moon');
         icon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'light');
     }
 });
 
@@ -25,4 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
             item.classList.add('active');
         }
     });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme'); // Obtener el tema guardado
+    const icon = document.querySelector('#theme-toggle i');
+
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    } else {
+        document.body.classList.remove('dark-theme');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    }
 });
