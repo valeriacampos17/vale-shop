@@ -59,6 +59,7 @@ function addTolikes (productId) {
             saveLikes();
         }
     }
+    heartDisplay();
     
     closeProductModal();
 }
