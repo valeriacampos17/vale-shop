@@ -76,6 +76,8 @@
             </div>
         </section>
 
+        <div id="hearts-container"></div>
+
         <div id="product-modal" class="modal">
             <div class="modal-content">
                 <div class="product">
@@ -117,7 +119,7 @@
                 <i class="fa-solid fa-box"></i>
                 <span>Productos</span>
             </a>
-            <a href="orders.html" class="nav-item">
+            <a id="heart-button" href="orders.html" class="nav-item">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>Pedidos</span>
             </a>
@@ -173,7 +175,7 @@
         }
 
         const icons = document.querySelectorAll('.icon');
-        
+
         icons.forEach(icon => {
             icon.addEventListener('click', function () {
                 const parentTag = this.parentElement;
