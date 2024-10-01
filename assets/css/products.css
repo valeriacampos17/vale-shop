@@ -35,6 +35,7 @@
 .product-item p {
     flex: 1;
     font-size: 1rem;
+    margin: 0.5rem 0;
 }
 
 .add-to-cart {
@@ -67,8 +68,12 @@
     display: flex;
 }
 
+.price-cart i {
+    font-size: 24px;
+}
+
 .product-list-info {
-    padding-left: 4px;
+    padding-left: 8px;
     background: -webkit-linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
     background: linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
 }
