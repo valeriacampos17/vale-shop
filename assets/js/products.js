@@ -108,10 +108,10 @@ function renderProductsModal(productId) {
 }
 
 function renderproductsGrid(products) {
-  console.log(products.length)
   const productContainer = document.querySelector('.product-grid');
   let htmlContent = '';
 
+  if (!products) return;
   products.forEach(product => {
     htmlContent += `
       <div class="product-item">
