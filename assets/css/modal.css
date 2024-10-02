@@ -10,12 +10,13 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: white; /*color del fondo*/
     margin: 15% auto; /* Centrado verticalmente */
+    color: black; /*color de las letras*/
 }
 
 .close {
-    color: #aaa;
+    color: black;
     position: absolute; /* Cambiado a absoluto para posicionarlo en relación a .modal-content */
     top: 10px; /* Ajusta la distancia desde la parte superior */
     right: 10px; /* Ajusta la distancia desde el lado derecho */
