@@ -276,7 +276,8 @@ body.dark-theme .categories h1 {
 body.dark-theme .item,
 body.dark-theme .item-like,
 body.dark-theme .tag,
-body.dark-theme .item-like button {
+body.dark-theme .item-like button,
+body.dark-theme .product-item {
     background-color: #838383;
     color: #f5f5f5;
 }
