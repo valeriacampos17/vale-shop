@@ -4,7 +4,7 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } 
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "",
+    apiKey: "AIzaSyBooZYVeqEWugoLudlTLwytNaYGWxD83Wc",
     authDomain: "vale-shop.firebaseapp.com",
     databaseURL: "https://vale-shop-default-rtdb.firebaseio.com",
     projectId: "vale-shop",
@@ -60,6 +60,12 @@ export const deleteProduct = async (id) => {
     }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log('firebase ok')
-});
+// Crear una Orden
+export const createOrder = async (orders) => {
+    try {
+        const docRef = await addDoc(collection(db, "orders"), orders);
+        console.log("Order creado con ID:", docRef.id);
+    } catch (e) {
+        console.error("Error añadiendo documento: ", e);
+    }
+};

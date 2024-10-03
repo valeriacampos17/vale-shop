@@ -97,6 +97,23 @@
   <script src="assets/js/products.js"></script>
   <script src="assets/js/modal.js"></script>
   <script src="assets/js/orders.js"></script>
+  <script type="module">
+    import { createOrder } from './assets/js/firebase.js';
+    const userInfoForm = document.getElementById('user-info-form');
+
+    userInfoForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+
+      var newOrder = new Object();
+      newOrder.name = userInfoForm['name'].value
+      newOrder.phone = userInfoForm['phone'].value
+      newOrder.gender = userInfoForm['gender'].value
+      newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      createOrder(newOrder)
+      closeOrdersModal();
+
+    });
+  </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       renderProductsOrders();
