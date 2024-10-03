@@ -5,7 +5,7 @@
 /* Estilos generales */
 body {
     font-family: "Oswald", sans-serif;
-    margin: 0;
+    margin: 60px 0 0 0;
     padding: 0;
     background-color: #f5f5f5;
     display: flex;
@@ -14,7 +14,6 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Estilo del encabezado */
 header {
     background-color: #000;
     color: white;
@@ -22,10 +21,12 @@ header {
     padding: 10px 0;
     display: flex;
     align-items: center;
-    /* Alinea verticalmente los elementos */
     justify-content: center;
-    /* Centra los elementos horizontalmente */
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 h1 {
