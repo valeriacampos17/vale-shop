@@ -23,6 +23,8 @@
     font-size: 40px;
     font-weight: bold;
     z-index: 1001; /* Asegura que esté por encima del contenido */
+    width: 48px;
+    height: 48px;
 }
 
 .close:hover,

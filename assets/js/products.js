@@ -87,7 +87,9 @@ function renderProductsModal(productId) {
           src="${product.image}"
           alt="${product.name}" />
       </div>
-      <span class="close" onclick="closeProductModal()">&times;</span>
+      <span class="close" onclick="closeProductModal()">
+        <img src="assets/icons/close.png" />
+      </span>
       <div class="info-container">
         <div class="info">
           <h2>${product.name}</h2>
