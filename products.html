@@ -18,7 +18,7 @@
 <body>
     <header>
         <button id="menu-toggle" aria-label="Menú" class="hamburger-menu">
-            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-bars"></i> <!-- Icono de menú hamburguesa -->
         </button>
         <h1>Vale-Shop</h1>
         <a href="like.html" id="like-button" aria-label="Me gusta">
@@ -54,6 +54,9 @@
                 </div>
             </div>
             <div class="product-grid">
+                <!-- Producto 1 -->
+
+                <!-- Producto 2 -->
                 <div class="product-item">
                     <img src="assets/image/1713149029a86e6ef07b6d6aa23b25059287f4f46e_thumbnail_336x.webp"
                         alt="Producto 2">
@@ -136,71 +139,69 @@
             </a>
         </nav>
     </footer>
-
     <script src="assets/js/main.js"></script>
     <script src="assets/js/products.js"></script>
     <script src="assets/js/modal.js"></script>
     <script src="assets/js/orders.js"></script>
     <script src="assets/js/hearts.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryId = urlParams.get('category');
-            const tags = {
-                mujer: document.getElementById('tag-mujer'),
-                hombre: document.getElementById('tag-hombre'),
-                accesorio: document.getElementById('tag-accesorio')
-            };
-            let products = [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams.get('category');
+        const tags = {
+            mujer: document.getElementById('tag-mujer'),
+            hombre: document.getElementById('tag-hombre'),
+            accesorio: document.getElementById('tag-accesorio')
+        };
+        let products = [];
 
-            function hideAllTags() {
-                Object.values(tags).forEach(tag => tag.style.display = 'none');
-            }
+        function hideAllTags() {
+            Object.values(tags).forEach(tag => tag.style.display = 'none');
+        }
 
-            function selectCategory(categoryId) {
-                hideAllTags();
-                switch (categoryId) {
-                    case '1':
-                        tags.mujer.style.display = 'block';
-                        break;
-                    case '2':
-                        tags.hombre.style.display = 'block';
-                        break;
-                    case '3':
-                        tags.accesorio.style.display = 'block';
-                        break;
-                    default:
-                        Object.values(tags).forEach(tag => tag.style.display = 'block');
-                }
-            }
-
+        function selectCategory(categoryId) {
             hideAllTags();
-            products = categoryId ? getProductByCategoryId(categoryId) : JSON.parse(sessionStorage.getItem('productsJson'));
-            renderproductsGrid(products);
+            switch (categoryId) {
+                case '1':
+                    tags.mujer.style.display = 'block';
+                    break;
+                case '2':
+                    tags.hombre.style.display = 'block';
+                    break;
+                case '3':
+                    tags.accesorio.style.display = 'block';
+                    break;
+                default:
+                    Object.values(tags).forEach(tag => tag.style.display = 'block');
+            }
+        }
 
-            document.querySelectorAll('.icon').forEach(icon => {
-                icon.addEventListener('click', function () {
-                    this.parentElement.style.display = 'none';
-                    products = JSON.parse(sessionStorage.getItem('productsJson'));
-                    renderproductsGrid(products);
-                });
-            });
+        hideAllTags();
+        products = categoryId ? getProductByCategoryId(categoryId) : JSON.parse(sessionStorage.getItem('productsJson'));
+        renderproductsGrid(products);
 
-            document.getElementById('menu-toggle').addEventListener('click', function () {
-                document.getElementById('mobile-menu').classList.toggle('active');
-            });
-
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const categoryId = this.getAttribute('data-category');
-                    selectCategory(categoryId);
-                    products = getProductByCategoryId(categoryId);
-                    renderproductsGrid(products);
-                    document.getElementById('mobile-menu').classList.remove('active');
-                });
+        document.querySelectorAll('.icon').forEach(icon => {
+            icon.addEventListener('click', function () {
+                this.parentElement.style.display = 'none';
+                products = JSON.parse(sessionStorage.getItem('productsJson'));
+                renderproductsGrid(products);
             });
         });
+
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            document.getElementById('mobile-menu').style.display = document.getElementById('mobile-menu').style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const categoryId = this.getAttribute('data-category');
+                selectCategory(categoryId);
+                products = getProductByCategoryId(categoryId);
+                renderproductsGrid(products);
+                document.getElementById('mobile-menu').style.display = 'none';
+            });
+        });
+
     </script>
 </body>
 
