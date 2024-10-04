@@ -17,13 +17,23 @@
 
 <body>
     <header>
+        <button id="menu-toggle" aria-label="Menú" class="hamburger-menu">
+            <i class="fa-solid fa-bars"></i> <!-- Icono de menú hamburguesa -->
+        </button>
         <h1>Vale-Shop</h1>
         <a href="like.html" id="like-button" aria-label="Me gusta">
             <i class="fa-solid fa-heart"></i>
         </a>
         <button id="theme-toggle" aria-label="Cambiar modo">
-            <i class="fa-solid fa-sun"></i> <!-- Icono por defecto para modo claro -->
+            <i class="fa-solid fa-sun"></i>
         </button>
+        <nav id="mobile-menu" class="mobile-menu">
+            <ul>
+                <li><a href="#" data-category="1">Ropa de Mujer</a></li>
+                <li><a href="#" data-category="2">Ropa de Hombre</a></li>
+                <li><a href="#" data-category="3">Accesorios</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
@@ -155,6 +165,9 @@
         renderproductsGrid(products);
 
         function selectCategory(categoryId) {
+            tagMujer.style.display = 'none';
+            tagHombre.style.display = 'none';
+            tagAccesorio.style.display = 'none';
 
             switch (categoryId) {
                 case '1':
@@ -182,6 +195,25 @@
                 parentTag.style.display = 'none';
                 products = JSON.parse(sessionStorage.getItem('productsJson'));
                 renderproductsGrid(products);
+            });
+        });
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const categoryLinks = document.querySelectorAll('#mobile-menu a');
+
+        menuToggle.addEventListener('click', function () {
+            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const categoryId = this.getAttribute('data-category');
+                selectCategory(categoryId);
+                products = getProductByCategoryId(categoryId);
+                renderproductsGrid(products);
+                mobileMenu.style.display = 'none'; // Cierra el menú tras seleccionar
             });
         });
 
