@@ -12,13 +12,14 @@ const firebaseConfig = {
     storageBucket: "vale-shop.appspot.com",
     messagingSenderId: "280352853383",
     appId: "1:280352853383:web:2d48393a1426bd8ff2d722",
-    measurementId: "G-Q51W1J1918"
+    measurementId: "G-Q51W1J1918",
+    ServiceWorkerRegistration: 'https://academys.io/vale-shop/service-worker.js'
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const messaging  = getMessaging(app);
+const messaging = getMessaging(app);
 
 // Crear un nuevo producto
 export const createProduct = async (product) => {
@@ -73,18 +74,18 @@ export const createOrder = async (orders) => {
 };
 
 
-export const getInitToken = async () => {
-    getToken(messaging, { ServiceWorkerRegistration: 'https://academys.io/vale-shop/service-worker.js', vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ' }).then((currentToken) => {
+export const getInitToken = async (registration) => {
+    getToken(messaging, { vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ', serviceWorkerRegistration: registration }).then((currentToken) => {
         if (currentToken) {
-          // Send the token to your server and update the UI if necessary
-          // ...
+            // Send the token to your server and update the UI if necessary
+            // ...
         } else {
-          // Show permission request UI
-          console.log('No registration token available. Request permission to generate one.');
-          // ...
+            // Show permission request UI
+            console.log('No registration token available. Request permission to generate one.');
+            // ...
         }
-      }).catch((err) => {
+    }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
         // ...
-      });
+    });
 }

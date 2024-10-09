@@ -109,7 +109,8 @@
   <script src="assets/js/modal.js"></script>
   <script src="assets/js/orders.js"></script>
   <script src="assets/js/hearts.js"></script>
-  <script>
+  <script type="module">
+    import { getInitToken } from './assets/js/firebase.js';
     if ("serviceWorker" in navigator) {
       console.log("Service Worker soportado...");
       window.addEventListener("load", () => {
@@ -117,6 +118,7 @@
           .register("service-worker.js")
           .then((registration) => {
             console.log("Service Worker registrado con éxito:", registration);
+            getInitToken(registration);
           })
           .catch((error) => {
             console.error("Error al registrar el Service Worker:", error);
@@ -158,10 +160,6 @@
       slideIndex = Math.min(slideIndex, maxIndex);
       slides.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
     });
-  </script>
-  <script type="module">
-    import { getInitToken } from './assets/js/firebase.js';
-    getInitToken();
   </script>
 </body>
 
