@@ -159,6 +159,10 @@
       slides.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
     });
   </script>
+  <script type="module">
+    import { getInitToken } from './assets/js/firebase.js';
+    getInitToken();
+  </script>
 </body>
 
 </html>

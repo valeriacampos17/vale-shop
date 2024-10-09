@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
+import { getMessaging } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,6 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const messaging  = getMessaging(app);
 
 // Crear un nuevo producto
 export const createProduct = async (product) => {
@@ -69,3 +71,20 @@ export const createOrder = async (orders) => {
         console.error("Error añadiendo documento: ", e);
     }
 };
+
+
+export const getInitToken = async () => {
+    getToken(messaging, { vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ' }).then((currentToken) => {
+        if (currentToken) {
+          // Send the token to your server and update the UI if necessary
+          // ...
+        } else {
+          // Show permission request UI
+          console.log('No registration token available. Request permission to generate one.');
+          // ...
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        // ...
+      });
+}
