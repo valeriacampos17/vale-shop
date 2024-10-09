@@ -74,7 +74,7 @@ export const createOrder = async (orders) => {
 
 
 export const getInitToken = async () => {
-    getToken(messaging, { vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ' }).then((currentToken) => {
+    getToken(messaging, { ServiceWorkerRegistration: 'https://academys.io/vale-shop/service-worker.js', vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ' }).then((currentToken) => {
         if (currentToken) {
           // Send the token to your server and update the UI if necessary
           // ...
