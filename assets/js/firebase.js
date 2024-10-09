@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
-import { getMessaging } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
+import { getMessaging, getToken } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
