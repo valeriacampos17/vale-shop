@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
-import { getMessaging, getToken } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -75,17 +75,34 @@ export const createOrder = async (orders) => {
 
 
 export const getInitToken = async (registration) => {
-    getToken(messaging, { vapidKey: 'ByYo6t7WFuHF7pBLnxdP4HOFXDNe43h5SU-wXTypihQ', serviceWorkerRegistration: registration }).then((currentToken) => {
-        if (currentToken) {
-            // Send the token to your server and update the UI if necessary
-            // ...
+
+    // Solicitar permiso para mostrar notificaciones
+    Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+            console.log('Permiso para notificaciones concedido.');
+
+            // Obtener el token de FCM, y especificar el registro del Service Worker
+            getToken(messaging, {
+                serviceWorkerRegistration: registration,
+                vapidKey: 'BO905tgtG6e5FIrh-d9bIXVZuL6cv024kw1ygHLDwrrMk55S06h7elY0YuKKpNR4egBoSabvG-OS6kbGTrfF9A0'
+            }).then((currentToken) => {
+                if (currentToken) {
+                    console.log('Token FCM:', currentToken);
+                    // Envia el token al servidor
+                } else {
+                    console.log('No se pudo generar un token.');
+                }
+            }).catch((err) => {
+                console.error('Error al obtener el token:', err);
+            });
         } else {
-            // Show permission request UI
-            console.log('No registration token available. Request permission to generate one.');
-            // ...
+            console.error('No se otorgaron permisos para notificaciones.');
         }
-    }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        // ...
+    });
+
+    // Manejar mensajes cuando la app esta en primer plano
+    onMessage(messaging, (payload) => {
+        console.log('Mensaje recibido en primer plano:', payload);
+        // Personaliza la notificacinn
     });
 }
