@@ -53,11 +53,11 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('push', (e) => {
-    const data = e.data.json();
+    const data = e.data.notification.json();
     console.log('data >>> ', data);
     const notificationTitle = data.title;
     const notificationOptions = {
-        body: data.message,
+        body: data.body,
         icon: 'assets/icons/icon-120x120.png',
         vibrate: [125, 75, 125, 275, 200, 275, 125, 75, 125, 275, 200, 600, 200, 600],
         data: {
