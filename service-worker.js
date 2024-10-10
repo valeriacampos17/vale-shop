@@ -53,7 +53,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('push', (e) => {
-    const data = e.data.notification.json();
+    const data = e.data.json().notification;
     console.log('data >>> ', data);
     const notificationTitle = data.title;
     const notificationOptions = {
