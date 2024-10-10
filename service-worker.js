@@ -51,3 +51,22 @@ self.addEventListener('activate', event => {
         );
     })
 });
+
+self.addEventListener('push', (e) => {
+    const data = e.data.json();
+    console.log('data >>> ', data);
+    const notificationTitle = data.title;
+    const notificationOptions = {
+        body: data.message,
+        icon: 'assets/icons/icon-120x120.png',
+        vibrate: [125, 75, 125, 275, 200, 275, 125, 75, 125, 275, 200, 600, 200, 600],
+        data: {
+            url: data.link,
+        },
+        actions: [{ action: 'open', title: 'Open' }],
+    };
+    return new Promise((resolve, reject) => {
+        self.registration.showNotification(notificationTitle, notificationOptions);
+        // channel.postMessage(data);
+    });
+});
