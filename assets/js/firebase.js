@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
+import { getFirestore, collection, addDoc, getDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
 import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,9 +19,33 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
-const messaging = getMessaging(app);
+// const messaging = getMessaging(app);
 
+export const signUp = async (email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            return userCredential.user;
+        })
+        .catch((error) => {
+            console.error(error.message);
+        });
+}
+
+
+export const singIn = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+}
 // Crear un nuevo producto
 export const createProduct = async (product) => {
     try {
@@ -73,6 +98,28 @@ export const createOrder = async (orders) => {
     }
 };
 
+// registrar un token
+export const createTokenRegistration = async (token) => {
+    try {
+        const docRef = await addDoc(collection(db, "tokens"), token);
+        console.log("Token creado con ID:", docRef.id);
+    } catch (e) {
+        console.error("Error añadiendo documento: ", e);
+    }
+};
+
+// Crear un User
+export const createUser = async (user) => {
+    try {
+        const firebaseUser = await signUp(user.email, user.password);
+        user.uid = firebaseUser.uid;
+        const docRef = await addDoc(collection(db, "users"), user);
+        console.log("User creado con ID:", docRef.id);
+        window.location.href = "login.html";
+    } catch (e) {
+        console.error("Error añadiendo el documento a Firestore: ", e);
+    }
+};
 
 export const getInitToken = async (registration) => {
 
