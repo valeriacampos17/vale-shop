@@ -313,10 +313,6 @@ body.dark-theme .product-item {
     text-decoration: none;
 }
 
-.category h1 {
-    margin: 0;
-}
-
 /* Responsive Design para categorías */
 @media (max-width: 768px) {
     .category {
