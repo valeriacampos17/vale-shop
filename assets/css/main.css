@@ -309,21 +309,12 @@ body.dark-theme .product-item {
     background: linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     transition: background 0.3s ease;
-}
-
-.category h3 {
-    font-size: 1.125rem;
-    margin: 0;
-}
-
-.category a {
     color: #000;
     text-decoration: none;
 }
 
-/* Hover effect */
-.category:hover {
-    background: linear-gradient(to right, #feb47b, #ff7e5f);
+.category h1 {
+    margin: 0;
 }
 
 /* Responsive Design para categorías */

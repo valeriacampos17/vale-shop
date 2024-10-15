@@ -16,10 +16,8 @@
   <link rel="stylesheet" href="assets/css/skeleton.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
 <body>
-  <header>
-    <h1>Vale-Shop</h1>
+  <header><h1>Vale-Shop</h1>
     <a href="like.html" id="like-button" aria-label="Me gusta">
       <i class="fa-solid fa-heart"></i>
     </a>
@@ -27,6 +25,7 @@
       <i class="fa-solid fa-sun"></i>
     </button>
   </header>
+
   <main>
     <section class="carousel-container">
       <button class="carousel-button prev" onclick="moveSlide(-1)">
@@ -55,21 +54,25 @@
       </button>
     </section>
 
-    <!-- Sección de Categorías -->
     <section class="categories-container">
       <div class="categories">
-        <a href="products.html?category=1" class="category">
-          <h1>Ropa de Mujer</h1>
-        </a>
-        <a href="products.html?category=2" class="category">
-          <h1>Ropa de Hombre</h1>
-        </a>
-        <a href="products.html?category=3" class="category">
-          <h1>Accesorios</h1>
-        </a>
+        <div class="category">
+          <a href="products.html?category=1">
+            <h1>Ropa de Mujer</h1>
+          </a>
+        </div>
+        <div class="category">
+          <a href="products.html?category=2">
+            <h1>Ropa de Hombre</h1>
+          </a>
+        </div>
+        <div class="category">
+          <a href="products.html?category=3">
+            <h1>Accesorios</h1>
+          </a>
+        </div>
       </div>
     </section>
-
     <div id="hearts-container"></div>
 
     <div id="product-modal" class="modal">
@@ -77,7 +80,6 @@
       </div>
     </div>
   </main>
-
   <footer>
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item active">
@@ -158,6 +160,5 @@
       slides.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
     });
   </script>
-</body>
 
-</html>
+</body>
