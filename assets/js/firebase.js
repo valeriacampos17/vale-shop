@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
-import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
+import { getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 // Your web app's Firebase configuration
@@ -23,29 +23,34 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 // const messaging = getMessaging(app);
 
+
 export const signUp = async (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            return userCredential.user;
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
-}
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        return user;
+    } catch (error) {
+        console.error("Error en el registro de Firebase: ", error.message);
+        throw error;
+    }
+};
 
 
-export const singIn = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
-}
+export const singIn = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Guardar la información del usuario en la sesión
+        sessionStorage.setItem('user', JSON.stringify(user));
+
+        return true;
+    } catch (error) {
+        console.error("Error en el registro de Firebase: ", error.message);
+        return false;  // Retornar false si hay error en el inicio de sesión
+    }
+};
+
 // Crear un nuevo producto
 export const createProduct = async (product) => {
     try {
@@ -113,9 +118,12 @@ export const createUser = async (user) => {
     try {
         const firebaseUser = await signUp(user.email, user.password);
         user.uid = firebaseUser.uid;
+        delete user.password;
+
         const docRef = await addDoc(collection(db, "users"), user);
-        console.log("User creado con ID:", docRef.id);
-        window.location.href = "login.html";
+        sessionStorage.setItem('user', JSON.stringify(docRef));
+
+        window.location.href = "signin.html";
     } catch (e) {
         console.error("Error añadiendo el documento a Firestore: ", e);
     }

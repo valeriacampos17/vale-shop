@@ -10,7 +10,14 @@ function closeProductModal() {
 }
 
 function showOrdersModal() {
-    ordersModal.style.display = 'block';
+    const user = sessionStorage.getItem('user');
+
+    if (!user) {
+        window.location.href = 'signin.html';
+    } else {
+        ordersModal.style.display = 'block';
+    }
+    
 }
 
 function closeOrdersModal() {
