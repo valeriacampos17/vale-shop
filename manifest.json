@@ -4,8 +4,8 @@
   "description": "Un ecommerce moderno con productos y categorías.",
   "start_url": "/vale-shop/",
   "display": "standalone",
-  "background_color": "#000",
-  "theme_color": "#000",
+  "background_color": "#1b282a",
+  "theme_color": "#1b282a",
   "apple-mobile-web-app-capable": "yes",
   "apple-mobile-web-app-status-bar-style": "default",
   "icons": [
