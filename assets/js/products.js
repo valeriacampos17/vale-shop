@@ -109,7 +109,7 @@ function renderProductsModal(productId) {
   productContainer.innerHTML = htmlContent;
 }
 
-function renderproductsGrid(products) {
+function renderProductsGrid(products) {
   const productContainer = document.querySelector('.product-grid');
   let htmlContent = '';
 

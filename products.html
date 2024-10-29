@@ -152,7 +152,6 @@
             hombre: document.getElementById('tag-hombre'),
             accesorio: document.getElementById('tag-accesorio')
         };
-        let products = [];
 
         function hideAllTags() {
             Object.values(tags).forEach(tag => tag.style.display = 'none');
@@ -176,14 +175,15 @@
         }
 
         hideAllTags();
-        products = categoryId ? getProductByCategoryId(categoryId) : JSON.parse(sessionStorage.getItem('productsJson'));
-        renderproductsGrid(products);
+        let products = categoryId ? getProductByCategoryId(categoryId) : JSON.parse(sessionStorage.getItem('productsJson'));
+        if (categoryId) { selectCategory(categoryId) }
+        renderProductsGrid(products);
 
         document.querySelectorAll('.icon').forEach(icon => {
             icon.addEventListener('click', function () {
                 this.parentElement.style.display = 'none';
                 products = JSON.parse(sessionStorage.getItem('productsJson'));
-                renderproductsGrid(products);
+                renderProductsGrid(products);
             });
         });
 
@@ -197,7 +197,7 @@
                 const categoryId = this.getAttribute('data-category');
                 selectCategory(categoryId);
                 products = getProductByCategoryId(categoryId);
-                renderproductsGrid(products);
+                renderProductsGrid(products);
                 document.getElementById('mobile-menu').style.display = 'none';
             });
         });
