@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4CAF50">
     <title>Vale-Shop</title>
-    <meta name="description" content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
+    <meta name="description"
+        content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
     <link rel="stylesheet" href="assets/css/signin.css">
     <link rel="icon" type="image/png" href="assets/icons/icon-120x120.png">
 </head>
+
 <body>
     <div class="container">
         <div class="login-box">
@@ -31,13 +34,31 @@
         import { singIn } from './assets/js/firebase.js';
         const signupForm = document.getElementById('signin-form');
         const passwordError = document.getElementById('password-error');
-
-        signupForm.addEventListener('submit', async(e) => {
+        
+        const getPathname = () => {
+            const referrer = document.referrer;
+            const filename = new URL(referrer).pathname.split('/').pop();
+            return filename !== 'signup.html' ? filename : sessionStorage.getItem('pathname');
+        };
+    
+        const pathname = getPathname();
+        sessionStorage.setItem('pathname', pathname);
+        
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const login = await singIn(signupForm['email'].value, signupForm['password'].value);
-            console.log(login);
-            if (login) window.location.href = document.referrer;
+            
+            const email = signupForm['email'].value;
+            const password = signupForm['password'].value;
+            const login = await singIn(email, password);
+            
+            if (login) {
+                window.location.href = pathname;
+            } else {
+                console.error("Login failed");
+            }
         });
     </script>
+    
 </body>
+
 </html>
