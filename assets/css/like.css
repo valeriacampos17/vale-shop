@@ -1,0 +1,106 @@
+main {
+    align-items: normal !important;
+}
+
+.logout-section {
+    button {
+        height: 40px;
+        width: 140px;
+    }
+}
+
+/* Estilo del saludo de bienvenida */
+.welcome-section h1 {
+    font-size: 2em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos de las opciones de usuario */
+.options-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.option-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+    width: 45%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.option-card:hover {
+    background-color: #e6a1d7;
+}
+
+.option-card .icon {
+    font-size: 2.5em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.option-card p {
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* Estilos de la sección de información */
+.info-section {
+    margin: 20px 10px;
+}
+
+.info-section h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.info-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-section li {
+    margin: 8px 0;
+}
+
+.info-section li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.info-section li a:hover {
+    color: #8e90dd;
+}
+
+/* Estilos del botón de cerrar sesión */
+.logout-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logout-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: white;
+    background-color: #09161b;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #79b1b7;
+}

@@ -278,7 +278,8 @@ body.dark-theme .item,
 body.dark-theme .item-like,
 body.dark-theme .tag,
 body.dark-theme .item-like button,
-body.dark-theme .product-item {
+body.dark-theme .product-item,
+body.dark-theme .option-card {
     background-color: #79b1b7;
     color: #f5f5f5;
 }
