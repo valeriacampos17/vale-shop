@@ -4,31 +4,32 @@ import { getAllProducts, updateProduct, deleteProduct } from './firebase.js';
 // Función para cargar productos en la tabla
 const loadProducts = async () => {
     const products = await getAllProducts();
-    const tableBody = document.querySelector('#productsTable tbody');
-    tableBody.innerHTML = ''; // Limpiar la tabla antes de añadir los productos
+    console.log('loadProducts >>> ', products)
+    // const tableBody = document.querySelector('#productsTable tbody');
+    // tableBody.innerHTML = ''; // Limpiar la tabla antes de añadir los productos
 
-    products.forEach(product => {
-        const row = document.createElement('tr');
-        row.dataset.productId = product.id; // Guardar el ID del producto en la fila
-        row.innerHTML = `
-            <td>${product.id}</td>
-            <td>${product.name}</td>
-            <td>${product.description}</td>
-            <td>${product.price}</td>
-            <td>
-                <button class="btn btn-warning editBtn">Editar</button>
-                <button class="btn btn-danger deleteBtn">Eliminar</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+    // products.forEach(product => {
+    //     const row = document.createElement('tr');
+    //     row.dataset.productId = product.id; // Guardar el ID del producto en la fila
+    //     row.innerHTML = `
+    //         <td>${product.id}</td>
+    //         <td>${product.name}</td>
+    //         <td>${product.description}</td>
+    //         <td>${product.price}</td>
+    //         <td>
+    //             <button class="btn btn-warning editBtn">Editar</button>
+    //             <button class="btn btn-danger deleteBtn">Eliminar</button>
+    //         </td>
+    //     `;
+    //     tableBody.appendChild(row);
+    // });
 
-    // Inicializar DataTable con columnDefs
-    $('#productsTable').DataTable({
-        columnDefs: [
-            { targets: [0, 4], searchable: false } // Deshabilitar búsqueda en ID y acciones
-        ]
-    });
+    // // Inicializar DataTable con columnDefs
+    // $('#productsTable').DataTable({
+    //     columnDefs: [
+    //         { targets: [0, 4], searchable: false } // Deshabilitar búsqueda en ID y acciones
+    //     ]
+    // });
 };
 
 // Abrir el modal de eliminación
