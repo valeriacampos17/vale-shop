@@ -56,7 +56,7 @@
     },
     {
       "src": "assets/screenshots/desktop-view.png",
-      "sizes": "1920x1080",
+      "sizes": "1920x1033",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Escritorio Vale-Shop"
