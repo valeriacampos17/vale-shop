@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Meta tags específicos para iOS -->
+  <!-- Meta tags específicos para iOS (se mantienen para compatibilidad nativa) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Vale-Shop">
@@ -20,168 +20,85 @@
   <link rel="stylesheet" href="assets/css/skeleton.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <style>
-    /* Estilos para el banner de instalación en iOS */
-    #ios-prompt {
-      position: fixed;
-      bottom: 80px;
-      left: 5%;
-      right: 5%;
-      background: white;
-      color: #333;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-      z-index: 9999;
-      display: none; /* Se activa por JS */
-      font-family: -apple-system, system-ui, sans-serif;
-    }
-    .ios-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .ios-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-    }
-    .ios-text b { display: block; margin-bottom: 2px; }
-    .ios-text span { font-size: 0.85em; color: #666; }
-    .ios-close {
-      margin-left: auto;
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: #999;
-    }
-    .share-icon-img {
-      width: 20px;
-      vertical-align: middle;
-      margin: 0 4px;
-    }
-  </style>
 </head>
 
 <body>
   <header>
-    <h1>Vale-Shop</h1>
-    <a href="like.html" id="like-button" aria-label="Me gusta">
-      <i class="fa-solid fa-heart"></i>
-    </a>
-    <button id="theme-toggle" aria-label="Cambiar modo">
-      <i class="fa-solid fa-sun"></i>
-    </button>
+    <div class="logo">
+      <img src="assets/img/logo-white.png" alt="Logo de Vale-Shop" />
+    </div>
+    <div class="header-icons">
+      <i class="fas fa-search"></i>
+      <i class="fas fa-bell"></i>
+    </div>
   </header>
 
-  <!-- Banner de instalación para iOS -->
-  <div id="ios-prompt">
-    <div class="ios-content">
-      <img src="assets/icons/icon-120x120.png" class="ios-icon" alt="App Icon">
-      <div class="ios-text">
-        <b>Instala Vale-Shop</b>
-        <span>Toca <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/IPhone_Share_Icon.svg" class="share-icon-img"> y luego "Añadir a pantalla de inicio".</span>
-      </div>
-      <button class="ios-close" onclick="document.getElementById('ios-prompt').style.display='none'">✕</button>
-    </div>
-  </div>
-
   <main>
-    <section class="carousel-container">
-      <button class="carousel-button prev" onclick="moveSlide(-1)">
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
-      <div class="carousel">
-        <div class="product-container">
-          <!-- El contenido se carga dinámicamente -->
-          <div class="product skeleton">
-            <div class="img-product"><img src="" alt="" /></div>
-            <div class="info-container">
-              <div class="info"><h2></h2><p></p></div>
-              <div class="cart"><i></i></div>
-            </div>
-          </div>
+    <section class="banner">
+      <div class="banner-content">
+        <h1>Bienvenido a Vale-Shop</h1>
+        <p>Tu destino para la mejor moda.</p>
+      </div>
+    </section>
+
+    <!-- El div del prompt de iOS ha sido eliminado de aquí -->
+
+    <section class="carousel">
+      <h2>Productos Destacados</h2>
+      <div class="carousel-container">
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <div class="product-container" id="product-list">
+          <!-- Los productos se cargarán dinámicamente -->
         </div>
-      </div>
-      <button class="carousel-button next" onclick="moveSlide(1)">
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
-    </section>
-
-    <section class="categories-container">
-      <div class="categories">
-        <a href="products.html?category=1" class="category"><h1>Ropa de Mujer</h1></a>
-        <a href="products.html?category=2" class="category"><h1>Ropa de Hombre</h1></a>
-        <a href="products.html?category=3" class="category"><h1>Accesorios</h1></a>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
       </div>
     </section>
 
-    <section class="image-footer">
-      <img src="assets/image/footer.png" alt="">
+    <section class="categories">
+      <h2>Categorías</h2>
+      <div class="category-list">
+        <div class="category-item">Ropa de Mujer</div>
+        <div class="category-item">Ropa de Hombre</div>
+        <div class="category-item">Accesorios</div>
+      </div>
     </section>
-
-    <div id="hearts-container"></div>
-
-    <div id="product-modal" class="modal">
-      <div class="modal-content"></div>
-    </div>
   </main>
 
   <footer>
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item active">
-        <i class="fa-solid fa-house"></i>
+        <i class="fas fa-home"></i>
         <span>Inicio</span>
       </a>
-      <a href="products.html" class="nav-item">
-        <i class="fa-solid fa-box"></i>
+      <a href="#productos" class="nav-item">
+        <i class="fas fa-th-large"></i>
         <span>Productos</span>
       </a>
-      <a id="heart-button" href="orders.html" class="nav-item">
-        <i class="fa-solid fa-cart-shopping"></i>
+      <a href="pedidos.html" class="nav-item">
+        <i class="fas fa-shopping-bag"></i>
         <span>Pedidos</span>
       </a>
-      <a href="like.html" class="nav-item">
-        <i class="fa-solid fa-heart"></i>
+      <a href="#favoritos" class="nav-item">
+        <i class="fas fa-heart"></i>
         <span>Me gusta</span>
       </a>
     </nav>
   </footer>
 
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/products.js"></script>
-  <script src="assets/js/modal.js"></script>
-  <script src="assets/js/orders.js"></script>
-  <script src="assets/js/hearts.js"></script>
-
-  <script type="module">
-    import { getInitToken } from './assets/js/firebase.js';
-
-    // Registro de Service Worker
+  <script src="assets/js/api.js"></script>
+  <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("service-worker.js")
           .then((registration) => {
             console.log("SW registrado:", registration);
-            getInitToken(registration);
           })
           .catch((err) => console.log("Error SW:", err));
       });
     }
 
-    // Lógica para detectar iOS y pedir instalación
-    window.addEventListener('load', () => {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-      // Si es iOS y no está ya instalada la PWA
-      if (isIOS && !isStandalone) {
-        setTimeout(() => {
-          document.getElementById('ios-prompt').style.display = 'block';
-        }, 2000); // Aparece a los 2 segundos de carga
-      }
-    });
+    // Se eliminó la lógica de detección de iOS y el evento de carga para el prompt
   </script>
 
   <script>
@@ -200,4 +117,5 @@
     }
   </script>
 </body>
+
 </html>
