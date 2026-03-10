@@ -39,19 +39,24 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
     }
   ],
   "screenshots": [
     {
       "src": "assets/screenshots/mobile-view.png",
-      "sizes": "540x1170",
+      "sizes": "1080x2400",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Mobile Vale-Shop"
+      "label": "Vista de Productos en Vale-Shop"
     },
     {
       "src": "assets/screenshots/desktop-view.png",
-      "sizes": "1920x1033",
+      "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Escritorio Vale-Shop"
@@ -73,6 +78,12 @@
       "icons": [{ "src": "assets/icons/orders-shortcut.png", "sizes": "192x192" }]
     }
   ],
-  "related_applications": [],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=io.academys.twa",
+      "id": "io.academys.twa"
+    }
+  ],
   "prefer_related_applications": false
 }
