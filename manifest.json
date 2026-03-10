@@ -49,7 +49,7 @@
   "screenshots": [
     {
       "src": "assets/screenshots/mobile-view.png",
-      "sizes": "1080x2400",
+      "sizes": "540x1170",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Vista de Productos en Vale-Shop"
