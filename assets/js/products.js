@@ -55,7 +55,7 @@ function renderProducts(products) {
 
   products.forEach(product => {
     htmlContent += `
-      <div class="product">
+      <div class="product" onclick="showProductModal(${product.id})">
         <div class="img-product">
           <img src="${product.image}" alt="${product.name}" />
         </div>
@@ -64,7 +64,7 @@ function renderProducts(products) {
             <h2>${product.name}</h2>
             <p>$${product.price}</p>
           </div>
-          <div class="cart" onclick="showProductModal(${product.id})">
+          <div class="cart">
             <i class="fa-solid fa-shopping-cart"></i>
           </div>
         </div>

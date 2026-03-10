@@ -96,6 +96,7 @@ main {
 }
 
 .product {
+    position: relative; 
     flex: 0 0 100%;
     box-sizing: border-box;
     background-color: white;
@@ -103,6 +104,7 @@ main {
     text-align: center;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .img-product {
@@ -114,48 +116,54 @@ main {
 .img-product img {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 .info-container {
+    position: absolute; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    padding: 0 10px;
-    background: rgb(255, 105, 180);
-    background: radial-gradient(circle, rgba(255, 105, 180, 1) 0%, rgba(254, 180, 123, 0.7091211484593838) 100%);
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .info {
     flex: 1;
     text-align: left;
-    padding: 10px 0;
 }
 
-.info h2,
-.info h3,
-.info p {
+.info h2 {
+    font-size: 1.3rem;
+    color: #000;
     margin: 0;
 }
 
+.info p {
+    font-size: 1.1rem;
+    color: #111;
+    margin: 0;
+    font-weight: bold;
+}
+
 .cart {
-    flex: 0 0 10%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.cart a {
-    text-decoration: none;
-    color: inherit;
-}
-
 .cart i {
-    width: 40px;
-    height: 40px;
-    font-size: 40px;
+    font-size: 30px;
+    color: #000;
+    transition: transform 0.2s;
 }
-
-
 
 .like {
     flex: 0 0 10%;
@@ -284,44 +292,60 @@ body.dark-theme .option-card {
     color: #f5f5f5;
 }
 
-/* Estilos de la sección de categorías */
+/* Estilos de la sección de categorías - ACTUALIZADOS */
 .categories-container {
-    margin-top: 10px;
+    margin: 15px 0;
     width: 100%;
     box-sizing: border-box;
 }
 
 .categories {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .category {
-    flex: 0 0 30%;
+    width: 100%;
     box-sizing: border-box;
-    margin-bottom: 10px;
     text-align: center;
-    padding: 30px 20px;
-    border-radius: 8px;
-    background: -webkit-linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    transition: background 0.3s ease;
-    color: #000;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 500;
     text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Colores específicos de la nueva paleta */
+.category:nth-child(1) {
+    background-color: #005f73; /* Azul Petróleo */
+    color: #f9f8f0;
+}
+
+.category:nth-child(2) {
+    background-color: #ca6702; /* Naranja Tierra / Cobrizo */
+    color: #f9f8f0;
+}
+
+.category:nth-child(3) {
+    background-color: #ae936d; /* Arena Dorado / Beige Oscuro */
+    color: #f9f8f0; /* Texto oscuro para mejor contraste */
+}
+
+.category:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design para categorías */
 @media (max-width: 768px) {
     .category {
-        flex: 0 0 45%;
-    }
-}
-
-@media (max-width: 480px) {
-    .category {
-        flex: 0 0 100%;
+        padding: 18px;
+        font-size: 1.3rem;
     }
 }
