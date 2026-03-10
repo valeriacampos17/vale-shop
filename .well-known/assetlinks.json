@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.academys.twa",
+        "sha256_cert_fingerprints": ["52:F1:05:89:99:79:04:8D:46:F4:EC:82:D5:D7:E1:CB:17:FE:1D:98:58:31:3E:D8:97:E4:A8:D2:77:BB:1E:04"]
+      }
+    }]
