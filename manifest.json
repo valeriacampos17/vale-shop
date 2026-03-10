@@ -44,14 +44,14 @@
   "screenshots": [
     {
       "src": "assets/screenshots/mobile-view.png",
-      "sizes": "1080x2400",
+      "sizes": "540x1170",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Lista de Productos en Vale-Shop"
+      "label": "Mobile Vale-Shop"
     },
     {
       "src": "assets/screenshots/desktop-view.png",
-      "sizes": "1920x1080",
+      "sizes": "1920x1033",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Escritorio Vale-Shop"
