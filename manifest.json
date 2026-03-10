@@ -67,14 +67,14 @@
       "name": "Ver Productos",
       "short_name": "Productos",
       "description": "Explora nuestro catálogo completo",
-      "url": "/vale-shop/index.html#productos",
+      "url": "/vale-shop/products.html",
       "icons": [{ "src": "assets/icons/products-shortcut.png", "sizes": "192x192" }]
     },
     {
       "name": "Mis Pedidos",
       "short_name": "Pedidos",
       "description": "Revisa el estado de tus compras",
-      "url": "/vale-shop/pedidos.html",
+      "url": "/vale-shop/orders.html",
       "icons": [{ "src": "assets/icons/orders-shortcut.png", "sizes": "192x192" }]
     }
   ],
