@@ -12,6 +12,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
+    color: #000000; /* Color de texto negro por defecto en modo claro */
 }
 
 header {
@@ -31,11 +32,13 @@ header {
 
 h1 {
     margin: 0;
+    color: #000000; /* Asegurar que los h1 sean negros en modo claro */
 }
 
 header h1 {
     padding-left: 80px;
     flex: 1;
+    color: white; /* Mantener blanco en el header */
 }
 
 button {
@@ -93,6 +96,7 @@ main {
 .product-container {
     display: flex;
     transition: transform 0.3s ease-in-out;
+    width: 100%;
 }
 
 .product {
@@ -105,18 +109,100 @@ main {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    aspect-ratio: 3/4;
 }
 
-.img-product {
+.product .img-product {
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #f5f5f5;
 }
 
-.img-product img {
+.product .img-product img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
+}
+
+/* Estilos específicos para el skeleton */
+.product.skeleton {
+    background-color: white;
+}
+
+.product.skeleton .img-product {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+.product.skeleton .info-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.product.skeleton .info {
+    flex: 1;
+    text-align: left;
+}
+
+.product.skeleton h2 {
+    width: 70%;
+    height: 24px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    margin: 0 0 8px 0;
+    border-radius: 4px;
+}
+
+.product.skeleton p {
+    width: 40%;
+    height: 20px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+}
+
+.product.skeleton .cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product.skeleton .cart .cart-circle {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 50%;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 .info-container {
@@ -142,13 +228,13 @@ main {
 
 .info h2 {
     font-size: 1.3rem;
-    color: #000;
+    color: #000000; /* Negro explícito para modo claro */
     margin: 0;
 }
 
 .info p {
     font-size: 1.1rem;
-    color: #111;
+    color: #111111; /* Casi negro para modo claro */
     margin: 0;
     font-weight: bold;
 }
@@ -161,7 +247,7 @@ main {
 
 .cart i {
     font-size: 30px;
-    color: #000;
+    color: #000000; /* Negro para el icono del carrito en modo claro */
     transition: transform 0.2s;
 }
 
@@ -181,13 +267,13 @@ main {
     width: 40px;
     height: 40px;
     font-size: 40px;
+    color: #000000; /* Negro para el icono de like en modo claro */
 }
 
 .like:active i,
 .cart:active i {
     color: red;
 }
-
 
 /* Estilos de los botones del carrusel */
 .carousel-button {
@@ -206,6 +292,7 @@ main {
     font-size: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    color: #000000; /* Negro para los iconos de flecha */
 }
 
 .carousel-button.prev {
@@ -216,13 +303,14 @@ main {
     right: 10px;
 }
 
-/* Estilos del footer y menú inferior */
+/* ===== ESTILOS DEL FOOTER Y MENÚ INFERIOR ===== */
 footer {
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 56px;
     background-color: #09161b;
+    z-index: 1000;
 }
 
 .bottom-nav {
@@ -239,60 +327,122 @@ footer {
     color: white;
     text-decoration: none;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+    position: relative;
+    min-width: 60px; /* Ancho mínimo para consistencia */
 }
 
 .nav-item i {
     font-size: 24px;
+    color: white;
+    margin-bottom: 2px;
+    transition: all 0.2s ease;
 }
 
 .nav-item span {
     display: block;
     font-size: 12px;
+    color: white;
+    transition: all 0.2s ease;
+    line-height: 1.2; /* Mejorar legibilidad */
 }
 
+/* Estilo para el item activo */
 .nav-item.active {
-    background-color: #79b1b7;
-    padding: 10px;
+    opacity: 1;
+    transform: translateY(-2px);
 }
 
-/* Estilos del modo oscuro */
-body.dark-theme {
-    background-color: #435856;
-    color: #f5f5f5;
+.nav-item.active i {
+    color: #79b1b7;
 }
 
-body.dark-theme header {
-    background-color: #222;
+.nav-item.active span {
+    color: #79b1b7;
 }
 
-body.dark-theme .carousel-button {
-    background-color: #79b1b7;
+/* RESALTADO DEL CARRITO CUANDO HAY PRODUCTOS */
+.nav-item.cart-highlight {
+    opacity: 1;
+    animation: pulse 1.5s infinite;
 }
 
-body.dark-theme .product {
-    background-color: #444;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+.nav-item.cart-highlight i {
+    color: #79b1b7;
+    text-shadow: 0 0 10px rgba(121, 177, 183, 0.5);
 }
 
-body.dark-theme .product p {
-    color: #f5f5f5;
+.nav-item.cart-highlight span {
+    color: #79b1b7; /* Color turquesa */
+    font-weight: 600;
+    font-size: 12px; /* Mismo tamaño que el span normal */
 }
 
-body.dark-theme .categories h1 {
-    color: #f5f5f5;
+/* Badge para el contador del carrito - CENTRADO */
+.cart-badge {
+    position: absolute;
+    top: 0px; /* Ajustado para centrar con el ícono */
+    right: -5px;
+    background-color: #ff4444;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(255, 68, 68, 0.3);
+    animation: bounce 0.5s ease;
+    z-index: 10;
+    line-height: 1;
+    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
+    transform: translateY(-2px); /* Ajuste fino para centrar verticalmente */
 }
 
-body.dark-theme .item,
-body.dark-theme .item-like,
-body.dark-theme .tag,
-body.dark-theme .item-like button,
-body.dark-theme .product-item,
-body.dark-theme .option-card {
-    background-color: #79b1b7;
-    color: #f5f5f5;
+/* Animación de pulso */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
-/* Estilos de la sección de categorías - ACTUALIZADOS */
+/* Animación de bounce para el badge */
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1) translateY(-2px);
+    }
+    50% {
+        transform: scale(1.2) translateY(-2px);
+    }
+}
+
+/* Hover effect */
+.nav-item:hover {
+    opacity: 0.9;
+}
+
+.nav-item:hover i {
+    transform: scale(1.1);
+}
+
+/* Estilos de las categorías - Modo claro */
 .categories-container {
     margin: 15px 0;
     width: 100%;
@@ -321,20 +471,26 @@ body.dark-theme .option-card {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Colores específicos de la nueva paleta */
+/* Colores específicos con texto blanco (tienen fondo oscuro) */
 .category:nth-child(1) {
-    background-color: #005f73; /* Azul Petróleo */
-    color: #f9f8f0;
+    background-color: #005f73;
+    color: white;
 }
 
 .category:nth-child(2) {
-    background-color: #ca6702; /* Naranja Tierra / Cobrizo */
-    color: #f9f8f0;
+    background-color: #ca6702;
+    color: white;
 }
 
 .category:nth-child(3) {
-    background-color: #ae936d; /* Arena Dorado / Beige Oscuro */
-    color: #f9f8f0; /* Texto oscuro para mejor contraste */
+    background-color: #ae936d;
+    color: white;
+}
+
+.category h1 {
+    color: white;
+    margin: 0;
+    font-size: inherit;
 }
 
 .category:active {
@@ -342,10 +498,112 @@ body.dark-theme .option-card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos del modo oscuro */
+body.dark-theme {
+    background-color: #435856;
+    color: #f5f5f5;
+}
+
+body.dark-theme header {
+    background-color: #222;
+}
+
+body.dark-theme .carousel-button {
+    background-color: #79b1b7;
+    color: white;
+}
+
+body.dark-theme .product {
+    background-color: #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .info h2 {
+    color: #f5f5f5;
+}
+
+body.dark-theme .info p {
+    color: #f5f5f5;
+}
+
+body.dark-theme .cart i {
+    color: #f5f5f5;
+}
+
+body.dark-theme .like i {
+    color: #f5f5f5;
+}
+
+/* Dark theme para el menú */
+body.dark-theme .nav-item.cart-highlight i,
+body.dark-theme .nav-item.cart-highlight span {
+    color: #79b1b7;
+}
+
+/* Dark theme para el badge */
+body.dark-theme .cart-badge {
+    background-color: #ff6666;
+    box-shadow: 0 2px 5px rgba(255, 102, 102, 0.3);
+    color: white; /* Mantener blanco en dark theme */
+}
+
+/* Las categorías mantienen sus colores originales en modo oscuro */
+body.dark-theme .categories h1 {
+    color: white;
+}
+
+body.dark-theme .item,
+body.dark-theme .item-like,
+body.dark-theme .tag,
+body.dark-theme .item-like button,
+body.dark-theme .product-item,
+body.dark-theme .option-card {
+    background-color: #79b1b7;
+    color: #f5f5f5;
+}
+
+/* Estilos del skeleton en modo oscuro */
+body.dark-theme .product.skeleton {
+    background-color: #444;
+}
+
+body.dark-theme .product.skeleton .img-product,
+body.dark-theme .product.skeleton h2,
+body.dark-theme .product.skeleton p,
+body.dark-theme .product.skeleton .cart-circle {
+    background: linear-gradient(90deg, #555 25%, #666 50%, #555 75%);
+    background-size: 200% 100%;
+}
+
 /* Responsive Design para categorías */
 @media (max-width: 768px) {
     .category {
         padding: 18px;
         font-size: 1.3rem;
+    }
+}
+
+/* Responsive para móviles - ajustes del menú */
+@media (max-width: 480px) {
+    .cart-badge {
+        top: 0px;
+        right: -3px;
+        width: 16px;
+        height: 16px;
+        font-size: 8px;
+        transform: translateY(-1px);
+    }
+    
+    .nav-item {
+        min-width: 50px;
+    }
+    
+    @keyframes bounce {
+        0%, 100% {
+            transform: scale(1) translateY(-1px);
+        }
+        50% {
+            transform: scale(1.2) translateY(-1px);
+        }
     }
 }

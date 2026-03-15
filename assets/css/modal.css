@@ -1,42 +1,413 @@
 .modal {
     display: none; /* Oculto por defecto */
     position: fixed; /* Queda fijo en la pantalla */
-    z-index: 1000; /* Por encima de otros elementos */
-    bottom: 0;
+    z-index: 2000; /* Por encima de otros elementos */
+    left: 0;
+    top: 0;
     width: 100%; /* Ancho completo */
     height: 100%; /* Alto completo */
-    overflow: auto; /* Agrega scroll si es necesario */
     background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background-color: white; /*color del fondo*/
-    margin: 15% auto; /* Centrado verticalmente */
-    color: black; /*color de las letras*/
+    position: relative;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 92%;
+    max-width: 380px;
+    background-color: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .close {
-    color: black;
-    position: absolute; /* Cambiado a absoluto para posicionarlo en relación a .modal-content */
-    top: 10px; /* Ajusta la distancia desde la parte superior */
-    right: 10px; /* Ajusta la distancia desde el lado derecho */
-    font-size: 40px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    font-size: 22px;
     font-weight: bold;
-    z-index: 1001; /* Asegura que esté por encima del contenido */
-    width: 48px;
-    height: 48px;
+    color: #333;
+    border: none;
+    padding: 0;
+    transition: all 0.2s ease;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    background: white;
+    color: #000;
+    transform: scale(1.05);
     text-decoration: none;
     cursor: pointer;
 }
 
-.fix-product {
-    box-shadow:none !important;
-    position: absolute !important;
-    bottom: 60px !important; 
-    width: inherit !important; /* Compatibilidad con navegadores que soportan fill-available */
+/* Producto en modal */
+.modal .product.fix-product {
+    position: relative;
+    width: 100%;
+    background-color: inherit;
+    box-shadow: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* Imagen grande */
+.modal .img-product {
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    background-color: #f5f5f5;
+}
+
+.modal .img-product img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.modal .img-product img:hover {
+    transform: scale(1.02);
+}
+
+/* Contenedor de información */
+.modal .info-container {
+    position: relative;
+    background: inherit;
+    padding: 16px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal .info {
+    width: 100%;
+    text-align: left;
+}
+
+.modal .info h2 {
+    font-size: 1.4rem;
+    color: inherit;
+    margin: 0 0 2px 0;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.modal .product-description {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+/* Selector de talla */
+.modal .size-selector {
+    margin: 4px 0 8px;
+}
+
+.modal .size-selector h3 {
+    font-size: 0.95rem;
+    color: inherit;
+    margin: 0 0 10px 0;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.modal .size-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.modal .size-option {
+    min-width: 42px;
+    height: 42px;
+    padding: 0 6px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.modal .size-option:hover {
+    border-color: #79b1b7;
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+}
+
+.modal .size-option.selected {
+    background-color: #79b1b7;
+    border-color: #79b1b7;
+    color: white;
+}
+
+/* Precio y botones en fila */
+.modal .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0 4px;
+}
+
+.modal .price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: inherit;
+}
+
+/* Contenedor de botones */
+.modal .button-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* ===== BOTONES CORREGIDOS - ICONOS CENTRADOS ===== */
+.modal .add-button,
+.modal .like-button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Eliminar padding que pueda descentrar */
+    margin: 0; /* Eliminar márgenes */
+}
+
+/* Botón Add */
+.modal .add-button {
+    background-color: #79b1b7;
+    color: white;
+}
+
+.modal .add-button i {
+    font-size: 1.5rem; /* Tamaño consistente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* Eliminar line-height que pueda afectar */
+}
+
+.modal .add-button:hover {
+    background-color: #5f8f94;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(121, 177, 183, 0.4);
+}
+
+/* Botón Like */
+.modal .like-button {
+    background-color: #f0f0f0;
+    color: #ff4444;
+}
+
+.modal .like-button i {
+    font-size: 1.8rem; /* Ligeramente más grande para el corazón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; /* Eliminar line-height que pueda afectar */
+}
+
+.modal .like-button:hover {
+    background-color: #ffe0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 68, 68, 0.2);
+}
+
+.modal .like-button.liked {
+    background-color: #ff4444;
+    color: white;
+}
+
+.modal .like-button.liked:hover {
+    background-color: #ff6666;
+}
+
+.modal .add-button:active,
+.modal .like-button:active {
+    transform: translateY(0);
+}
+
+/* Notificación */
+.cart-notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #79b1b7;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    animation: slideUp 0.3s ease;
+    white-space: nowrap;
+}
+
+.cart-notification i {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== ESTILOS DARK THEME ===== */
+body.dark-theme .modal-content {
+    background-color: #435856;
+    color: #f5f5f5;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .modal .img-product {
+    background-color: #3a4d4a;
+}
+
+body.dark-theme .modal .info h2 {
+    color: #ffffff;
+}
+
+body.dark-theme .modal .product-description {
+    color: #d0d0d0;
+}
+
+body.dark-theme .modal .size-selector h3 {
+    color: #e0e0e0;
+}
+
+body.dark-theme .modal .size-option {
+    border-color: #5a726f;
+    color: #e0e0e0;
+    background-color: #3e5552;
+}
+
+body.dark-theme .modal .size-option:hover {
+    border-color: #79b1b7;
+    background-color: #4f6966;
+}
+
+body.dark-theme .modal .size-option.selected {
+    background-color: #79b1b7;
+    border-color: #79b1b7;
+    color: white;
+}
+
+body.dark-theme .modal .price {
+    color: #ffffff;
+}
+
+body.dark-theme .close {
+    background: rgba(60, 75, 72, 0.95);
+    color: #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .close:hover {
+    background: #4f6966;
+    color: white;
+}
+
+/* Dark theme para botones */
+body.dark-theme .modal .like-button {
+    background-color: #4a4a4a;
+    color: #ff6666;
+}
+
+body.dark-theme .modal .like-button:hover {
+    background-color: #5a5a5a;
+}
+
+body.dark-theme .modal .like-button.liked {
+    background-color: #ff4444;
+    color: white;
+}
+
+body.dark-theme .modal .like-button.liked:hover {
+    background-color: #ff6666;
+}
+
+body.dark-theme .cart-notification {
+    background-color: #5f8f94;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .modal-content {
+        max-width: 340px;
+    }
+    
+    .modal .price {
+        font-size: 1.6rem;
+    }
+    
+    .modal .add-button,
+    .modal .like-button {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .modal .add-button i {
+        font-size: 1.3rem;
+    }
+    
+    .modal .like-button i {
+        font-size: 1.5rem;
+    }
 }

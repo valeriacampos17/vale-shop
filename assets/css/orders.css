@@ -1,11 +1,44 @@
 .product-list {
     width: 100%;
+    box-sizing: border-box;
 }
 
 .product-list h1 {
     text-align: center;
     font-size: 1.5rem;
-    margin: 10px 0;
+    margin: 20px 0;
+    color: #000;
+}
+
+/* Contenedor para el efecto de deslizamiento */
+.item-swipe-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Acción de eliminar (fondo rojo) */
+.item-delete-action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 100%;
+    background-color: #ff4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 8px 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.item-delete-action i {
+    color: white;
+    font-size: 24px;
 }
 
 .item-list {
@@ -21,7 +54,18 @@
     padding: 8px;
     gap: 8px;
     background-color: #fff;
-    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.item:active {
+    cursor: grabbing;
 }
 
 .item-image {
@@ -38,8 +82,13 @@
 }
 
 .item-name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
 .item-size {
@@ -51,84 +100,291 @@
     font-size: 16px;
     font-weight: bold;
     text-align: right;
-    flex-basis: 100px;
+    flex-basis: 80px;
 }
 
+/* Botón de eliminar tradicional (oculto) */
 .item-delete {
-    background-color: #ff4f77;
-    color: #fff;
+    display: none;
+}
+
+/* Botón de comprar - adaptado al estándar de la app */
+.fix-button-buy {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 20px 0;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 30px;
+    background-color: #79b1b7;
+    color: white;
     border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 16px;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(121, 177, 183, 0.3);
+}
+
+.fix-button-buy i {
+    font-size: 1.2rem;
+}
+
+.fix-button-buy:hover {
+    background-color: #5f8f94;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(121, 177, 183, 0.4);
+}
+
+.fix-button-buy:active {
+    transform: translateY(0);
+}
+
+/* Sección de favoritos */
+.favorites-section {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.favorites-section h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 20px 0;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.favorites-section h1 i {
+    color: #ff4444;
 }
 
 .item-list-flex {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
 .item-like {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     background-color: #fff;
-    box-sizing: border-box;
     box-shadow: 1px 6px 6px -3px rgba(66, 65, 66, 0.68);
     border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.item-like:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 .item-like img {
-    width: 100px;
-    height: auto;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-like-info {
+    padding: 8px 0 0;
+}
+
+.item-like-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-like-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #79b1b7;
+    margin: 0 0 8px;
 }
 
 .item-like button {
-    color: black;
-    margin-top: auto;
-    align-self: flex-end;
-    z-index: 0 !important;
-}
-
-.fix-button-buy {
     width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    background-color: #79b1b7;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.item-like button i {
+    font-size: 12px;
+}
+
+.item-like button:hover {
+    background-color: #5f8f94;
+}
+
+/* Modal de datos */
+.fix-modal .modal-content {
+    padding: 20px;
+    bottom: 0 !important;
+    position: absolute !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-width: 100%;
+    width: 100%;
+}
+
+.fix-modal h2 {
     text-align: center;
-    padding: 30px 20px;
-    border-radius: 8px;
-    background: -webkit-linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
-    background: linear-gradient(90deg, #8e90dd, #c097dc, #e6a1d7);
-    transition: background 0.3s ease;
+    margin-bottom: 20px;
+    color: #000;
 }
-
-.fix-modal {
-    .modal-content {
-        padding: 10px;
-        bottom: 0 !important;
-        position: absolute !important;
-    }
-}
-
 
 input[type="text"],
 input[type="tel"],
 select {
     width: 100%;
-    padding: 8px;
-    margin: 8px 0;
+    padding: 12px;
+    margin: 8px 0 16px;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    outline: none;
+    border-color: #79b1b7;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Notificación de eliminación */
+.delete-notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    animation: slideUp 0.3s ease;
+    white-space: nowrap;
+}
+
+.delete-notification i {
+    font-size: 1.2rem;
+}
+
+/* Dark theme */
+body.dark-theme .product-list h1,
+body.dark-theme .favorites-section h1,
+body.dark-theme .fix-modal h2 {
+    color: #f5f5f5;
+}
+
+body.dark-theme .item,
+body.dark-theme .item-like {
+    background-color: #3a4a48;
+    border-color: #4a5a58;
+}
+
+body.dark-theme .item-name,
+body.dark-theme .item-like-name {
+    color: #f5f5f5;
+}
+
+body.dark-theme .item-size {
+    color: #b0b0b0;
+}
+
+body.dark-theme .item-price,
+body.dark-theme .item-like-price {
+    color: #79b1b7;
+}
+
+body.dark-theme label {
+    color: #f5f5f5;
+}
+
+body.dark-theme input[type="text"],
+body.dark-theme input[type="tel"],
+body.dark-theme select {
+    background-color: #3a4a48;
+    border-color: #4a5a58;
+    color: #f5f5f5;
+}
+
+body.dark-theme input[type="text"]::placeholder,
+body.dark-theme input[type="tel"]::placeholder {
+    color: #b0b0b0;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .item-list-flex {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .item-name {
+        max-width: 120px;
+        font-size: 16px;
+    }
+    
+    .item-price {
+        flex-basis: 60px;
+        font-size: 14px;
+    }
 }

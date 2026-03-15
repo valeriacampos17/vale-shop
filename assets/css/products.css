@@ -27,14 +27,21 @@
     width: 100%;
 }
 
+/* Ajuste para limitar el texto del h3 a 18 caracteres */
 .product-item h3 {
     font-size: 1.125rem;
     margin: 0 !important;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto que excede */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos al final */
+    max-width: 100%; /* Asegura que no exceda el ancho del contenedor */
+    max-width: 180px; /* Ancho máximo aproximado para 18 caracteres */
 }
 
 .product-item p {
     flex: 1;
     font-size: 1rem;
+    font-weight: bold;
     margin: 0.5rem 0;
 }
 
@@ -74,8 +81,18 @@
 
 .product-list-info {
     padding-left: 8px;
-    background: -webkit-linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
-    background: linear-gradient(90deg, #8e90dd,#c097dc,#e6a1d7);
+    width: 100%; /* Asegurar que ocupe el ancho completo */
+    box-sizing: border-box; /* Incluir padding en el cálculo del ancho */
+}
+
+/* Ajuste específico para el h3 dentro de product-list-info */
+.product-list-info h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Se adapta al ancho del contenedor */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    display: block; /* Asegurar que sea un elemento de bloque */
 }
 
 .tags-container {
@@ -96,6 +113,7 @@
     color: #333333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .icon {
     font-size: 16px;
     margin-left: 8px;
@@ -146,4 +164,12 @@
 header h1 {
     padding-left: 40px;
     flex: 1;
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 480px) {
+    .product-list-info h3 {
+        max-width: 140px; /* Ajuste para pantallas más pequeñas */
+        font-size: 1rem; /* Reducir ligeramente el tamaño de fuente */
+    }
 }

@@ -1,4 +1,4 @@
-/* Skeleton loading effect */
+/* Skeleton loading effect - MOVED TO MAIN.CSS 
 .skeleton {
     position: relative;
     overflow: hidden;
@@ -36,7 +36,6 @@
     animation: loading 1.5s infinite;
   }
   
-  /* Cart button skeleton */
   .skeleton .cart i {
     width: 40px;
     height: 40px;
@@ -55,3 +54,4 @@
       background-position: -200% 0;
     }
   }
+*/

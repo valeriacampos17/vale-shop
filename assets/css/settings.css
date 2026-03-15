@@ -1,0 +1,263 @@
+/* Estilos para la página de configuración */
+.settings-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 0 80px;
+    box-sizing: border-box;
+}
+
+/* Perfil de usuario */
+.user-profile {
+    background: linear-gradient(135deg, #79b1b7 0%, #5f8f94 100%);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 24px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(121, 177, 183, 0.3);
+}
+
+.user-greeting {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* AVATAR CIRCULAR CORREGIDO */
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    min-width: 70px; /* Evita que se deforme */
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    flex-shrink: 0; /* Evita que se encoja */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Fallback para cuando no carga la imagen - AHORA FUNCIONA CORRECTAMENTE */
+.user-avatar .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; /* Asegura que el fallback también sea circular */
+}
+
+.user-greeting h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.user-greeting p {
+    margin: 4px 0 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+.user-stats {
+    display: flex;
+    gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 20px;
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Secciones de configuración */
+.settings-section {
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.settings-section h3 {
+    font-size: 1.1rem;
+    margin: 0 0 16px 0;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.settings-section h3 i {
+    color: #79b1b7;
+    font-size: 1.2rem;
+}
+
+/* Items de configuración */
+.settings-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item:hover {
+    transform: translateX(5px);
+}
+
+.settings-item-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: #79b1b7;
+    font-size: 1.2rem;
+}
+
+.settings-item-content {
+    flex: 1;
+}
+
+.settings-item-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+.settings-item-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.settings-item-arrow {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+/* Versión de la app */
+.app-version {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+/* Botón de cerrar sesión */
+.logout-button {
+    width: 100%;
+    padding: 2rem;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: #ff6666;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
+}
+
+.logout-button i {
+    font-size: 1.2rem;
+}
+
+/* Dark theme */
+body.dark-theme .settings-section {
+    background-color: #3a4a48;
+}
+
+body.dark-theme .settings-section h3,
+body.dark-theme .settings-item-title {
+    color: #f5f5f5;
+}
+
+body.dark-theme .settings-item-subtitle {
+    color: #b0b0b0;
+}
+
+body.dark-theme .settings-item {
+    border-bottom-color: #4a5a58;
+}
+
+body.dark-theme .settings-item-icon {
+    background-color: #4a5a58;
+    color: #79b1b7;
+}
+
+body.dark-theme .app-version {
+    color: #b0b0b0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .user-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .user-avatar {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+    }
+}

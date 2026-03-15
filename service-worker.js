@@ -6,7 +6,7 @@ const urlsToCache = [
     './index.html',
     './products.html',
     './orders.html',
-    './like.html',
+    './orders.html',
     './assets/css/info.css',
     './assets/css/main.css',
     './assets/css/modal.css',

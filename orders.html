@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Lista de Productos</title>
+  <title>Vale-Shop - Carrito</title>
   <meta name="description"
     content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
   <link rel="apple-touch-icon" href="assets/icons/icon-180x180.png">
@@ -19,45 +19,44 @@
 <body>
   <header>
     <h1>Vale-Shop</h1>
-    <a href="like.html" id="like-button" aria-label="Me gusta">
+    <a href="orders.html#favorites-section" id="like-button" aria-label="Favoritos">
       <i class="fa-solid fa-heart"></i>
     </a>
     <button id="theme-toggle" aria-label="Cambiar modo">
       <i class="fa-solid fa-sun"></i>
-      <!-- Icono por defecto para modo claro -->
     </button>
   </header>
 
   <main>
     <section class="product-list">
       <h1>Carrito</h1>
-      <div class="item-list">
-      </div>
-      <button id="buy-button" class="fix-button-buy">Comprar</button>
+      <div class="item-list"></div>
+      <button id="buy-button" class="fix-button-buy">
+        <i class="fa-solid fa-bag-shopping"></i> COMPRAR $0.00
+      </button>
     </section>
 
-    <section class="product-list">
-      <h1>Me Gusta</h1>
-      <div class="item-list-flex">
-      </div>
+    <section id="favorites-section" class="favorites-section">
+      <h1>
+        <i class="fa-solid fa-heart"></i>
+        Favoritos
+      </h1>
+      <div class="item-list-flex"></div>
     </section>
 
     <div id="orders-modal" class="modal fix-modal">
       <div class="modal-content">
         <span class="close" onclick="closeOrdersModal()">
-          <img src="assets/icons/close.png" />
+          <i class="fa-solid fa-xmark"></i>
         </span>
         <h2>Ingrese sus Datos</h2>
         <form id="user-info-form">
-          <!-- Nombre -->
           <label for="name">Nombre:</label>
           <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
 
-          <!-- Teléfono -->
           <label for="phone">Teléfono:</label>
           <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" required>
 
-          <!-- Sexo -->
           <label for="gender">Sexo:</label>
           <select id="gender" name="gender" required>
             <option value="">Selecciona</option>
@@ -66,8 +65,9 @@
             <option value="other">Otro</option>
           </select>
 
-          <!-- Botón de Enviar -->
-          <button id="btn-submit" class="fix-button-buy">Enviar</button>
+          <button id="btn-submit" class="fix-button-buy" type="submit">
+            <i class="fa-solid fa-paper-plane"></i> Enviar
+          </button>
         </form>
       </div>
     </div>
@@ -75,7 +75,7 @@
 
   <footer>
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
+      <a href="index.html" class="nav-item">
         <i class="fa-solid fa-house"></i>
         <span>Inicio</span>
       </a>
@@ -84,41 +84,63 @@
         <span>Productos</span>
       </a>
       <a href="orders.html" class="nav-item">
-        <i class="fa-solid fa-cart-shopping"></i>
+        <i class="fas fa-shopping-bag"></i>
         <span>Pedidos</span>
       </a>
-      <a href="like.html" class="nav-item">
-        <i class="fa-solid fa-heart"></i>
-        <span>Me gusta</span>
+      <a href="settings.html" class="nav-item">
+        <i class="fa-solid fa-gear"></i>
+        <span>Configuración</span>
       </a>
     </nav>
   </footer>
+
   <script src="assets/js/main.js"></script>
   <script src="assets/js/products.js"></script>
   <script src="assets/js/modal.js"></script>
   <script src="assets/js/orders.js"></script>
+  <script src="assets/js/cart-highlight.js"></script>
+
   <script type="module">
     import { createOrder } from './assets/js/firebase.js';
-    const userInfoForm = document.getElementById('user-info-form');
 
-    userInfoForm.addEventListener('submit', (e) => {
-      e.preventDefault()
-
-      var newOrder = new Object();
-      newOrder.name = userInfoForm['name'].value
-      newOrder.phone = userInfoForm['phone'].value
-      newOrder.gender = userInfoForm['gender'].value
-      newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      createOrder(newOrder)
-      closeOrdersModal();
-
-    });
-  </script>
-  <script>
     document.addEventListener('DOMContentLoaded', function () {
       renderProductsOrders();
-      renderProductsLikes();
+      renderFavorites();
     });
+
+    const userInfoForm = document.getElementById('user-info-form');
+    if (userInfoForm) {
+      userInfoForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        var newOrder = new Object();
+        newOrder.name = userInfoForm['name'].value;
+        newOrder.phone = userInfoForm['phone'].value;
+        newOrder.gender = userInfoForm['gender'].value;
+        newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+        createOrder(newOrder);
+        closeOrdersModal();
+
+        // Mostrar notificación de éxito
+        const notification = document.createElement('div');
+        notification.className = 'cart-notification';
+        notification.innerHTML = `
+          <i class="fa-solid fa-check-circle"></i>
+          <span>¡Pedido realizado con éxito!</span>
+        `;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'fadeOut 0.3s ease';
+          setTimeout(() => {
+            if (document.body.contains(notification)) {
+              document.body.removeChild(notification);
+            }
+          }, 300);
+        }, 2000);
+      });
+    }
   </script>
 </body>
 
