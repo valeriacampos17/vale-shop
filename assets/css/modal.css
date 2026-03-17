@@ -1,12 +1,12 @@
 .modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Queda fijo en la pantalla */
-    z-index: 2000; /* Por encima de otros elementos */
+    display: none;
+    position: fixed;
+    z-index: 2000;
     left: 0;
     top: 0;
-    width: 100%; /* Ancho completo */
-    height: 100%; /* Alto completo */
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
 }
 
@@ -38,7 +38,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     font-size: 22px;
     font-weight: bold;
@@ -53,11 +53,9 @@
     background: white;
     color: #000;
     transform: scale(1.05);
-    text-decoration: none;
-    cursor: pointer;
 }
 
-/* Producto en modal */
+/* ===== MODAL DE PRODUCTO ===== */
 .modal .product.fix-product {
     position: relative;
     width: 100%;
@@ -67,7 +65,6 @@
     padding: 0;
 }
 
-/* Imagen grande */
 .modal .img-product {
     width: 100%;
     aspect-ratio: 3/4;
@@ -90,7 +87,6 @@
     transform: scale(1.02);
 }
 
-/* Contenedor de información */
 .modal .info-container {
     position: relative;
     background: inherit;
@@ -120,7 +116,6 @@
     line-height: 1.3;
 }
 
-/* Selector de talla */
 .modal .size-selector {
     margin: 4px 0 8px;
 }
@@ -169,7 +164,6 @@
     color: white;
 }
 
-/* Precio y botones en fila */
 .modal .price-row {
     display: flex;
     justify-content: space-between;
@@ -183,13 +177,11 @@
     color: inherit;
 }
 
-/* Contenedor de botones */
 .modal .button-group {
     display: flex;
     gap: 10px;
 }
 
-/* ===== BOTONES CORREGIDOS - ICONOS CENTRADOS ===== */
 .modal .add-button,
 .modal .like-button {
     width: 60px;
@@ -205,7 +197,6 @@
     margin: 0;
 }
 
-/* Botón Add */
 .modal .add-button {
     background-color: #79b1b7;
     color: white;
@@ -225,7 +216,6 @@
     box-shadow: 0 5px 15px rgba(121, 177, 183, 0.4);
 }
 
-/* Botón Like */
 .modal .like-button {
     background-color: #f0f0f0;
     color: #ff4444;
@@ -259,79 +249,7 @@
     transform: translateY(0);
 }
 
-/* ===== ESTILOS PARA MODAL DE ÓRDENES ===== */
-#orders-modal .modal-content {
-    max-width: 380px;
-}
-
-#orders-modal .fix-modal-content {
-    padding: 24px 20px;
-}
-
-#orders-modal h2 {
-    text-align: center;
-    margin: 10px 0 20px;
-    color: #000;
-    font-size: 1.5rem;
-}
-
-#orders-modal form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-#orders-modal label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 8px;
-}
-
-#orders-modal input[type="text"],
-#orders-modal input[type="tel"] {
-    width: 100%;
-    padding: 14px 16px;
-    margin: 4px 0 8px;
-    box-sizing: border-box;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 12px;
-    font-size: 15px;
-    transition: all 0.2s ease;
-}
-
-#orders-modal input[type="text"]:focus,
-#orders-modal input[type="tel"]:focus {
-    outline: none;
-    border-color: #79b1b7;
-    box-shadow: 0 0 0 3px rgba(121, 177, 183, 0.1);
-}
-
-#orders-modal .fix-button-buy {
-    width: 100%;
-    margin: 20px 0 10px;
-    padding: 16px;
-    border-radius: 30px;
-    background-color: #79b1b7;
-    color: white;
-    border: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-#orders-modal .fix-button-buy:hover {
-    background-color: #5f8f94;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(121, 177, 183, 0.4);
-}
-
-/* Notificación */
+/* ===== NOTIFICACIONES ===== */
 .cart-notification {
     position: fixed;
     bottom: 80px;
@@ -359,7 +277,52 @@
     justify-content: center;
 }
 
-/* ===== ESTILOS DARK THEME ===== */
+.delete-notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    animation: slideUp 0.3s ease;
+    white-space: nowrap;
+}
+
+.delete-notification i {
+    font-size: 1.2rem;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}
+
+/* ===== DARK THEME BASE ===== */
 body.dark-theme .modal-content {
     background-color: #435856;
     color: #f5f5f5;
@@ -414,7 +377,6 @@ body.dark-theme .close:hover {
     color: white;
 }
 
-/* Dark theme para botones */
 body.dark-theme .modal .like-button {
     background-color: #4a4a4a;
     color: #ff6666;
@@ -436,63 +398,6 @@ body.dark-theme .modal .like-button.liked:hover {
 body.dark-theme .cart-notification {
     background-color: #5f8f94;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-/* Dark theme para modal de órdenes */
-body.dark-theme #orders-modal .modal-content {
-    background-color: #435856;
-}
-
-body.dark-theme #orders-modal h2 {
-    color: #f5f5f5;
-}
-
-body.dark-theme #orders-modal label {
-    color: #f5f5f5;
-}
-
-body.dark-theme #orders-modal input[type="text"],
-body.dark-theme #orders-modal input[type="tel"] {
-    background-color: #3a4a48;
-    border-color: #4a5a58;
-    color: #f5f5f5;
-}
-
-body.dark-theme #orders-modal input[type="text"]::placeholder,
-body.dark-theme #orders-modal input[type="tel"]::placeholder {
-    color: #b0b0b0;
-}
-
-body.dark-theme #orders-modal .close {
-    background: rgba(60, 75, 72, 0.95);
-    color: #e0e0e0;
-}
-
-body.dark-theme #orders-modal .close:hover {
-    background: #4f6966;
-    color: white;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, -20px);
-    }
 }
 
 /* Responsive */

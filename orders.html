@@ -44,25 +44,76 @@
       <div class="item-list-flex"></div>
     </section>
 
+    <!-- Modal de Checkout de 3 pasos -->
     <div id="orders-modal" class="modal">
       <div class="modal-content">
-        <div class="fix-modal-content">
-          <span class="close" onclick="closeOrdersModal()">
-            <i class="fa-solid fa-xmark"></i>
-          </span>
-          <h2>Ingrese sus Datos</h2>
-          <form id="user-info-form">
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+        <span class="close" onclick="closeOrdersModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+        
+        <!-- Barra de progreso fija en la parte superior -->
+        <div id="checkout-progress" class="checkout-progress"></div>
+        
+        <!-- Contenedor scrolleable para el contenido -->
+        <div id="checkout-container" class="checkout-container"></div>
+        
+        <!-- Contenedor fijo para los botones de acción -->
+        <div id="checkout-actions" class="checkout-actions"></div>
+      </div>
+    </div>
 
-            <label for="phone">Teléfono:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono">
+    <!-- Modal para nueva dirección -->
+    <div id="address-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeAddressModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+        <div class="address-modal-content">
+          <h2>Nueva Dirección</h2>
+          <form id="address-form" onsubmit="saveAddress(event)">
+            <label for="fullname">Nombre completo:</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Ej: Juan Pérez" required>
 
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="Ingresa tu email">
+            <label for="address">Dirección:</label>
+            <textarea id="address" name="address" placeholder="Calle, número, edificio" required></textarea>
 
-            <button id="btn-submit" class="fix-button-buy" type="submit">
-              <i class="fa-solid fa-paper-plane"></i> Enviar
+            <label for="city">Ciudad:</label>
+            <input type="text" id="city" name="city" placeholder="Ciudad" required>
+
+            <label for="state">Estado:</label>
+            <select id="state" name="state" required>
+              <option value="">Selecciona un estado</option>
+              <option value="Amazonas">Amazonas</option>
+              <option value="Anzoátegui">Anzoátegui</option>
+              <option value="Apure">Apure</option>
+              <option value="Aragua">Aragua</option>
+              <option value="Barinas">Barinas</option>
+              <option value="Bolívar">Bolívar</option>
+              <option value="Carabobo">Carabobo</option>
+              <option value="Cojedes">Cojedes</option>
+              <option value="Delta Amacuro">Delta Amacuro</option>
+              <option value="Distrito Capital">Distrito Capital</option>
+              <option value="Falcón">Falcón</option>
+              <option value="Guárico">Guárico</option>
+              <option value="Lara">Lara</option>
+              <option value="Mérida">Mérida</option>
+              <option value="Miranda">Miranda</option>
+              <option value="Monagas">Monagas</option>
+              <option value="Nueva Esparta">Nueva Esparta</option>
+              <option value="Portuguesa">Portuguesa</option>
+              <option value="Sucre">Sucre</option>
+              <option value="Táchira">Táchira</option>
+              <option value="Trujillo">Trujillo</option>
+              <option value="La Guaira">La Guaira</option>
+              <option value="Yaracuy">Yaracuy</option>
+              <option value="Zulia">Zulia</option>
+            </select>
+
+            <label for="zipcode">Código Postal:</label>
+            <input type="text" id="zipcode" name="zipcode" placeholder="Código Postal" required>
+
+            <button type="submit" class="fix-button-buy" style="margin-top: 20px;">
+              <i class="fa-solid fa-save"></i> Guardar Dirección
             </button>
           </form>
         </div>

@@ -7,6 +7,13 @@ let touchEndX = 0;
 let currentItem = null;
 let isSwiping = false;
 
+// Variables para checkout
+let currentStep = 1;
+let selectedAddress = null;
+let selectedPayment = null;
+let addresses = [];
+let currentUser = null;
+
 function saveCart() {
     sessionStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -121,7 +128,6 @@ function renderProductsOrders() {
         itemList.innerHTML += itemHTML;
     });
 
-    // Inicializar eventos de swipe
     initSwipeEvents();
     updateBuyButton();
 }
@@ -140,7 +146,7 @@ function renderFavorites() {
                     <div class="item-like-name">${product.name}</div>
                     <div class="item-like-price">$${product.price}</div>
                 </div>
-                <button onclick="addToCart(${product.id})" aria-label="Añadir al carrito">
+                <button onclick="addToCart(${product.id})" aria-label="Añadir al carrito" class="add-to-cart-btn">
                     <i class="fa-solid fa-cart-plus"></i> Agregar
                 </button>
             </div>
@@ -149,17 +155,13 @@ function renderFavorites() {
     });
 }
 
-// Funciones de swipe
+// ===== FUNCIONES DE SWIPE =====
 function initSwipeEvents() {
     const items = document.querySelectorAll('.item');
-
     items.forEach(item => {
-        // Eventos táctiles
         item.addEventListener('touchstart', handleTouchStart, { passive: true });
         item.addEventListener('touchmove', handleTouchMove, { passive: false });
         item.addEventListener('touchend', handleTouchEnd);
-
-        // Eventos de mouse (para escritorio)
         item.addEventListener('mousedown', handleMouseDown);
         item.addEventListener('mousemove', handleMouseMove);
         item.addEventListener('mouseup', handleMouseUp);
@@ -176,11 +178,9 @@ function handleTouchStart(e) {
 
 function handleTouchMove(e) {
     if (!isSwiping || !currentItem) return;
-
     touchEndX = e.touches[0].clientX;
     const deltaX = touchEndX - touchStartX;
 
-    // Solo permitir deslizar hacia la izquierda (valores negativos)
     if (deltaX < 0) {
         e.preventDefault();
         const translateX = Math.max(deltaX, -80);
@@ -195,7 +195,6 @@ function handleTouchMove(e) {
 
 function handleTouchEnd(e) {
     if (!isSwiping || !currentItem) return;
-
     const deltaX = touchEndX - touchStartX;
 
     if (deltaX < -50) {
@@ -206,8 +205,7 @@ function handleTouchEnd(e) {
         resetItemPosition(currentItem);
     }
 
-    touchStartX = 0;
-    touchEndX = 0;
+    touchStartX = touchEndX = 0;
     currentItem = null;
     isSwiping = false;
 }
@@ -239,7 +237,6 @@ function handleMouseMove(e) {
 
 function handleMouseUp(e) {
     if (!isSwiping || !currentItem) return;
-
     const deltaX = touchEndX - touchStartX;
 
     if (deltaX < -50) {
@@ -250,8 +247,7 @@ function handleMouseUp(e) {
         resetItemPosition(currentItem);
     }
 
-    touchStartX = 0;
-    touchEndX = 0;
+    touchStartX = touchEndX = 0;
     currentItem = null;
     isSwiping = false;
 }
@@ -259,8 +255,7 @@ function handleMouseUp(e) {
 function handleMouseLeave(e) {
     if (isSwiping && currentItem) {
         resetItemPosition(currentItem);
-        touchStartX = 0;
-        touchEndX = 0;
+        touchStartX = touchEndX = 0;
         currentItem = null;
         isSwiping = false;
     }
@@ -271,9 +266,7 @@ function resetItemPosition(item) {
     item.style.transform = 'translateX(0)';
 
     const deleteAction = item.closest('.item-swipe-container').querySelector('.item-delete-action');
-    if (deleteAction) {
-        deleteAction.style.opacity = '0';
-    }
+    if (deleteAction) deleteAction.style.opacity = '0';
 
     setTimeout(() => {
         if (item) item.style.transition = '';
@@ -293,79 +286,287 @@ function removeFromCartWithAnimation(item, productId, productName) {
 }
 
 function showDeleteNotification(productName) {
-    const existingNotifications = document.querySelectorAll('.delete-notification');
-    existingNotifications.forEach(notification => notification.remove());
+    document.querySelectorAll('.delete-notification').forEach(n => n.remove());
 
     const notification = document.createElement('div');
     notification.className = 'delete-notification';
-    notification.innerHTML = `
-        <i class="fa-solid fa-trash-can"></i>
-        <span>${productName} eliminado del carrito</span>
-    `;
-
+    notification.innerHTML = `<i class="fa-solid fa-trash-can"></i><span>${productName} eliminado del carrito</span>`;
     document.body.appendChild(notification);
 
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.3s ease';
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
+        setTimeout(() => notification.remove(), 300);
     }, 2000);
 }
 
-// Función para cargar datos del usuario en el modal
-function loadUserDataIntoModal() {
-    try {
-        const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
-
-        // Verificar si hay datos de usuario
-        if (!userInfo || Object.keys(userInfo).length === 0) {
-            console.log('No hay datos de usuario en sessionStorage');
-            return;
-        }
-
-        const fields = [
-            { id: 'name', value: userInfo.nombre },
-            { id: 'phone', value: userInfo.telefono },
-            { id: 'email', value: userInfo.email }
-        ];
-
-        fields.forEach(field => {
-            const input = document.getElementById(field.id);
-            if (input && field.value) {
-                input.value = field.value;
-            }
-        });
-
-        console.log('Datos de usuario cargados correctamente');
-    } catch (error) {
-        console.error('Error al cargar datos del usuario:', error);
+// ===== FUNCIONES DE CHECKOUT =====
+function loadUserData() {
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+        try { currentUser = JSON.parse(userData); }
+        catch (e) { console.error('Error parsing user data:', e); }
     }
 }
 
-// Función para mostrar notificación de éxito
+function loadAddresses() {
+    const savedAddresses = localStorage.getItem('addresses');
+    if (savedAddresses) {
+        addresses = JSON.parse(savedAddresses);
+        if (addresses.length > 0 && !selectedAddress) selectedAddress = addresses[0];
+    } else {
+        addresses = [
+            { id: '1', name: 'Juan Campos', address: 'Av. Principal 123', city: 'Caracas', state: 'Distrito Capital', zipCode: '1010', isDefault: true },
+            { id: '2', name: 'Abuela', address: 'urb. Coromoto', city: 'Coro', state: 'Falcón', zipCode: '2121', isDefault: false },
+            { id: '3', name: 'oficina', address: 'calle paez', city: 'La Victoria', state: 'Aragua', zipCode: '2121', isDefault: false }
+        ];
+        selectedAddress = addresses[0];
+        saveAddresses();
+    }
+}
+
+function saveAddresses() {
+    localStorage.setItem('addresses', JSON.stringify(addresses));
+}
+
+function saveAddress(e) {
+    e.preventDefault();
+    const form = document.getElementById('address-form');
+    const newAddress = {
+        id: Date.now().toString(),
+        name: form.fullname.value,
+        address: form.address.value,
+        city: form.city.value,
+        state: form.state.value,
+        zipCode: form.zipcode.value,
+        isDefault: addresses.length === 0
+    };
+
+    addresses.push(newAddress);
+    if (!selectedAddress) selectedAddress = newAddress;
+    saveAddresses();
+    closeAddressModal();
+    renderCheckout();
+}
+
+function closeAddressModal() {
+    const modal = document.getElementById('address-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function showAddressModal() {
+    const modal = document.getElementById('address-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('address-form').reset();
+    }
+}
+
+function selectAddress(addressId) {
+    selectedAddress = addresses.find(a => a.id === addressId);
+    renderCheckout();
+}
+
+function editAddress(addressId) {
+    showNotification('Función de edición próximamente', '#79b1b7');
+}
+
+function selectPayment(paymentId) {
+    selectedPayment = paymentId;
+    localStorage.setItem('selectedPayment', paymentId);
+    renderCheckout();
+}
+
+function getPaymentMethodName(paymentId) {
+    const methods = { 'pago-movil': 'Pago Móvil / Transferencia', 'usdt': 'USDT Binance' };
+    return methods[paymentId] || paymentId;
+}
+
+function nextStep() { if (currentStep < 3) { currentStep++; renderCheckout(); } }
+function prevStep() { if (currentStep > 1) { currentStep--; renderCheckout(); } }
+function goToStep(step) { if (step >= 1 && step <= 3) { currentStep = step; renderCheckout(); } }
+
+// Renderizar checkout
+function renderCheckout() {
+    const progressContainer = document.getElementById('checkout-progress');
+    const container = document.getElementById('checkout-container');
+    const actionsContainer = document.getElementById('checkout-actions');
+
+    if (!progressContainer || !container || !actionsContainer) return;
+
+    progressContainer.innerHTML = `
+        <div class="progress-step ${currentStep >= 1 ? (currentStep > 1 ? 'completed' : 'active') : ''}">1</div>
+        <div class="progress-step ${currentStep >= 2 ? (currentStep > 2 ? 'completed' : 'active') : ''}">2</div>
+        <div class="progress-step ${currentStep >= 3 ? 'active' : ''}">3</div>
+    `;
+
+    let contentHtml = currentStep > 1 ? `<button onclick="prevStep()" class="back-button"><i class="fa-solid fa-arrow-left"></i> Volver</button>` : '';
+    let actionsHtml = '';
+
+    switch (currentStep) {
+        case 1:
+            contentHtml += renderAddressStep();
+            actionsHtml = `<button onclick="nextStep()" class="fix-button-buy" ${!selectedAddress ? 'disabled' : ''}><i class="fa-solid fa-arrow-right"></i> Continuar</button>`;
+            break;
+        case 2:
+            contentHtml += renderPaymentStep();
+            actionsHtml = `<button onclick="nextStep()" class="fix-button-buy" ${!selectedPayment ? 'disabled' : ''}><i class="fa-solid fa-arrow-right"></i> Continuar</button>`;
+            break;
+        case 3:
+            contentHtml += renderReviewStep();
+            actionsHtml = `<button onclick="completePurchase()" class="fix-button-buy"><i class="fa-solid fa-lock"></i> Compra y Pagar</button>`;
+            break;
+    }
+
+    container.innerHTML = contentHtml;
+    actionsContainer.innerHTML = actionsHtml;
+}
+
+// Paso 1: Dirección
+function renderAddressStep() {
+    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Dirección de Envío</h2>';
+
+    addresses.forEach(address => {
+        const isSelected = selectedAddress && selectedAddress.id === address.id;
+        html += `
+            <div class="address-card ${isSelected ? 'selected' : ''}" onclick="selectAddress('${address.id}')">
+                <h3>${address.name}<button class="edit-address-btn" onclick="editAddress('${address.id}'); event.stopPropagation();"><i class="fa-solid fa-pencil"></i> Editar</button></h3>
+                <p>${address.address}</p>
+                <p>${address.city}, ${address.state} ${address.zipCode}</p>
+            </div>
+        `;
+    });
+
+    html += `<button onclick="showAddressModal()" class="add-address-btn"><i class="fa-solid fa-plus"></i> Añadir Nueva Dirección</button>`;
+    return html;
+}
+
+// Paso 2: Método de Pago
+function renderPaymentStep() {
+    const paymentMethods = [
+        { id: 'pago-movil', name: 'Pago Móvil / Transferencia', icon: 'fa-solid fa-mobile-screen', description: 'Pago inmediato' },
+        { id: 'tarjeta', name: 'Tarjeta de Crédito / Débito', icon: 'fa-solid fa-credit-card', description: 'Próximamente', disabled: true },
+        { id: 'usdt', name: 'USDT Binance', icon: 'fa-brands fa-bitcoin', description: 'Criptomonedas' }
+    ];
+
+    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Método de Pago</h2>';
+
+    paymentMethods.forEach(method => {
+        const isSelected = selectedPayment === method.id;
+        html += `
+            <div class="payment-option ${isSelected ? 'selected' : ''} ${method.disabled ? 'disabled' : ''}" 
+                 onclick="${!method.disabled ? `selectPayment('${method.id}')` : ''}">
+                <input type="radio" name="payment" value="${method.id}" ${isSelected ? 'checked' : ''} ${method.disabled ? 'disabled' : ''} onchange="selectPayment('${method.id}')">
+                <div class="payment-icon"><i class="${method.icon}"></i></div>
+                <div class="payment-info"><h3>${method.name}</h3><p>${method.description}</p></div>
+            </div>
+        `;
+    });
+
+    return html;
+}
+
+// Paso 3: Resumen
+function renderReviewStep() {
+    cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    if (cart.length === 0) return '<p style="text-align: center; color: #666;">No hay productos en el carrito</p>';
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    const iva = subtotal * 0.16;
+    const envio = 5.00;
+    const total = subtotal + iva + envio;
+
+    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Revisión de tu Pedido</h2>';
+
+    cart.forEach(item => {
+        html += `
+            <div class="order-item">
+                <img src="${item.image}" alt="${item.name}">
+                <div class="order-item-details">
+                    <div class="order-item-name">${item.name}</div>
+                    <div class="order-item-price">$${item.price.toFixed(2)}</div>
+                    <div class="order-item-quantity">Cantidad: ${item.quantity || 1}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += `
+        <div class="order-total">
+            <div class="total-row"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
+            <div class="total-row"><span>IVA (16%):</span><span>$${iva.toFixed(2)}</span></div>
+            <div class="total-row"><span>Envío:</span><span>$${envio.toFixed(2)}</span></div>
+            <div class="total-row final"><span>Total:</span><span>$${total.toFixed(2)}</span></div>
+        </div>
+
+        <div class="delivery-info">
+            <h3><i class="fa-solid fa-truck"></i> Enviar a:</h3>
+            ${selectedAddress ? `<p><strong>${selectedAddress.name}</strong></p><p>${selectedAddress.address}</p><p>${selectedAddress.city}, ${selectedAddress.state} ${selectedAddress.zipCode}</p>` : '<p>No hay dirección seleccionada</p>'}
+            
+            <h3 style="margin-top: 16px;"><i class="fa-solid fa-credit-card"></i> Pagar con:</h3>
+            <p>${getPaymentMethodName(selectedPayment)}</p>
+            
+            <a href="#" onclick="goToStep(1); return false;" class="modify-details"><i class="fa-solid fa-pencil"></i> Modificar detalles</a>
+        </div>
+    `;
+
+    return html;
+}
+
+// Completar compra
+async function completePurchase() {
+    cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) { showNotification('El carrito está vacío', '#ff4444'); return; }
+    if (!selectedAddress) { showNotification('Debes seleccionar una dirección', '#ff4444'); goToStep(1); return; }
+    if (!selectedPayment) { showNotification('Debes seleccionar un método de pago', '#ff4444'); goToStep(2); return; }
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    const orderData = {
+        userId: currentUser?.uid || 'guest',
+        userEmail: currentUser?.email || 'guest@email.com',
+        userName: currentUser?.nombre || 'Usuario',
+        items: cart,
+        address: selectedAddress,
+        payment: selectedPayment,
+        subtotal: subtotal,
+        iva: subtotal * 0.16,
+        envio: 5.00,
+        total: subtotal * 1.16 + 5,
+        date: new Date().toISOString(),
+        status: 'pendiente'
+    };
+
+    try {
+        const { createOrder } = await import('./firebase.js');
+        await createOrder(orderData);
+        clearCart();
+        closeOrdersModal();
+        showSuccessNotification();
+        currentStep = 1; selectedAddress = null; selectedPayment = null;
+    } catch (error) {
+        console.error('Error al procesar la compra:', error);
+        showNotification('Error al procesar la compra', '#ff4444');
+    }
+}
+
+// Notificaciones
 function showSuccessNotification() {
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
-    notification.innerHTML = `
-        <i class="fa-solid fa-check-circle"></i>
-        <span>¡Pedido realizado con éxito!</span>
-    `;
+    notification.innerHTML = '<i class="fa-solid fa-check-circle"></i><span>¡Pedido realizado con éxito!</span>';
     document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.style.animation = 'fadeOut 0.3s ease';
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 2000);
+    setTimeout(() => { notification.style.animation = 'fadeOut 0.3s ease'; setTimeout(() => notification.remove(), 300); }, 2000);
 }
 
-// Función para limpiar el carrito
+function showNotification(message, bgColor = '#79b1b7') {
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `<i class="fa-solid fa-info-circle"></i><span>${message}</span>`;
+    notification.style.backgroundColor = bgColor;
+    document.body.appendChild(notification);
+    setTimeout(() => { notification.style.animation = 'fadeOut 0.3s ease'; setTimeout(() => notification.remove(), 300); }, 2000);
+}
+
 function clearCart() {
     cart = [];
     sessionStorage.removeItem('cart');
@@ -373,103 +574,44 @@ function clearCart() {
     renderFavorites();
 }
 
-// Función para manejar el envío del formulario
-async function handleOrderSubmit(e) {
-    e.preventDefault();
-
-    const userInfoForm = document.getElementById('user-info-form');
-
-    var newOrder = new Object();
-    newOrder.name = userInfoForm['name'].value;
-    newOrder.phone = userInfoForm['phone'].value;
-    newOrder.email = userInfoForm['email'].value;
-    newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-    // Importar dinámicamente createOrder
-    try {
-        const { createOrder } = await import('./firebase.js');
-        await createOrder(newOrder);
-        closeOrdersModal();
-        showSuccessNotification();
-
-        // Limpiar el carrito después de la compra exitosa
-        clearCart();
-
-    } catch (error) {
-        console.error('Error al crear el pedido:', error);
-        // Mostrar notificación de error
-        const notification = document.createElement('div');
-        notification.className = 'cart-notification';
-        notification.style.backgroundColor = '#ff4444';
-        notification.innerHTML = `
-            <i class="fa-solid fa-exclamation-circle"></i>
-            <span>Error al realizar el pedido: ${error.message}</span>
-        `;
-        document.body.appendChild(notification);
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
-}
-
-// Función para verificar si hay usuario logueado
 function isUserLoggedIn() {
     const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
     return userInfo && Object.keys(userInfo).length > 0 && userInfo.uid;
 }
 
-// Función para mostrar el modal
 function showOrdersModal() {
-    // Verificar si hay usuario logueado
-    if (!isUserLoggedIn()) {
-        // Redirigir a signin.html
-        window.location.href = 'signin.html';
-        return;
-    }
-
+    if (!isUserLoggedIn()) { window.location.href = 'signin.html'; return; }
+    loadUserData();
+    loadAddresses();
+    currentStep = 1;
+    renderCheckout();
     const modal = document.getElementById('orders-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        loadUserDataIntoModal();
-    }
+    if (modal) modal.style.display = 'flex';
 }
 
-// Función para cerrar el modal
 function closeOrdersModal() {
     const modal = document.getElementById('orders-modal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    if (modal) modal.style.display = 'none';
 }
 
-// Inicialización cuando el DOM está listo
+// Inicialización
 document.addEventListener('DOMContentLoaded', function () {
     renderProductsOrders();
     renderFavorites();
 
-    // Configurar event listeners
     const buyButton = document.getElementById("buy-button");
-    if (buyButton) {
-        buyButton.addEventListener('click', showOrdersModal);
-    }
+    if (buyButton) buyButton.addEventListener('click', showOrdersModal);
 
-    const userInfoForm = document.getElementById('user-info-form');
-    if (userInfoForm) {
-        userInfoForm.addEventListener('submit', handleOrderSubmit);
-    }
-
-    // Hacer funciones globales si son necesarias para onclick en HTML
-    window.addToCart = addToCart;
-    window.closeOrdersModal = closeOrdersModal;
+    // Funciones globales
+    Object.assign(window, {
+        addToCart, closeOrdersModal, selectAddress, selectPayment,
+        nextStep, prevStep, goToStep, showAddressModal,
+        closeAddressModal, saveAddress, editAddress, completePurchase
+    });
 });
 
-// Mantener estos event listeners por compatibilidad
+// Compatibilidad
 var btnSubmit = document.getElementById("btn-submit");
-if (btnSubmit) {
-    btnSubmit.addEventListener('click', sendEmail);
-}
+if (btnSubmit) btnSubmit.addEventListener('click', sendEmail);
 
-function sendEmail() {
-    // Implementar lógica de envío de email
-    console.log('Enviando email...');
-}
+function sendEmail() { console.log('Enviando email...'); }
