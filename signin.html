@@ -4,61 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4CAF50">
-    <title>Vale-Shop</title>
-    <meta name="description"
-        content="Vale-Shop es un ecommerce moderno que ofrece una amplia variedad de productos de moda, incluyendo ropa de mujer, ropa de hombre y accesorios. Disfruta de una experiencia de compra fluida y fácil con nuestra PWA.">
-    <link rel="stylesheet" href="assets/css/signin.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Vale-Shop - Iniciar Sesión</title>
+    <meta name="description" content="Inicia sesión en Vale-Shop para acceder a tu cuenta y realizar compras.">
+    <link rel="apple-touch-icon" href="assets/icons/icon-180x180.png">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="assets/icons/icon-120x120.png">
 </head>
 
 <body>
+    <div class="auth-header">
+        <a href="javascript:history.back()">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver</span>
+        </a>
+        
+        <button id="theme-toggle" class="auth-theme-toggle" aria-label="Cambiar modo">
+            <i class="fa-solid fa-sun"></i>
+        </button>
+    </div>
+
     <div class="container">
         <div class="login-box">
-            <h2>Iniciar Sesión</h2>
+            <h2>¡Bienvenido!</h2>
+            <p class="subtitle">Inicia sesión para continuar</p>
+            
             <form id="signin-form" autocomplete="off">
                 <div class="input-container">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
                 </div>
+                
                 <div class="input-container">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn">Entrar</button>
+                
+                <button type="submit" class="btn" id="submit-btn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span class="btn-text">Entrar</span>
+                    <span class="btn-loader" style="display: none;">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    </span>
+                </button>
             </form>
-            <p class="register-link">¿No tienes una cuenta? <a href="signup.html">Regístrate</a></p>
+            
+            <p class="register-link">
+                ¿No tienes una cuenta? 
+                <a href="signup.html">Regístrate aquí</a>
+            </p>
         </div>
     </div>
-    <script type="module">
-        import { singIn } from './assets/js/firebase.js';
-        const signupForm = document.getElementById('signin-form');
-        const passwordError = document.getElementById('password-error');
-        
-        const getPathname = () => {
-            const referrer = document.referrer;
-            const filename = new URL(referrer).pathname.split('/').pop();
-            return filename !== 'signup.html' ? filename : sessionStorage.getItem('pathname');
-        };
+
+    <script type="module" src="assets/js/signin.js"></script>
     
-        const pathname = getPathname();
-        sessionStorage.setItem('pathname', pathname);
-        
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    <!-- Script de tema (igual que en main.js) -->
+    <script>
+        // Función para cargar el tema guardado
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('theme-toggle');
             
-            const email = signupForm['email'].value;
-            const password = signupForm['password'].value;
-            const login = await singIn(email, password);
+            if (!themeToggle) return;
             
-            if (login) {
-                window.location.href = pathname;
+            const icon = themeToggle.querySelector('i');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                if (icon) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
             } else {
-                console.error("Login failed");
+                document.body.classList.remove('dark-theme');
+                if (icon) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
             }
+        }
+
+        // Theme toggle functionality (igual que en main.js)
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (!themeToggle) return;
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                const icon = themeToggle.querySelector('i');
+                
+                if (document.body.classList.contains('dark-theme')) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            setupThemeToggle();
         });
     </script>
-    
 </body>
 
 </html>

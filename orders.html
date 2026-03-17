@@ -44,31 +44,28 @@
       <div class="item-list-flex"></div>
     </section>
 
-    <div id="orders-modal" class="modal fix-modal">
+    <div id="orders-modal" class="modal">
       <div class="modal-content">
-        <span class="close" onclick="closeOrdersModal()">
-          <i class="fa-solid fa-xmark"></i>
-        </span>
-        <h2>Ingrese sus Datos</h2>
-        <form id="user-info-form">
-          <label for="name">Nombre:</label>
-          <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+        <div class="fix-modal-content">
+          <span class="close" onclick="closeOrdersModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </span>
+          <h2>Ingrese sus Datos</h2>
+          <form id="user-info-form">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
 
-          <label for="phone">Teléfono:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" required>
+            <label for="phone">Teléfono:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono">
 
-          <label for="gender">Sexo:</label>
-          <select id="gender" name="gender" required>
-            <option value="">Selecciona</option>
-            <option value="male">Masculino</option>
-            <option value="female">Femenino</option>
-            <option value="other">Otro</option>
-          </select>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Ingresa tu email">
 
-          <button id="btn-submit" class="fix-button-buy" type="submit">
-            <i class="fa-solid fa-paper-plane"></i> Enviar
-          </button>
-        </form>
+            <button id="btn-submit" class="fix-button-buy" type="submit">
+              <i class="fa-solid fa-paper-plane"></i> Enviar
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </main>
@@ -99,49 +96,6 @@
   <script src="assets/js/modal.js"></script>
   <script src="assets/js/orders.js"></script>
   <script src="assets/js/cart-highlight.js"></script>
-
-  <script type="module">
-    import { createOrder } from './assets/js/firebase.js';
-
-    document.addEventListener('DOMContentLoaded', function () {
-      renderProductsOrders();
-      renderFavorites();
-    });
-
-    const userInfoForm = document.getElementById('user-info-form');
-    if (userInfoForm) {
-      userInfoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        var newOrder = new Object();
-        newOrder.name = userInfoForm['name'].value;
-        newOrder.phone = userInfoForm['phone'].value;
-        newOrder.gender = userInfoForm['gender'].value;
-        newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-        createOrder(newOrder);
-        closeOrdersModal();
-
-        // Mostrar notificación de éxito
-        const notification = document.createElement('div');
-        notification.className = 'cart-notification';
-        notification.innerHTML = `
-          <i class="fa-solid fa-check-circle"></i>
-          <span>¡Pedido realizado con éxito!</span>
-        `;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-          notification.style.animation = 'fadeOut 0.3s ease';
-          setTimeout(() => {
-            if (document.body.contains(notification)) {
-              document.body.removeChild(notification);
-            }
-          }, 300);
-        }, 2000);
-      });
-    }
-  </script>
 </body>
 
 </html>

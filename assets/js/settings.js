@@ -5,10 +5,9 @@ let currentUser = null;
 document.addEventListener('DOMContentLoaded', function () {
     loadUserData();
     renderSettings();
-    setupEventListeners();
 });
 
-// Cargar datos del usuario
+// Cargar datos del usuario desde sessionStorage
 function loadUserData() {
     // Intentar obtener usuario de sessionStorage
     const userData = sessionStorage.getItem('user');
@@ -16,35 +15,61 @@ function loadUserData() {
     if (userData) {
         try {
             currentUser = JSON.parse(userData);
+            console.log('Usuario cargado:', currentUser);
         } catch (e) {
-            // Si no es JSON válido, crear objeto por defecto
-            currentUser = {
-                name: userData,
-                email: 'usuario@email.com',
-                avatar: null
-            };
+            console.error('Error al parsear usuario:', e);
+            // Si hay error, usar datos mock
+            setMockUserData();
         }
     } else {
-        // Usuario por defecto para demostración
-        currentUser = {
-            name: 'NOMBRE USUARIO',
-            email: 'usuario@valeshop.com',
-            avatar: null,
-            memberSince: '2024',
-            ordersCount: 3,
-            likesCount: 12
-        };
+        // No hay usuario logueado, usar datos mock
+        console.log('No hay usuario logueado, mostrando datos mock');
+        setMockUserData();
     }
 
     renderUserProfile();
 }
 
-// Renderizar perfil de usuario - CORREGIDO
+// Establecer datos mock para demostración
+function setMockUserData() {
+    currentUser = {
+        uid: "mock-user-123",
+        email: "usuario@valeshop.com",
+        nombre: "Usuario Demo",
+        telefono: "+584241234567",
+        fechaRegistro: "2026-01-15T10:30:00.000Z"
+    };
+}
+
+// Formatear fecha de registro
+function formatMemberSince(fechaRegistro) {
+    if (!fechaRegistro) return '2026';
+
+    try {
+        const date = new Date(fechaRegistro);
+        return date.getFullYear().toString();
+    } catch (e) {
+        return '2026';
+    }
+}
+
+// Obtener iniciales del nombre
+function getInitials(name) {
+    if (!name) return 'U';
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+}
+
+// Renderizar perfil de usuario
 function renderUserProfile() {
     const profileContainer = document.querySelector('.user-profile');
     if (!profileContainer) return;
 
-    const initials = currentUser.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const initials = getInitials(currentUser.nombre);
+    const memberYear = formatMemberSince(currentUser.fechaRegistro);
+
+    // Valores mock para estadísticas (podrían venir de Firebase)
+    const ordersCount = 3; // Esto podría obtenerse de Firebase
+    const likesCount = 12; // Esto podría obtenerse de Firebase
 
     profileContainer.innerHTML = `
         <div class="user-greeting">
@@ -54,21 +79,22 @@ function renderUserProfile() {
                      style="width: 100%; height: 100%; object-fit: cover; display: block;">
             </div>
             <div>
-                <h2>Hola, ${currentUser.name}</h2>
-                <p>${currentUser.email}</p>
+                <h2>Hola, ${currentUser.nombre || 'Usuario'}</h2>
+                <p>${currentUser.email || ''}</p>
+                ${currentUser.telefono ? `<p class="user-phone"><i class="fa-solid fa-phone"></i> ${currentUser.telefono}</p>` : ''}
             </div>
         </div>
         <div class="user-stats">
             <div class="stat-item">
-                <span class="stat-value">${currentUser.ordersCount || 0}</span>
+                <span class="stat-value">${ordersCount}</span>
                 <span class="stat-label">Mis Compras</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value">${currentUser.likesCount || 0}</span>
+                <span class="stat-value">${likesCount}</span>
                 <span class="stat-label">Favoritos</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value">${currentUser.memberSince || '2024'}</span>
+                <span class="stat-value">${memberYear}</span>
                 <span class="stat-label">Miembro</span>
             </div>
         </div>
@@ -201,15 +227,6 @@ function renderSettings() {
     renderUserProfile();
 }
 
-// Configurar event listeners
-function setupEventListeners() {
-    // Tema oscuro
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
-}
-
 // Función de navegación
 function navigateTo(section) {
     console.log('Navegando a:', section);
@@ -252,22 +269,6 @@ function showNotification(message, bgColor = '#79b1b7') {
             }
         }, 300);
     }, 2000);
-}
-
-// Función para toggle theme (si no existe en main.js)
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    const icon = document.querySelector('#theme-toggle i');
-
-    if (document.body.classList.contains('dark-theme')) {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-        localStorage.setItem('theme', 'light');
-    }
 }
 
 // Verificar tema guardado

@@ -250,44 +250,6 @@ function selectSize(element, size) {
   console.log('Talla seleccionada:', selectedSize);
 }
 
-// Función para agregar al carrito desde el modal
-function addToCartFromModal(productId) {
-  const products = JSON.parse(sessionStorage.getItem('productsJson'));
-  const product = products.find(p => p.id === productId);
-
-  if (product) {
-    // Agregar la talla seleccionada al producto
-    const productWithSize = {
-      ...product,
-      selectedSize: selectedSize,
-      quantity: 1
-    };
-
-    // Obtener carrito actual
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-    // Verificar si el producto ya existe en el carrito (mismo ID y misma talla)
-    const existingProductIndex = cart.findIndex(p => p.id === productId && p.selectedSize === selectedSize);
-
-    if (existingProductIndex >= 0) {
-      // Incrementar cantidad si ya existe
-      cart[existingProductIndex].quantity += 1;
-    } else {
-      // Agregar nuevo producto
-      cart.push(productWithSize);
-    }
-
-    // Guardar en sessionStorage
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-
-    // Actualizar contador del carrito
-    updateCartCounter();
-
-    // Mostrar confirmación
-    showAddToCartNotification(product.name);
-  }
-}
-
 // Función para toggle like desde el modal
 function toggleLikeFromModal(productId, buttonElement) {
   const products = JSON.parse(sessionStorage.getItem('productsJson'));

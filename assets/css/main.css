@@ -17,7 +17,7 @@ body {
 
 header {
     background-color: #09161b;
-    color: white;
+    color: #ffffff;
     text-align: center;
     padding: 10px 0;
     display: flex;
@@ -38,7 +38,7 @@ h1 {
 header h1 {
     padding-left: 80px;
     flex: 1;
-    color: white; /* Mantener blanco en el header */
+    color: #ffffff; /* Mantener blanco en el header */
 }
 
 button {
@@ -60,7 +60,7 @@ button {
     padding: 1px 6px;
     position: relative;
     text-align: center;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     font-size: 20px;
 }
@@ -103,7 +103,7 @@ main {
     position: relative; 
     flex: 0 0 100%;
     box-sizing: border-box;
-    background-color: white;
+    background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
@@ -130,7 +130,7 @@ main {
 
 /* Estilos específicos para el skeleton */
 .product.skeleton {
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .product.skeleton .img-product {
@@ -324,7 +324,7 @@ footer {
 
 .nav-item {
     text-align: center;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     font-size: 14px;
     display: flex;
@@ -341,7 +341,7 @@ footer {
 
 .nav-item i {
     font-size: 24px;
-    color: white;
+    color: #ffffff;
     margin-bottom: 2px;
     transition: all 0.2s ease;
 }
@@ -349,7 +349,7 @@ footer {
 .nav-item span {
     display: block;
     font-size: 12px;
-    color: white;
+    color: #ffffff;
     transition: all 0.2s ease;
     line-height: 1.2; /* Mejorar legibilidad */
 }
@@ -391,7 +391,7 @@ footer {
     top: 0px; /* Ajustado para centrar con el ícono */
     right: -5px;
     background-color: #ff4444;
-    color: white;
+    color: #ffffff;
     font-size: 9px;
     font-weight: bold;
     width: 18px;
@@ -474,21 +474,21 @@ footer {
 /* Colores específicos con texto blanco (tienen fondo oscuro) */
 .category:nth-child(1) {
     background-color: #005f73;
-    color: white;
+    color: #ffffff;
 }
 
 .category:nth-child(2) {
     background-color: #ca6702;
-    color: white;
+    color: #ffffff;
 }
 
 .category:nth-child(3) {
     background-color: #ae936d;
-    color: white;
+    color: #ffffff;
 }
 
 .category h1 {
-    color: white;
+    color: #ffffff;
     margin: 0;
     font-size: inherit;
 }
@@ -510,7 +510,7 @@ body.dark-theme header {
 
 body.dark-theme .carousel-button {
     background-color: #79b1b7;
-    color: white;
+    color: #ffffff;
 }
 
 body.dark-theme .product {
@@ -544,12 +544,12 @@ body.dark-theme .nav-item.cart-highlight span {
 body.dark-theme .cart-badge {
     background-color: #ff6666;
     box-shadow: 0 2px 5px rgba(255, 102, 102, 0.3);
-    color: white; /* Mantener blanco en dark theme */
+    color: #ffffff; /* Mantener blanco en dark theme */
 }
 
 /* Las categorías mantienen sus colores originales en modo oscuro */
 body.dark-theme .categories h1 {
-    color: white;
+    color: #ffffff;
 }
 
 body.dark-theme .item,

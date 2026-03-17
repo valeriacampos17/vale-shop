@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const href = item.getAttribute('href');
 
         item.classList.remove('active');
-        
+
         if (href === currentPage) {
             item.classList.add('active');
         }

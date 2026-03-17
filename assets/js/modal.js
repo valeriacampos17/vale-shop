@@ -57,6 +57,7 @@ function selectSize(sizeElement, size) {
 
 // Función mejorada para agregar al carrito desde el modal
 function addToCartFromModal(productId) {
+    console.log('Modal - Agregando al carrito producto ID:', productId);
     const products = JSON.parse(sessionStorage.getItem('productsJson'));
     const product = products.find(p => p.id === productId);
 

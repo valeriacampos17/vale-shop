@@ -315,12 +315,155 @@ function showDeleteNotification(productName) {
     }, 2000);
 }
 
-// Event listeners
-var buyButton = document.getElementById("buy-button");
-if (buyButton) {
-    buyButton.addEventListener('click', showOrdersModal);
+// Función para cargar datos del usuario en el modal
+function loadUserDataIntoModal() {
+    try {
+        const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+        // Verificar si hay datos de usuario
+        if (!userInfo || Object.keys(userInfo).length === 0) {
+            console.log('No hay datos de usuario en sessionStorage');
+            return;
+        }
+
+        const fields = [
+            { id: 'name', value: userInfo.nombre },
+            { id: 'phone', value: userInfo.telefono },
+            { id: 'email', value: userInfo.email }
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            if (input && field.value) {
+                input.value = field.value;
+            }
+        });
+
+        console.log('Datos de usuario cargados correctamente');
+    } catch (error) {
+        console.error('Error al cargar datos del usuario:', error);
+    }
 }
 
+// Función para mostrar notificación de éxito
+function showSuccessNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `
+        <i class="fa-solid fa-check-circle"></i>
+        <span>¡Pedido realizado con éxito!</span>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 2000);
+}
+
+// Función para limpiar el carrito
+function clearCart() {
+    cart = [];
+    sessionStorage.removeItem('cart');
+    renderProductsOrders();
+    renderFavorites();
+}
+
+// Función para manejar el envío del formulario
+async function handleOrderSubmit(e) {
+    e.preventDefault();
+
+    const userInfoForm = document.getElementById('user-info-form');
+
+    var newOrder = new Object();
+    newOrder.name = userInfoForm['name'].value;
+    newOrder.phone = userInfoForm['phone'].value;
+    newOrder.email = userInfoForm['email'].value;
+    newOrder.cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    // Importar dinámicamente createOrder
+    try {
+        const { createOrder } = await import('./firebase.js');
+        await createOrder(newOrder);
+        closeOrdersModal();
+        showSuccessNotification();
+
+        // Limpiar el carrito después de la compra exitosa
+        clearCart();
+
+    } catch (error) {
+        console.error('Error al crear el pedido:', error);
+        // Mostrar notificación de error
+        const notification = document.createElement('div');
+        notification.className = 'cart-notification';
+        notification.style.backgroundColor = '#ff4444';
+        notification.innerHTML = `
+            <i class="fa-solid fa-exclamation-circle"></i>
+            <span>Error al realizar el pedido: ${error.message}</span>
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+}
+
+// Función para verificar si hay usuario logueado
+function isUserLoggedIn() {
+    const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
+    return userInfo && Object.keys(userInfo).length > 0 && userInfo.uid;
+}
+
+// Función para mostrar el modal
+function showOrdersModal() {
+    // Verificar si hay usuario logueado
+    if (!isUserLoggedIn()) {
+        // Redirigir a signin.html
+        window.location.href = 'signin.html';
+        return;
+    }
+
+    const modal = document.getElementById('orders-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        loadUserDataIntoModal();
+    }
+}
+
+// Función para cerrar el modal
+function closeOrdersModal() {
+    const modal = document.getElementById('orders-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Inicialización cuando el DOM está listo
+document.addEventListener('DOMContentLoaded', function () {
+    renderProductsOrders();
+    renderFavorites();
+
+    // Configurar event listeners
+    const buyButton = document.getElementById("buy-button");
+    if (buyButton) {
+        buyButton.addEventListener('click', showOrdersModal);
+    }
+
+    const userInfoForm = document.getElementById('user-info-form');
+    if (userInfoForm) {
+        userInfoForm.addEventListener('submit', handleOrderSubmit);
+    }
+
+    // Hacer funciones globales si son necesarias para onclick en HTML
+    window.addToCart = addToCart;
+    window.closeOrdersModal = closeOrdersModal;
+});
+
+// Mantener estos event listeners por compatibilidad
 var btnSubmit = document.getElementById("btn-submit");
 if (btnSubmit) {
     btnSubmit.addEventListener('click', sendEmail);
