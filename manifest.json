@@ -2,9 +2,9 @@
   "name": "Vale-Shop",
   "short_name": "Vale-Shop",
   "description": "Tu tienda online de moda y accesorios con las mejores ofertas.",
-  "id": "/vale-shop/",
-  "start_url": "/vale-shop/index.html",
-  "scope": "/vale-shop/",
+  "id": "/",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "minimal-ui"],
   "orientation": "portrait",
@@ -67,14 +67,14 @@
       "name": "Ver Productos",
       "short_name": "Productos",
       "description": "Explora nuestro catálogo completo",
-      "url": "/vale-shop/products.html",
+      "url": "/products.html",
       "icons": [{ "src": "assets/icons/products-shortcut.png", "sizes": "192x192" }]
     },
     {
       "name": "Mis Pedidos",
       "short_name": "Pedidos",
       "description": "Revisa el estado de tus compras",
-      "url": "/vale-shop/orders.html",
+      "url": "/orders.html",
       "icons": [{ "src": "assets/icons/orders-shortcut.png", "sizes": "192x192" }]
     }
   ],
