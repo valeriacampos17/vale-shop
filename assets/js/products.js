@@ -170,13 +170,13 @@ function renderProductsGrid(products) {
   if (!products) return;
   products.forEach(product => {
     htmlContent += `
-      <div class="product-item">
+      <div class="product-item" onclick="showProductModal(${product.id})">
           <img src="${product.image}" alt="${product.name}">
           <div class="product-list-info">
               <h3>${product.name}</h3>
               <div class="price-cart">
                   <p>$${product.price}</p>
-                  <div class="cart" onclick="showProductModal(${product.id})">
+                  <div class="cart">
                       <i class="fa-solid fa-shopping-cart"></i>
                   </div>
               </div>
