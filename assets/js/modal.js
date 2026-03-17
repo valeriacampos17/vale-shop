@@ -94,6 +94,48 @@ function addToCartFromModal(productId) {
 
         // Actualizar contador del carrito si existe
         updateCartCounter();
+
+        // CERRAR EL MODAL DESPUÉS DE AGREGAR AL CARRITO
+        closeProductModal();
+    }
+}
+
+// Función para agregar/quitar de favoritos desde el modal
+function toggleLikeFromModal(productId, element) {
+    const products = JSON.parse(sessionStorage.getItem('productsJson'));
+    const product = products.find(p => p.id === productId);
+
+    if (product) {
+        // Obtener likes actuales
+        let likes = JSON.parse(sessionStorage.getItem('likes')) || [];
+
+        // Verificar si ya está en likes
+        const existingIndex = likes.findIndex(p => p.id === productId);
+        let action = '';
+
+        if (existingIndex >= 0) {
+            // Remover de likes
+            likes.splice(existingIndex, 1);
+            element.classList.remove('liked');
+            action = 'eliminado de';
+        } else {
+            // Agregar a likes
+            likes.push(product);
+            element.classList.add('liked');
+            action = 'agregado a';
+        }
+
+        // Guardar en sessionStorage
+        sessionStorage.setItem('likes', JSON.stringify(likes));
+
+        // Mostrar confirmación
+        showLikeConfirmation(product.name, action);
+
+        // Actualizar contador de favoritos si existe
+        updateLikesCounter();
+
+        // CERRAR EL MODAL DESPUÉS DE AGREGAR/QUITAR DE FAVORITOS
+        closeProductModal();
     }
 }
 
@@ -140,6 +182,54 @@ function showAddToCartConfirmation(productName) {
     }, 2000);
 }
 
+// Función para mostrar confirmación al agregar/quitar de favoritos
+function showLikeConfirmation(productName, action) {
+    // Eliminar notificaciones existentes
+    const existingNotifications = document.querySelectorAll('.cart-notification');
+    existingNotifications.forEach(notification => notification.remove());
+
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+
+    // Color diferente si es eliminado
+    const bgColor = action === 'agregado a' ? '#79b1b7' : '#ff4444';
+    const icon = action === 'agregado a' ? 'fa-solid fa-heart' : 'fa-solid fa-heart-crack';
+
+    notification.innerHTML = `
+        <i class="${icon}"></i>
+        <span>${productName} ${action} favoritos</span>
+    `;
+
+    // Estilos para la notificación
+    notification.style.position = 'fixed';
+    notification.style.bottom = '80px';
+    notification.style.left = '50%';
+    notification.style.transform = 'translateX(-50%)';
+    notification.style.backgroundColor = bgColor;
+    notification.style.color = 'white';
+    notification.style.padding = '12px 24px';
+    notification.style.borderRadius = '30px';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '3000';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.gap = '10px';
+    notification.style.animation = 'slideUp 0.3s ease';
+
+    document.body.appendChild(notification);
+
+    // Remover después de 2 segundos
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 2000);
+}
+
 // Función para actualizar contador del carrito (si existe en el header)
 function updateCartCounter() {
     const cartCounter = document.getElementById('cart-counter');
@@ -151,30 +241,13 @@ function updateCartCounter() {
     }
 }
 
-// Función para agregar a likes desde el modal
-function addToLikesFromModal(productId, element) {
-    const products = JSON.parse(sessionStorage.getItem('productsJson'));
-    const product = products.find(p => p.id === productId);
-
-    if (product) {
-        // Obtener likes actuales
-        let likes = JSON.parse(sessionStorage.getItem('likes')) || [];
-
-        // Verificar si ya está en likes
-        const existingIndex = likes.findIndex(p => p.id === productId);
-
-        if (existingIndex >= 0) {
-            // Remover de likes
-            likes.splice(existingIndex, 1);
-            element.classList.remove('liked');
-        } else {
-            // Agregar a likes
-            likes.push(product);
-            element.classList.add('liked');
-        }
-
-        // Guardar en sessionStorage
-        sessionStorage.setItem('likes', JSON.stringify(likes));
+// Función para actualizar contador de favoritos (si existe en el header)
+function updateLikesCounter() {
+    const likesCounter = document.getElementById('likes-counter');
+    if (likesCounter) {
+        const likes = JSON.parse(sessionStorage.getItem('likes')) || [];
+        likesCounter.textContent = likes.length;
+        likesCounter.style.display = likes.length > 0 ? 'flex' : 'none';
     }
 }
 
