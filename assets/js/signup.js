@@ -7,20 +7,48 @@ const btnLoader = document.querySelector('.btn-loader');
 const passwordError = document.getElementById('password-error');
 const contactError = document.getElementById('contact-error');
 
-// Función para mostrar notificación
+// Función para mostrar notificación (igual que en modal.js)
 function showNotification(message, isSuccess = true) {
-    const existingNotifications = document.querySelectorAll('.auth-notification');
+    // Eliminar notificaciones existentes
+    const existingNotifications = document.querySelectorAll('.auth-notification, .cart-notification');
     existingNotifications.forEach(notification => notification.remove());
 
+    // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `auth-notification ${isSuccess ? 'success' : 'error'}`;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '80px';
+    notification.style.left = '50%';
+    notification.style.transform = 'translateX(-50%)';
+    notification.style.backgroundColor = isSuccess ? '#79b1b7' : '#ff4444';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 24px';
+    notification.style.borderRadius = '30px';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '3000';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.justifyContent = 'center';
+    notification.style.gap = '10px';
+    notification.style.fontSize = '16px';
+    notification.style.whiteSpace = 'nowrap';
+    notification.style.animation = 'slideUp 0.3s ease';
 
-    notification.innerHTML = isSuccess
-        ? `<i class="fa-solid fa-check-circle"></i><span>${message}</span>`
-        : `<i class="fa-solid fa-circle-exclamation"></i><span>${message}</span>`;
+    if (isSuccess) {
+        notification.innerHTML = `
+            <i class="fa-solid fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+    } else {
+        notification.innerHTML = `
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>${message}</span>
+        `;
+    }
 
     document.body.appendChild(notification);
 
+    // Remover después de 2 segundos
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.3s ease';
         setTimeout(() => {
@@ -37,11 +65,8 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// Función para validar teléfono (formato chileno básico)
+// Función para validar teléfono
 function isValidPhone(phone) {
-    // Acepta: +56912345678, 912345678, 56912345678, +56 9 1234 5678, etc.
-    const phoneRegex = /^(\+?56)?[ -]?(9|2)[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
-    // Versión más permisiva: al menos 8 dígitos
     const simplePhoneRegex = /^[+]?[\d\s-]{8,}$/;
     return simplePhoneRegex.test(phone);
 }
@@ -106,7 +131,7 @@ signupForm.addEventListener('submit', async (e) => {
     // Validar formato de teléfono si se proporcionó
     if (phone && !isValidPhone(phone)) {
         contactError.style.display = 'none';
-        showNotification('Por favor, ingresa un teléfono válido (ej: +56 9 1234 5678)', false);
+        showNotification('Por favor, ingresa un teléfono válido', false);
         document.getElementById('phone').classList.add('error');
         return;
     }
@@ -137,8 +162,8 @@ signupForm.addEventListener('submit', async (e) => {
     // Preparar datos del usuario
     const user = {
         name: name,
-        email: email || null, // Si no hay email, enviar null
-        phone: phone || null,  // Si no hay teléfono, enviar null
+        email: email || null,
+        phone: phone || null,
         password: password
     };
 

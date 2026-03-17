@@ -232,15 +232,19 @@ h2 {
     z-index: 3000;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     animation: slideUp 0.3s ease;
     font-size: 16px;
-    max-width: 90%;
     white-space: nowrap;
+    max-width: 90%;
 }
 
 .auth-notification i {
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .auth-notification.success {
@@ -248,9 +252,62 @@ h2 {
 }
 
 .auth-notification.error {
-    background-color: #f44336;
+    background-color: #ff4444;
 }
 
+/* ===== NOTIFICACIÓN DE ELIMINACIÓN (compatible con modal.js) ===== */
+.delete-notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    animation: slideUp 0.3s ease;
+    white-space: nowrap;
+}
+
+.delete-notification i {
+    font-size: 20px;
+}
+
+/* ===== NOTIFICACIÓN DE CARRITO (compatible con modal.js) ===== */
+.cart-notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #79b1b7;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 16px;
+    animation: slideUp 0.3s ease;
+    white-space: nowrap;
+}
+
+.cart-notification i {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Animaciones compartidas */
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -273,7 +330,7 @@ h2 {
     }
 }
 
-/* ===== MODO OSCURO - usando dark-theme como en main.js ===== */
+/* ===== MODO OSCURO ===== */
 body.dark-theme {
     background-color: #1a2c33;
 }
@@ -325,6 +382,17 @@ body.dark-theme .auth-theme-toggle:hover {
     color: #ff4f77 !important;
 }
 
+/* Dark theme para notificaciones */
+body.dark-theme .auth-notification.success,
+body.dark-theme .cart-notification {
+    background-color: #5f8f94;
+}
+
+body.dark-theme .auth-notification.error,
+body.dark-theme .delete-notification {
+    background-color: #ff6666;
+}
+
 /* ===== RESPONSIVE ===== */
 @media only screen and (max-width: 600px) {
     .login-box {
@@ -335,11 +403,12 @@ body.dark-theme .auth-theme-toggle:hover {
         font-size: 1.8rem;
     }
     
-    .auth-notification {
+    .auth-notification,
+    .delete-notification,
+    .cart-notification {
         bottom: 60px;
         padding: 10px 20px;
         font-size: 14px;
-        white-space: nowrap;
     }
     
     .auth-header {
@@ -360,8 +429,11 @@ body.dark-theme .auth-theme-toggle:hover {
     }
 }
 
+/* Responsive para notificaciones en pantallas muy pequeñas */
 @media only screen and (max-width: 380px) {
-    .auth-notification {
+    .auth-notification,
+    .delete-notification,
+    .cart-notification {
         white-space: normal;
         text-align: center;
         line-height: 1.4;

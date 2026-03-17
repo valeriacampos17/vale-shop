@@ -5,15 +5,32 @@ const submitBtn = document.getElementById('submit-btn');
 const btnText = document.querySelector('.btn-text');
 const btnLoader = document.querySelector('.btn-loader');
 
-// Función para mostrar notificación estilo modal.js
+// Función para mostrar notificación (igual que en modal.js)
 function showNotification(message, isSuccess = true) {
     // Eliminar notificaciones existentes
-    const existingNotifications = document.querySelectorAll('.auth-notification');
+    const existingNotifications = document.querySelectorAll('.auth-notification, .cart-notification');
     existingNotifications.forEach(notification => notification.remove());
 
     // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `auth-notification ${isSuccess ? 'success' : 'error'}`;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '80px';
+    notification.style.left = '50%';
+    notification.style.transform = 'translateX(-50%)';
+    notification.style.backgroundColor = isSuccess ? '#79b1b7' : '#ff4444';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 24px';
+    notification.style.borderRadius = '30px';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '3000';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.justifyContent = 'center';
+    notification.style.gap = '10px';
+    notification.style.fontSize = '16px';
+    notification.style.whiteSpace = 'nowrap';
+    notification.style.animation = 'slideUp 0.3s ease';
 
     if (isSuccess) {
         notification.innerHTML = `
