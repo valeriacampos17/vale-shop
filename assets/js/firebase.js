@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, getDoc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
 import { getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-messaging.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
@@ -293,7 +293,7 @@ export const logout = async () => {
     }
 };
 
-// ===== NUEVA FUNCIÓN: Actualizar perfil de usuario =====
+// ===== FUNCIÓN: Actualizar perfil de usuario =====
 export const updateUserProfile = async (profileData) => {
     try {
         const currentUser = getCurrentUser();
@@ -327,6 +327,70 @@ export const updateUserProfile = async (profileData) => {
     } catch (error) {
         console.error("Error actualizando perfil:", error);
         return { success: false, error: error.message };
+    }
+};
+
+// ===== FUNCIONES PARA PEDIDOS =====
+
+// Obtener pedidos de un usuario específico
+export const getUserOrders = async (userId) => {
+    try {
+        const ordersRef = collection(db, "orders");
+        const q = query(ordersRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        const orders = [];
+        querySnapshot.forEach((doc) => {
+            orders.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        // Ordenar por fecha (más reciente primero)
+        orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        return orders;
+    } catch (e) {
+        console.error("Error obteniendo pedidos del usuario: ", e);
+        return [];
+    }
+};
+
+// Obtener un pedido específico por ID
+export const getOrderById = async (orderId) => {
+    try {
+        const orderRef = doc(db, "orders", orderId);
+        const orderSnap = await getDoc(orderRef);
+
+        if (orderSnap.exists()) {
+            return {
+                id: orderSnap.id,
+                ...orderSnap.data()
+            };
+        } else {
+            console.log("No such order!");
+            return null;
+        }
+    } catch (e) {
+        console.error("Error obteniendo pedido: ", e);
+        return null;
+    }
+};
+
+// Actualizar estado de un pedido
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const orderRef = doc(db, "orders", orderId);
+        await updateDoc(orderRef, {
+            status: status,
+            updatedAt: new Date().toISOString()
+        });
+        console.log("Estado de pedido actualizado:", orderId);
+        return true;
+    } catch (e) {
+        console.error("Error actualizando estado del pedido: ", e);
+        return false;
     }
 };
 

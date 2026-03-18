@@ -57,11 +57,18 @@ function showNotification(message, isSuccess = true) {
     }, 2000);
 }
 
-// Verificar si ya hay un usuario logueado
+// MODIFICADO: Verificar si ya hay un usuario logueado y si venía de checkout
 const currentUser = getCurrentUser();
 if (currentUser) {
-    // Si ya hay sesión, redirigir al index
-    window.location.href = 'index.html';
+    // Verificar si venía de checkout
+    const redirectToCheckout = sessionStorage.getItem('redirectAfterLogin');
+    if (redirectToCheckout === 'checkout') {
+        // Si venía de checkout, mantener la bandera y redirigir a orders
+        window.location.href = 'orders.html';
+    } else {
+        // Redirección normal al index
+        window.location.href = 'index.html';
+    }
 }
 
 const getPathname = () => {
@@ -127,9 +134,17 @@ signinForm.addEventListener('submit', async (e) => {
 
             // Pequeño retraso para mostrar la notificación
             setTimeout(() => {
-                // CAMBIO: Siempre redirigir a la vista anterior
-                // No importa si el perfil está incompleto
-                window.location.href = pathname;
+                // MODIFICADO: Verificar si venía de checkout
+                const redirectToCheckout = sessionStorage.getItem('redirectAfterLogin');
+
+                if (redirectToCheckout === 'checkout') {
+                    // Si venía de checkout, mantener la bandera y redirigir a orders
+                    // La bandera se mantiene para que orders.js sepa que debe mostrar el checkout
+                    window.location.href = 'orders.html';
+                } else {
+                    // Redirección normal a la vista anterior
+                    window.location.href = pathname;
+                }
             }, 1500);
         } else {
             setLoading(false);

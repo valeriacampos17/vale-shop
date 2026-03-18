@@ -579,14 +579,28 @@ function isUserLoggedIn() {
     return userInfo && Object.keys(userInfo).length > 0 && userInfo.uid;
 }
 
-function showOrdersModal() {
-    if (!isUserLoggedIn()) { window.location.href = 'signin.html'; return; }
+// NUEVA FUNCIÓN: Mostrar modal de checkout (separada)
+function showCheckoutModal() {
     loadUserData();
     loadAddresses();
     currentStep = 1;
     renderCheckout();
     const modal = document.getElementById('orders-modal');
     if (modal) modal.style.display = 'flex';
+}
+
+// MODIFICADA: Función para mostrar el modal de checkout con verificación de login
+function showOrdersModal() {
+    // Verificar si hay usuario logueado
+    if (!isUserLoggedIn()) {
+        // Guardar en sessionStorage que queríamos ir al checkout
+        sessionStorage.setItem('redirectAfterLogin', 'checkout');
+        window.location.href = 'signin.html';
+        return;
+    }
+
+    // Si está logueado, mostrar directamente el checkout
+    showCheckoutModal();
 }
 
 function closeOrdersModal() {
@@ -602,11 +616,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const buyButton = document.getElementById("buy-button");
     if (buyButton) buyButton.addEventListener('click', showOrdersModal);
 
+    // NUEVO: Verificar si venimos de un login y debemos mostrar checkout
+    const redirectToCheckout = sessionStorage.getItem('redirectAfterLogin');
+    if (redirectToCheckout === 'checkout' && isUserLoggedIn()) {
+        // Limpiar la bandera
+        sessionStorage.removeItem('redirectAfterLogin');
+        // Mostrar el checkout directamente después de un pequeño retraso
+        setTimeout(() => {
+            showCheckoutModal();
+        }, 100);
+    }
+
     // Funciones globales
     Object.assign(window, {
         addToCart, closeOrdersModal, selectAddress, selectPayment,
         nextStep, prevStep, goToStep, showAddressModal,
-        closeAddressModal, saveAddress, editAddress, completePurchase
+        closeAddressModal, saveAddress, editAddress, completePurchase,
+        showCheckoutModal // AÑADIDO: Hacer disponible globalmente
     });
 });
 
