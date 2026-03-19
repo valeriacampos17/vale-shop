@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  
+
   <!-- Meta tags específicos para PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -45,19 +45,29 @@
   </header>
 
   <main>
+    <!-- Sección del carrito con nuevo encabezado -->
     <section class="product-list">
-      <h1>Carrito</h1>
+      <div class="page-header">
+        <button class="back-button" onclick="window.history.back()" aria-label="Volver">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h1 class="page-title">Mi Carrito</h1>
+        <div class="right-placeholder"></div>
+      </div>
       <div class="item-list"></div>
-      <button id="buy-button" class="fix-button-buy">
+      <button id="buy-button" class="fix-button-buy" style="display: none;">
         <i class="fa-solid fa-bag-shopping"></i> COMPRAR $0.00
       </button>
     </section>
 
+    <!-- Sección de favoritos -->
     <section id="favorites-section" class="favorites-section">
-      <h1>
-        <i class="fa-solid fa-heart"></i>
-        Favoritos
-      </h1>
+      <div class="page-header centered">
+        <h2 class="page-title">
+          <i class="fa-solid fa-heart" style="color: #ff4444; margin-right: 8px;"></i>
+          Mis Favoritos
+        </h2>
+      </div>
       <div class="item-list-flex"></div>
     </section>
 
@@ -86,7 +96,7 @@
           <i class="fa-solid fa-xmark"></i>
         </span>
         <div class="address-modal-content">
-          <h2>Nueva Dirección</h2>
+          <h2 class="section-title">Nueva Dirección</h2>
           <form id="address-form" onsubmit="saveAddress(event)">
             <label for="fullname">Nombre completo:</label>
             <input type="text" id="fullname" name="fullname" placeholder="Ej: Juan Pérez" required>
@@ -148,7 +158,7 @@
         <i class="fa-solid fa-box"></i>
         <span>Productos</span>
       </a>
-      <a href="orders.html" class="nav-item">
+      <a href="orders.html" class="nav-item active">
         <i class="fas fa-shopping-bag"></i>
         <span>Pedidos</span>
       </a>
@@ -160,7 +170,7 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/products.js"></script>
+  <script src="assets/js/cart-utils.js"></script>
   <script src="assets/js/modal.js"></script>
   <script src="assets/js/orders.js"></script>
   <script src="assets/js/cart-highlight.js"></script>

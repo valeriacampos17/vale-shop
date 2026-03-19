@@ -18,32 +18,34 @@ function saveCart() {
     sessionStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function addToCart(productId) {
-    const product = getProductById(productId);
-    const existingProduct = cart.find(item => item.id === productId);
-    const existingLikesIndex = likes.findIndex(item => item.id === productId);
-
-    if (!existingProduct && product) {
-        cart.push(product);
-        saveCart();
+// SOBRESCRIBIR addToCart para que también actualice la vista
+const originalAddToCart = window.addToCart;
+window.addToCart = function (productId, selectedSize) {
+    if (originalAddToCart) {
+        originalAddToCart(productId, selectedSize);
     }
+    // Actualizar la variable local cart
+    cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    // Actualizar la vista
+    renderProductsOrders();
+    renderFavorites();
+};
 
-    if (existingLikesIndex !== -1) {
-        likes.splice(existingLikesIndex, 1);
-        saveLikes();
-        renderFavorites();
+// SOBRESCRIBIR removeFromCart
+const originalRemoveFromCart = window.removeFromCart;
+window.removeFromCart = function (productId) {
+    if (originalRemoveFromCart) {
+        originalRemoveFromCart(productId);
     }
+    // Actualizar la variable local cart
+    cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    renderProductsOrders();
+    renderFavorites();
+};
 
-    if (!existingProduct || existingLikesIndex !== -1) {
-        renderProductsOrders();
-    }
-
-    closeProductModal();
-}
-
+// Mantener la función removeFromCart local para compatibilidad
 function removeFromCart(productId) {
     const productIndex = cart.findIndex(item => item.id === productId);
-
     if (productIndex !== -1) {
         cart.splice(productIndex, 1);
     }
@@ -72,13 +74,11 @@ function addTolikes(productId) {
         }
     }
     heartDisplay();
-
     closeProductModal();
 }
 
 function removeFromLikes(productId) {
     const productIndex = likes.findIndex(item => item.id === productId);
-
     if (productIndex !== -1) {
         likes.splice(productIndex, 1);
     }
@@ -100,47 +100,121 @@ function updateBuyButton() {
 
     if (buyButton) {
         buyButton.innerHTML = `<i class="fa-solid fa-bag-shopping"></i> COMPRAR $${total}`;
+        buyButton.style.display = cart.length === 0 ? 'none' : 'flex';
+    }
+}
+
+// ===== FUNCIONES PARA ASEGURAR LA ESTRUCTURA =====
+function ensureSections() {
+    const productList = document.querySelector('.product-list');
+    const favoritesSection = document.getElementById('favorites-section');
+
+    // Asegurar que product-list tenga su estructura
+    if (productList) {
+        // YA NO CREAMOS EL TÍTULO, ahora está en el HTML
+        let itemList = productList.querySelector('.item-list');
+        if (!itemList) {
+            itemList = document.createElement('div');
+            itemList.className = 'item-list';
+            productList.appendChild(itemList);
+        }
+
+        let buyButton = document.getElementById('buy-button');
+        if (!buyButton) {
+            buyButton = document.createElement('button');
+            buyButton.id = 'buy-button';
+            buyButton.className = 'fix-button-buy';
+            productList.appendChild(buyButton);
+        }
+    }
+
+    // Asegurar que favorites-section tenga su estructura
+    if (favoritesSection) {
+        // YA NO CREAMOS EL TÍTULO, ahora está en el HTML
+        let itemListFlex = favoritesSection.querySelector('.item-list-flex');
+        if (!itemListFlex) {
+            itemListFlex = document.createElement('div');
+            itemListFlex.className = 'item-list-flex';
+            favoritesSection.appendChild(itemListFlex);
+        }
     }
 }
 
 function renderProductsOrders() {
-    const itemList = document.querySelector('.item-list');
+    const productList = document.querySelector('.product-list');
+    if (!productList) return;
+
+    const itemList = productList.querySelector('.item-list');
     if (!itemList) return;
 
     itemList.innerHTML = '';
 
-    cart.forEach((product, index) => {
-        const itemHTML = `
-            <div class="item-swipe-container">
-                <div class="item-delete-action">
-                    <i class="fa-solid fa-trash-can"></i>
-                </div>
-                <div class="item" data-id="${product.id}" data-index="${index}" data-name="${product.name}">
-                    <img src="${product.image}" alt="${product.name}" class="item-image" />
-                    <div class="item-details">
-                        <div class="item-name">${product.name}</div>
-                        <div class="item-size">Talla: ${product.selectedSize || product.size || 'M'}</div>
-                    </div>
-                    <div class="item-price">$${(product.price * (product.quantity || 1)).toFixed(2)}</div>
-                </div>
-            </div>
+    if (cart.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty-cart-message';
+        emptyDiv.innerHTML = `
+            <i class="fa-solid fa-cart-shopping"></i>
+            <p>Tu carrito está vacío</p>
+            <a href="products.html" class="shop-now-btn">Ir a comprar</a>
         `;
-        itemList.innerHTML += itemHTML;
-    });
+        itemList.appendChild(emptyDiv);
+    } else {
+        cart.forEach((product, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'item-swipe-container';
+
+            const deleteAction = document.createElement('div');
+            deleteAction.className = 'item-delete-action';
+            deleteAction.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            itemContainer.appendChild(deleteAction);
+
+            const item = document.createElement('div');
+            item.className = 'item';
+            item.dataset.id = product.id;
+            item.dataset.index = index;
+            item.dataset.name = product.name;
+
+            item.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="item-image" />
+                <div class="item-details">
+                    <div class="item-name">${product.name}</div>
+                    <div class="item-size">Talla: ${product.selectedSize || product.size || 'M'}</div>
+                </div>
+                <div class="item-price">$${(product.price * (product.quantity || 1)).toFixed(2)}</div>
+            `;
+
+            itemContainer.appendChild(item);
+            itemList.appendChild(itemContainer);
+        });
+    }
 
     initSwipeEvents();
     updateBuyButton();
 }
 
 function renderFavorites() {
-    const itemList = document.querySelector('.item-list-flex');
-    if (!itemList) return;
+    const favoritesSection = document.getElementById('favorites-section');
+    if (!favoritesSection) return;
 
-    itemList.innerHTML = '';
+    const itemListFlex = favoritesSection.querySelector('.item-list-flex');
+    if (!itemListFlex) return;
 
-    likes.forEach(product => {
-        const itemHTML = `
-            <div class="item-like">
+    itemListFlex.innerHTML = '';
+
+    if (likes.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty-favorites-message';
+        emptyDiv.innerHTML = `
+            <i class="fa-regular fa-heart"></i>
+            <p>No tienes favoritos aún</p>
+            <a href="products.html" class="shop-now-btn">Explorar productos</a>
+        `;
+        itemListFlex.appendChild(emptyDiv);
+    } else {
+        likes.forEach(product => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-like';
+            itemDiv.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="item-image" />
                 <div class="item-like-info">
                     <div class="item-like-name">${product.name}</div>
@@ -149,16 +223,24 @@ function renderFavorites() {
                 <button onclick="addToCart(${product.id})" aria-label="Añadir al carrito" class="add-to-cart-btn">
                     <i class="fa-solid fa-cart-plus"></i> Agregar
                 </button>
-            </div>
-        `;
-        itemList.innerHTML += itemHTML;
-    });
+            `;
+            itemListFlex.appendChild(itemDiv);
+        });
+    }
 }
 
 // ===== FUNCIONES DE SWIPE =====
 function initSwipeEvents() {
     const items = document.querySelectorAll('.item');
     items.forEach(item => {
+        item.removeEventListener('touchstart', handleTouchStart);
+        item.removeEventListener('touchmove', handleTouchMove);
+        item.removeEventListener('touchend', handleTouchEnd);
+        item.removeEventListener('mousedown', handleMouseDown);
+        item.removeEventListener('mousemove', handleMouseMove);
+        item.removeEventListener('mouseup', handleMouseUp);
+        item.removeEventListener('mouseleave', handleMouseLeave);
+
         item.addEventListener('touchstart', handleTouchStart, { passive: true });
         item.addEventListener('touchmove', handleTouchMove, { passive: false });
         item.addEventListener('touchend', handleTouchEnd);
@@ -385,7 +467,6 @@ function nextStep() { if (currentStep < 3) { currentStep++; renderCheckout(); } 
 function prevStep() { if (currentStep > 1) { currentStep--; renderCheckout(); } }
 function goToStep(step) { if (step >= 1 && step <= 3) { currentStep = step; renderCheckout(); } }
 
-// Renderizar checkout
 function renderCheckout() {
     const progressContainer = document.getElementById('checkout-progress');
     const container = document.getElementById('checkout-container');
@@ -399,7 +480,7 @@ function renderCheckout() {
         <div class="progress-step ${currentStep >= 3 ? 'active' : ''}">3</div>
     `;
 
-    let contentHtml = currentStep > 1 ? `<button onclick="prevStep()" class="back-button"><i class="fa-solid fa-arrow-left"></i> Volver</button>` : '';
+    let contentHtml = currentStep > 1 ? `<button onclick="prevStep()" class="back-button"><i class="fa-solid fa-chevron-left"></i> Volver</button>` : '';
     let actionsHtml = '';
 
     switch (currentStep) {
@@ -421,9 +502,8 @@ function renderCheckout() {
     actionsContainer.innerHTML = actionsHtml;
 }
 
-// Paso 1: Dirección
 function renderAddressStep() {
-    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Dirección de Envío</h2>';
+    let html = '<h2 class="section-title">Dirección de Envío</h2>';
 
     addresses.forEach(address => {
         const isSelected = selectedAddress && selectedAddress.id === address.id;
@@ -440,7 +520,6 @@ function renderAddressStep() {
     return html;
 }
 
-// Paso 2: Método de Pago
 function renderPaymentStep() {
     const paymentMethods = [
         { id: 'pago-movil', name: 'Pago Móvil / Transferencia', icon: 'fa-solid fa-mobile-screen', description: 'Pago inmediato' },
@@ -448,7 +527,7 @@ function renderPaymentStep() {
         { id: 'usdt', name: 'USDT Binance', icon: 'fa-brands fa-bitcoin', description: 'Criptomonedas' }
     ];
 
-    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Método de Pago</h2>';
+    let html = '<h2 class="section-title">Método de Pago</h2>';
 
     paymentMethods.forEach(method => {
         const isSelected = selectedPayment === method.id;
@@ -465,7 +544,6 @@ function renderPaymentStep() {
     return html;
 }
 
-// Paso 3: Resumen
 function renderReviewStep() {
     cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     if (cart.length === 0) return '<p style="text-align: center; color: #666;">No hay productos en el carrito</p>';
@@ -475,7 +553,7 @@ function renderReviewStep() {
     const envio = 5.00;
     const total = subtotal + iva + envio;
 
-    let html = '<h2 style="text-align: center; margin-bottom: 20px;">Revisión de tu Pedido</h2>';
+    let html = '<h2 class="section-title">Revisión de tu Pedido</h2>';
 
     cart.forEach(item => {
         html += `
@@ -512,7 +590,6 @@ function renderReviewStep() {
     return html;
 }
 
-// Completar compra
 async function completePurchase() {
     cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
@@ -549,7 +626,6 @@ async function completePurchase() {
     }
 }
 
-// Notificaciones
 function showSuccessNotification() {
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
@@ -579,7 +655,6 @@ function isUserLoggedIn() {
     return userInfo && Object.keys(userInfo).length > 0 && userInfo.uid;
 }
 
-// NUEVA FUNCIÓN: Mostrar modal de checkout (separada)
 function showCheckoutModal() {
     loadUserData();
     loadAddresses();
@@ -589,17 +664,12 @@ function showCheckoutModal() {
     if (modal) modal.style.display = 'flex';
 }
 
-// MODIFICADA: Función para mostrar el modal de checkout con verificación de login
 function showOrdersModal() {
-    // Verificar si hay usuario logueado
     if (!isUserLoggedIn()) {
-        // Guardar en sessionStorage que queríamos ir al checkout
         sessionStorage.setItem('redirectAfterLogin', 'checkout');
         window.location.href = 'signin.html';
         return;
     }
-
-    // Si está logueado, mostrar directamente el checkout
     showCheckoutModal();
 }
 
@@ -610,33 +680,32 @@ function closeOrdersModal() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function () {
+    // Primero asegurar la estructura
+    ensureSections();
+
+    // Luego renderizar el contenido
     renderProductsOrders();
     renderFavorites();
 
     const buyButton = document.getElementById("buy-button");
     if (buyButton) buyButton.addEventListener('click', showOrdersModal);
 
-    // NUEVO: Verificar si venimos de un login y debemos mostrar checkout
     const redirectToCheckout = sessionStorage.getItem('redirectAfterLogin');
     if (redirectToCheckout === 'checkout' && isUserLoggedIn()) {
-        // Limpiar la bandera
         sessionStorage.removeItem('redirectAfterLogin');
-        // Mostrar el checkout directamente después de un pequeño retraso
         setTimeout(() => {
             showCheckoutModal();
         }, 100);
     }
 
-    // Funciones globales
     Object.assign(window, {
         addToCart, closeOrdersModal, selectAddress, selectPayment,
         nextStep, prevStep, goToStep, showAddressModal,
         closeAddressModal, saveAddress, editAddress, completePurchase,
-        showCheckoutModal // AÑADIDO: Hacer disponible globalmente
+        showCheckoutModal, removeFromLikes, addTolikes
     });
 });
 
-// Compatibilidad
 var btnSubmit = document.getElementById("btn-submit");
 if (btnSubmit) btnSubmit.addEventListener('click', sendEmail);
 
