@@ -2,12 +2,19 @@
 
 // Obtener carrito
 function getCart() {
-    return JSON.parse(sessionStorage.getItem('cart')) || [];
+    const cartStr = sessionStorage.getItem('cart');
+    console.log('🔍 getCart:', cartStr);
+    return cartStr ? JSON.parse(cartStr) : [];
 }
 
 // Guardar carrito
 function saveCart(cart) {
+    console.log('💾 saveCart:', cart);
     sessionStorage.setItem('cart', JSON.stringify(cart));
+    console.log('💾 Verificación:', sessionStorage.getItem('cart'));
+
+    // Disparar evento
+    window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart: cart } }));
 }
 
 // Calcular total
@@ -19,9 +26,8 @@ function calculateTotal(cart) {
     return total.toFixed(2);
 }
 
-// Mostrar notificación de agregado al carrito
+// Mostrar notificación
 function showAddToCartNotification(productName) {
-    // Eliminar notificaciones existentes
     document.querySelectorAll('.cart-notification').forEach(n => n.remove());
 
     const notification = document.createElement('div');
@@ -50,15 +56,11 @@ function showAddToCartNotification(productName) {
 
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.3s ease';
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
+        setTimeout(() => notification.remove(), 300);
     }, 2000);
 }
 
-// Actualizar contador del carrito (si existe)
+// Actualizar contador
 function updateCartCounter() {
     const cartCounter = document.getElementById('cart-counter');
     if (cartCounter) {
@@ -69,76 +71,84 @@ function updateCartCounter() {
     }
 }
 
-// Función unificada para agregar al carrito
+// Función principal para agregar al carrito
 function addToCart(productId, selectedSize = null) {
-    const products = JSON.parse(sessionStorage.getItem('productsJson'));
-    const product = products.find(p => p.id === productId);
+    console.log('🔵 addToCart:', productId, selectedSize);
 
-    if (!product) return;
-
-    let cart = getCart();
-
-    // Verificar si el producto ya existe
-    const existingProduct = cart.find(p => p.id === productId);
-
-    if (existingProduct) {
-        existingProduct.quantity = (existingProduct.quantity || 1) + 1;
-        // Si se proporciona una talla, actualizarla
-        if (selectedSize) {
-            existingProduct.selectedSize = selectedSize;
-        }
-    } else {
-        cart.push({
-            ...product,
-            quantity: 1,
-            selectedSize: selectedSize || product.size || 'M'
-        });
+    // Obtener productos
+    const productsJson = sessionStorage.getItem('productsJson');
+    if (!productsJson) {
+        console.error('❌ No hay productsJson');
+        return;
     }
 
+    const products = JSON.parse(productsJson);
+    const product = products.find(p => Number(p.id) === Number(productId));
+
+    if (!product) {
+        console.error('❌ Producto no encontrado:', productId);
+        return;
+    }
+
+    // Obtener carrito actual
+    let cart = getCart();
+    console.log('🛒 Carrito actual:', cart);
+
+    // Buscar si ya existe
+    const existingIndex = cart.findIndex(p => Number(p.id) === Number(productId));
+
+    if (existingIndex !== -1) {
+        // Incrementar cantidad
+        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+        console.log('📈 Producto existente, nueva cantidad:', cart[existingIndex].quantity);
+    } else {
+        // Agregar nuevo
+        const newProduct = {
+            id: product.id,
+            category_id: product.category_id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            size: product.size,
+            selectedSize: selectedSize || product.size || 'M',
+            quantity: 1
+        };
+        cart.push(newProduct);
+        console.log('🆕 Nuevo producto agregado:', newProduct.name);
+    }
+
+    // Guardar
     saveCart(cart);
     updateCartCounter();
     showAddToCartNotification(product.name);
-
-    // Si estamos en la página de órdenes, actualizar la vista
-    if (window.location.pathname.includes('orders.html')) {
-        if (typeof renderCartSection === 'function') {
-            renderCartSection();
-        }
-    }
 }
 
-// Función para eliminar del carrito
+// Eliminar del carrito
 function removeFromCart(productId) {
     let cart = getCart();
-    cart = cart.filter(p => p.id !== productId);
+    cart = cart.filter(p => Number(p.id) !== Number(productId));
     saveCart(cart);
     updateCartCounter();
-
-    // Si estamos en la página de órdenes, actualizar la vista
-    if (window.location.pathname.includes('orders.html')) {
-        if (typeof renderCartSection === 'function') {
-            renderCartSection();
-        }
-    }
 }
 
-// Función para agregar desde el modal (con talla seleccionada)
+// Agregar desde modal
 function addToCartFromModal(productId) {
     const selectedSize = window.selectedSize || 'M';
     addToCart(productId, selectedSize);
-    closeProductModal();
+    if (typeof closeProductModal === 'function') closeProductModal();
 }
 
-// Función para obtener producto por ID
+// Obtener producto por ID
 function getProductById(productId) {
     const products = JSON.parse(sessionStorage.getItem('productsJson'));
     if (products) {
-        return products.find(p => p.id === productId) || null;
+        return products.find(p => Number(p.id) === Number(productId)) || null;
     }
     return null;
 }
 
-// Hacer funciones globales
+// Funciones globales
 window.getCart = getCart;
 window.saveCart = saveCart;
 window.addToCart = addToCart;

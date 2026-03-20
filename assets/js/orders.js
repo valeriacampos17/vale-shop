@@ -14,9 +14,7 @@ let selectedPayment = null;
 let addresses = [];
 let currentUser = null;
 
-function saveCart() {
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-}
+
 
 // SOBRESCRIBIR addToCart para que también actualice la vista
 const originalAddToCart = window.addToCart;
@@ -27,8 +25,10 @@ window.addToCart = function (productId, selectedSize) {
     // Actualizar la variable local cart
     cart = JSON.parse(sessionStorage.getItem('cart')) || [];
     // Actualizar la vista
+    removeFromLikes(productId)
     renderProductsOrders();
     renderFavorites();
+    if (typeof updateCartBadge === 'function') updateCartBadge();
 };
 
 // SOBRESCRIBIR removeFromCart
@@ -49,8 +49,9 @@ function removeFromCart(productId) {
     if (productIndex !== -1) {
         cart.splice(productIndex, 1);
     }
-    saveCart();
+    window.saveCart(cart); // Utiliza el saveCart global de cart-utils.js
     renderProductsOrders();
+    if (typeof updateCartBadge === 'function') updateCartBadge();
 }
 
 function saveLikes() {
@@ -648,6 +649,7 @@ function clearCart() {
     sessionStorage.removeItem('cart');
     renderProductsOrders();
     renderFavorites();
+    if (typeof updateCartBadge === 'function') updateCartBadge();
 }
 
 function isUserLoggedIn() {
